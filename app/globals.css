@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base rules transcribed from the `<style>` block shared by the exported pages. */
+@layer base {
+  /* The nav is fixed, so anchor targets must clear it instead of landing under it. */
+  section[id],
+  header[id] {
+    scroll-margin-top: 96px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: theme("colors.ink");
+    font-family: theme("fontFamily.body");
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: theme("colors.blush");
+    color: theme("colors.ink");
+  }
+
+  /* Form styling from Services.dc.html. */
+  input,
+  select,
+  textarea {
+    font-family: theme("fontFamily.body");
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(26, 22, 20, 0.34);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid theme("colors.terracotta");
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* The export hides the scrollbar on the swatch strip and gallery rail. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

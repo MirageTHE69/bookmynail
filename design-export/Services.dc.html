@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+  --bone: #F7F2EC;
+  --ink: #1A1614;
+  --blush: #E7A79F;
+  --terracotta: #BF5634;
+  --plum: #56203C;
+  --lilac: #B4A2D4;
+  --chrome: #9BA5AC;
+  --display: 'Bodoni Moda', Georgia, serif;
+  --body: 'Archivo', system-ui, sans-serif;
+}
+body { margin: 0; background: var(--ink); font-family: var(--body); text-wrap: pretty; }
+a { color: var(--terracotta); }
+a:hover { color: var(--plum); }
+::selection { background: var(--blush); color: var(--ink); }
+
+@keyframes rise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes soft { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes wipe { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0% 0); } }
+@keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+[data-rise] { animation: rise 1.05s cubic-bezier(0.16,1,0.3,1) both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+[data-soft] { animation: soft 0.9s ease-out both; animation-timeline: view(); animation-range: entry 0% entry 66%; }
+[data-wipe] { animation: wipe 1.1s cubic-bezier(0.16,1,0.3,1) both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+[data-rule] { animation: growX 1s cubic-bezier(0.16,1,0.3,1) both; animation-timeline: view(); animation-range: entry 0% entry 70%; transform-origin: left center; }
+[data-hero] [data-rise] { animation-timeline: auto; animation-delay: 0.15s; }
+[data-hero] [data-soft] { animation-timeline: auto; animation-delay: 0.5s; }
+[data-hero] [data-wipe] { animation-timeline: auto; animation-delay: 0.3s; }
+
+input, select, textarea { font-family: var(--body); }
+input::placeholder, textarea::placeholder { color: rgba(26,22,20,0.34); }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rise], [data-soft], [data-wipe], [data-rule] { animation: none !important; }
+}
+
+@media (max-width: 1000px) {
+  [data-hero-grid] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-hero-panel] { order: -1; height: 40vh !important; min-height: 240px !important; }
+  [data-svc-head] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
+  [data-svc-card-grid] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  [data-steps] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; row-gap: 30px !important; }
+  [data-book-grid] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-summary] { position: static !important; }
+}
+@media (max-width: 760px) {
+  [data-nav-link] { display: none !important; }
+  [data-cursor] { display: none !important; }
+  [data-svc-card-grid] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-steps] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-field-row] { grid-template-columns: minmax(0,1fr) !important; }
+}
+</style>
+</helmet>
+
+<div style="background:var(--bone); color:var(--ink); overflow-x:hidden; position:relative;">
+
+<div data-cursor style="position:fixed; top:0; left:0; width:30px; height:30px; border:1px solid var(--bone); border-radius:50%; pointer-events:none; z-index:9000; transform:translate(-100px,-100px); opacity:0; mix-blend-mode:difference;"></div>
+
+<nav style="position:absolute; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px clamp(18px,4vw,54px);">
+  <a href="BookMyNail v3.dc.html" style="font-family:var(--display); font-weight:500; font-size:19px; letter-spacing:0.01em; color:var(--bone); text-decoration:none;">BookMyNail</a>
+  <div style="display:flex; align-items:center; gap:clamp(14px,2.2vw,32px);">
+    <a href="BookMyNail v3.dc.html#about" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">About</a>
+    <a href="#menu" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">Services</a>
+    <a href="#steps" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">How to book</a>
+    <a href="Portfolio.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">Gallery</a>
+    <a href="#book" style="font-family:var(--body); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:11px 18px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Book now</a>
+  </div>
+</nav>
+
+<section data-hero style="position:relative; min-height:82vh; display:flex; align-items:stretch; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:linear-gradient(150deg,#43305E 0%,#7B62A8 38%,#BF5634 76%,#E7A79F 100%);"></div>
+  <div style="position:absolute; inset:0; background:radial-gradient(110% 78% at 6% 94%, rgba(0,0,0,0.36), transparent 62%); pointer-events:none;"></div>
+
+  <div data-hero-grid style="position:relative; width:100%; max-width:1440px; margin:0 auto; padding:clamp(96px,14vh,150px) clamp(18px,4vw,54px) clamp(28px,5vh,48px); box-sizing:border-box; display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr); gap:clamp(24px,4vw,60px); align-items:end;">
+    <div>
+      <div style="overflow:hidden; margin-bottom:clamp(14px,2.4vh,22px);">
+        <span data-rise style="display:block; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--bone); opacity:0.82;">Services &amp; booking · Ahmedabad</span>
+      </div>
+      <h1 style="margin:0 0 clamp(20px,3.4vh,34px); font-family:var(--display); font-weight:400; font-size:clamp(42px,7.6vw,124px); line-height:0.9; letter-spacing:-0.02em; color:var(--bone);">
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Pick a service.</span></span>
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">We'll come to you.</span></span>
+      </h1>
+      <div data-soft style="border-top:1px solid rgba(247,242,236,0.32); padding-top:clamp(18px,2.6vh,26px); max-width:580px;">
+        <p style="margin:0 0 22px; font-size:15.5px; line-height:1.7; color:var(--bone); opacity:0.92;">Four core services, a full add-on menu, and a booking form that tells you the total before you send it. Travel anywhere in Ahmedabad is included.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="#book" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, box-shadow 0.3s ease;" style-hover="transform:translateY(-3px); box-shadow:0 14px 30px rgba(26,22,20,0.24);">Book an appointment</a>
+          <a href="#menu" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--bone); border:1px solid rgba(247,242,236,0.5); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:rgba(247,242,236,0.14);">See the menu</a>
+        </div>
+      </div>
+    </div>
+    <div data-hero-panel data-wipe style="position:relative; height:min(62vh,560px); overflow:hidden; border-radius:170px 170px 14px 14px; align-self:end;">
+      <image-slot id="svc-hero" shape="rect" placeholder="Artist working at a client's home" style="width:100%; height:100%;"></image-slot>
+    </div>
+  </div>
+</section>
+
+<section id="menu" style="padding:clamp(64px,11vh,130px) 0;">
+  <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">01</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">The menu</span>
+    </div>
+    <div data-svc-head style="display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:clamp(24px,5vw,72px); align-items:end; margin-bottom:clamp(30px,5vh,56px);">
+      <h2 style="margin:0; font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em;">
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Everything we do,</span></span>
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic; color:var(--plum);">at your table.</span></span>
+      </h2>
+      <p data-soft style="margin:0; font-size:14.5px; line-height:1.7; color:rgba(26,22,20,0.65); max-width:38ch;">Tap a card to load it straight into the booking form below. Prices are per person, per appointment.</p>
+    </div>
+
+    <div data-svc-card-grid style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(12px,1.8vw,22px);">
+      <sc-for list="{{ serviceCards }}" as="s" hint-placeholder-count="4">
+        <button type="button" data-svc-card onClick="{{ s.onPick }}" style="position:relative; overflow:hidden; text-align:left; cursor:pointer; padding:0; border:1px solid {{ s.border }}; border-radius:8px; background:var(--bone); font-family:inherit; color:inherit; display:flex; flex-direction:column; min-height:56px; transition:border-color 0.35s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);">
+          <span style="display:block; height:5px; background:{{ s.grad }};"></span>
+          <span style="display:flex; flex-direction:column; gap:12px; padding:clamp(20px,3vh,28px);">
+            <span style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <span style="font-family:var(--display); font-size:13px; font-style:italic; color:rgba(26,22,20,0.45);">{{ s.num }}</span>
+              <span data-card-dot style="width:34px; height:34px; border-radius:50%; background:{{ s.grad }}; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"></span>
+            </span>
+            <span style="display:block; font-family:var(--display); font-size:clamp(20px,2.1vw,28px); line-height:1.1; letter-spacing:-0.01em;">{{ s.name }}</span>
+            <span style="display:block; font-size:13.5px; line-height:1.65; color:rgba(26,22,20,0.68); min-height:66px;">{{ s.blurb }}</span>
+            <span style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; border-top:1px solid rgba(26,22,20,0.14); padding-top:14px;">
+              <span style="font-family:var(--display); font-size:clamp(19px,2vw,26px);">{{ s.priceLabel }}</span>
+              <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(26,22,20,0.5);">{{ s.duration }}</span>
+            </span>
+            <span data-card-cta style="display:block; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:{{ s.ctaColor }}; transition:color 0.35s ease;">{{ s.ctaLabel }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:clamp(30px,5vh,56px); display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(16px,4vw,52px); align-items:start;" data-addon-strip>
+      <p data-soft style="margin:0; font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5); white-space:nowrap; padding-top:11px;">Add on</p>
+      <div data-soft style="display:flex; flex-wrap:wrap; gap:9px;">
+        <sc-for list="{{ addons }}" as="a" hint-placeholder-count="6">
+          <button type="button" data-addon-chip onClick="{{ a.onToggle }}" aria-pressed="{{ a.on }}" style="cursor:pointer; font-family:inherit; font-size:12.5px; letter-spacing:0.02em; padding:11px 18px; min-height:44px; border-radius:100px; border:1px solid {{ a.border }}; background:{{ a.bg }}; color:{{ a.color }}; transition:background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;">{{ a.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="steps" style="background:var(--ink); color:var(--bone); padding:clamp(64px,11vh,130px) 0; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; opacity:0.2; background:linear-gradient(145deg,#56203C,#BF5634);"></div>
+  <div style="position:relative; max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">02</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(247,242,236,0.55);">Before you book</span>
+    </div>
+    <h2 style="margin:0 0 clamp(32px,6vh,64px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em; max-width:16ch;">
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">How booking</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">actually works.</span></span>
+    </h2>
+    <div data-steps style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(14px,2.4vw,32px);">
+      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
+        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--blush);"></div>
+        <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--blush);">01</span>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Choose your service</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Pick one of the four services above and any add-ons. The form keeps a running total as you go.</p>
+      </div>
+      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
+        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--terracotta);"></div>
+        <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--terracotta);">02</span>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Fill in your details</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Name, number, address and how many people are getting their nails done. Two minutes, no account needed.</p>
+      </div>
+      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
+        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--lilac);"></div>
+        <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--lilac);">03</span>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Send the request</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Your summary opens in WhatsApp, already written. Send it and we reply within a couple of hours.</p>
+      </div>
+      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
+        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--chrome);"></div>
+        <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--chrome);">04</span>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">We confirm and arrive</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Once the slot is confirmed, your artist arrives with a sealed kit and sets up wherever suits you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="book" style="padding:clamp(64px,11vh,130px) 0;">
+  <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">03</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Book your appointment</span>
+    </div>
+    <h2 style="margin:0 0 clamp(32px,5vh,56px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em; max-width:15ch;">
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Tell us where</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic; color:var(--terracotta);">and when.</span></span>
+    </h2>
+
+    <div data-book-grid style="display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,0.65fr); gap:clamp(24px,4vw,64px); align-items:start;">
+
+      <div>
+        <p style="margin:0 0 18px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Your service</p>
+        <div style="display:grid; gap:16px; margin-bottom:clamp(30px,5vh,46px);">
+          <label style="display:grid; gap:9px;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Service</span>
+            <select value="{{ form.service }}" onChange="{{ onServiceChange }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <sc-for list="{{ serviceOptions }}" as="o" hint-placeholder-count="4">
+                <option value="{{ o.value }}">{{ o.label }}</option>
+              </sc-for>
+            </select>
+          </label>
+
+          <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">People</span>
+              <div style="display:flex; align-items:center; gap:12px; border:1px solid rgba(26,22,20,0.26); border-radius:6px; padding:6px 10px; min-height:52px; box-sizing:border-box;">
+                <button type="button" onClick="{{ decPeople }}" aria-label="Fewer people" style="width:40px; height:40px; border-radius:50%; border:1px solid rgba(26,22,20,0.2); background:transparent; cursor:pointer; font-size:19px; line-height:1; color:var(--ink);">−</button>
+                <span style="flex:1; text-align:center; font-family:var(--display); font-size:22px;">{{ form.people }}</span>
+                <button type="button" onClick="{{ incPeople }}" aria-label="More people" style="width:40px; height:40px; border-radius:50%; border:1px solid rgba(26,22,20,0.2); background:transparent; cursor:pointer; font-size:19px; line-height:1; color:var(--ink);">+</button>
+              </div>
+            </label>
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Preferred date</span>
+              <input type="date" value="{{ form.date }}" onChange="{{ onDate }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            </label>
+          </div>
+
+          <label style="display:grid; gap:9px;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Preferred time</span>
+            <div style="display:flex; flex-wrap:wrap; gap:9px;">
+              <sc-for list="{{ timeSlots }}" as="t" hint-placeholder-count="5">
+                <button type="button" onClick="{{ t.onPick }}" aria-pressed="{{ t.on }}" style="cursor:pointer; font-family:inherit; font-size:12.5px; padding:11px 18px; min-height:44px; border-radius:100px; border:1px solid {{ t.border }}; background:{{ t.bg }}; color:{{ t.color }}; transition:background 0.3s ease, color 0.3s ease, border-color 0.3s ease;">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </label>
+
+          <label style="display:grid; gap:9px;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Add-ons</span>
+            <div style="display:flex; flex-wrap:wrap; gap:9px;">
+              <sc-for list="{{ addons }}" as="a" hint-placeholder-count="6">
+                <button type="button" onClick="{{ a.onToggle }}" aria-pressed="{{ a.on }}" style="cursor:pointer; font-family:inherit; font-size:12.5px; padding:11px 18px; min-height:44px; border-radius:100px; border:1px solid {{ a.border }}; background:{{ a.bg }}; color:{{ a.color }}; transition:background 0.3s ease, color 0.3s ease, border-color 0.3s ease;">{{ a.label }}</button>
+              </sc-for>
+            </div>
+          </label>
+        </div>
+
+        <p style="margin:0 0 18px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Your details</p>
+        <div style="display:grid; gap:16px;">
+          <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Full name</span>
+              <input type="text" value="{{ form.name }}" onChange="{{ onName }}" placeholder="Your name" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            </label>
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Phone</span>
+              <input type="tel" value="{{ form.phone }}" onChange="{{ onPhone }}" placeholder="10-digit mobile" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            </label>
+          </div>
+          <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Area</span>
+              <input type="text" value="{{ form.area }}" onChange="{{ onArea }}" placeholder="e.g. Satellite, Bodakdev" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            </label>
+            <label style="display:grid; gap:9px;">
+              <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Email <span style="text-transform:none; letter-spacing:0; opacity:0.6;">(optional)</span></span>
+              <input type="email" value="{{ form.email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            </label>
+          </div>
+          <label style="display:grid; gap:9px;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Full address</span>
+            <textarea rows="3" value="{{ form.address }}" onChange="{{ onAddress }}" placeholder="Flat / house, building, street, landmark" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px; resize:vertical;"></textarea>
+          </label>
+          <label style="display:grid; gap:9px;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Anything else <span style="text-transform:none; letter-spacing:0; opacity:0.6;">(optional)</span></span>
+            <textarea rows="2" value="{{ form.notes }}" onChange="{{ onNotes }}" placeholder="Design ideas, allergies, parking notes" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px; resize:vertical;"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <aside data-summary style="position:sticky; top:26px; border-radius:10px; overflow:hidden; color:var(--bone);">
+        <div style="background:linear-gradient(150deg,#56203C 0%,#8A3A3C 52%,#BF5634 100%); padding:clamp(24px,4vh,34px);">
+          <p style="margin:0 0 22px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.78;">Your appointment</p>
+          <p style="margin:0 0 6px; font-family:var(--display); font-size:clamp(24px,2.6vw,34px); line-height:1.1;">{{ summary.serviceName }}</p>
+          <p style="margin:0 0 22px; font-size:12px; letter-spacing:0.02em; opacity:0.78;">{{ summary.whenLabel }}</p>
+
+          <div style="display:grid; gap:11px; border-top:1px solid rgba(247,242,236,0.3); padding-top:18px;">
+            <div style="display:flex; justify-content:space-between; gap:14px; font-size:13.5px;">
+              <span style="opacity:0.85;">{{ summary.baseLabel }}</span>
+              <span>{{ summary.baseAmount }}</span>
+            </div>
+            <sc-for list="{{ summary.addonLines }}" as="l" hint-placeholder-count="2">
+              <div style="display:flex; justify-content:space-between; gap:14px; font-size:13.5px;">
+                <span style="opacity:0.85;">{{ l.label }}</span>
+                <span>{{ l.amount }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ summary.hasDiscount }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; justify-content:space-between; gap:14px; font-size:13.5px; color:var(--blush);">
+                <span>{{ summary.discountLabel }}</span>
+                <span>{{ summary.discountAmount }}</span>
+              </div>
+            </sc-if>
+            <div style="display:flex; justify-content:space-between; gap:14px; font-size:13.5px; opacity:0.7;">
+              <span>Travel in Ahmedabad</span>
+              <span>Included</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:14px; border-top:1px solid rgba(247,242,236,0.3); margin-top:18px; padding-top:18px;">
+            <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; opacity:0.78;">Estimated total</span>
+            <span data-total style="font-family:var(--display); font-size:clamp(30px,3.4vw,44px); line-height:1;">{{ summary.total }}</span>
+          </div>
+          <p style="margin:14px 0 0; font-size:11.5px; line-height:1.6; opacity:0.72;">{{ summary.people }}</p>
+        </div>
+
+        <div style="background:var(--ink); padding:clamp(20px,3vh,26px);">
+          <button type="button" onClick="{{ onSubmit }}" style="width:100%; min-height:54px; cursor:pointer; font-family:inherit; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); background:var(--bone); border:none; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Send on WhatsApp</button>
+          <p data-form-msg style="margin:14px 0 0; font-size:11.5px; line-height:1.6; color:{{ msgColor }}; min-height:18px;">{{ formMessage }}</p>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--ink); color:rgba(247,242,236,0.6);">
+  <div style="max-width:1440px; margin:0 auto; padding:clamp(28px,5vh,46px) clamp(18px,4vw,54px); display:flex; justify-content:space-between; align-items:end; flex-wrap:wrap; gap:20px;">
+    <div>
+      <p style="margin:0 0 8px; font-family:var(--display); font-size:24px; color:var(--bone);">BookMyNail</p>
+      <p style="margin:0; font-family:var(--display); font-style:italic; font-size:14px; color:rgba(247,242,236,0.7);">Luxury Nails. Comfort of Home.</p>
+    </div>
+    <div style="display:flex; gap:22px; flex-wrap:wrap; font-size:10px; letter-spacing:0.18em; text-transform:uppercase;">
+      <a href="BookMyNail v3.dc.html" style="color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.25s ease;" style-hover="border-color:var(--blush);">Home</a>
+      <a href="Portfolio.dc.html" style="color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.25s ease;" style-hover="border-color:var(--blush);">Portfolio</a>
+      <span>© 2026 BookMyNail · Ahmedabad</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const WHATSAPP = '919999999999';
+
+const SERVICES = [
+  { id: 'gel', num: '01', name: 'Gel Manicure', price: 899, minutes: 60, grad: 'linear-gradient(135deg,#A85F63,#F7EDE4)', accent: '#A85F63',
+    blurb: 'Shape, cuticle work and a long-wear colour coat that stays glossy for two to three weeks.' },
+  { id: 'biab', num: '02', name: 'Builder Gel (BIAB)', price: 1499, minutes: 90, grad: 'linear-gradient(135deg,#8E3A1F,#F0C3A6)', accent: '#BF5634',
+    blurb: 'A flexible builder layer that protects weak nails while they grow. Four to five weeks of wear.' },
+  { id: 'ext', num: '03', name: 'Gel Extensions', price: 2499, minutes: 120, grad: 'linear-gradient(135deg,#43305E,#E3D8F0)', accent: '#43305E',
+    blurb: 'Length and shape built to your hands — almond, coffin, square or stiletto, finished in colour.' },
+  { id: 'art', num: '04', name: 'Custom Nail Art', price: 3999, minutes: 150, grad: 'linear-gradient(135deg,#56203C,#BF5634)', accent: '#56203C',
+    blurb: 'The full artistry appointment. Extensions, hand-drawn detail and embellishment, bridal trial included.' }
+];
+
+// Minutes → a readable label: 60 → "1 hr", 150 → "2 hr 30 min".
+const dur = (mins) => {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (!h) return m + ' min';
+  return h + ' hr' + (m ? ' ' + m + ' min' : '');
+};
+
+const ADDONS = [
+  { id: 'removal', label: 'Gel removal', price: 299 },
+  { id: 'chrome', label: 'Chrome finish', price: 399 },
+  { id: 'art', label: 'Per-nail art', price: 99 },
+  { id: 'pedi', label: 'Gel pedicure', price: 1099 },
+  { id: 'repair', label: 'Nail repair', price: 149 }
+];
+
+const TIMES = ['9–11 AM', '11 AM–1 PM', '1–4 PM', '4–7 PM', '7–9 PM'];
+
+const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+
+class Component extends DCLogic {
+  state = {
+    service: 'gel',
+    addons: [],
+    people: 1,
+    time: '',
+    date: '',
+    name: '',
+    phone: '',
+    email: '',
+    area: '',
+    address: '',
+    notes: '',
+    message: '',
+    messageOk: false
+  };
+
+  componentDidMount() {
+    this._mounted = true;
+    const start = Date.now();
+    const tryInit = () => {
+      if (!this._mounted) return;
+      if (window.gsap) {
+        try {
+          this._ctx = window.gsap.context(() => this.init());
+        } catch (err) {
+          console.error('services motion init failed:', err);
+        }
+      } else if (Date.now() - start < 6000) {
+        this._pollId = setTimeout(tryInit, 60);
+      }
+    };
+    tryInit();
+  }
+
+  init() {
+    const gsap = window.gsap;
+    const q = (s) => Array.from(document.querySelectorAll(s));
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._cleanups = [];
+
+    q('[data-svc-card]').forEach((card) => {
+      const dot = card.querySelector('[data-card-dot]');
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, { y: -6, duration: 0.4, ease: 'power3.out' });
+        gsap.to(dot, { scale: 1.2, duration: 0.5, ease: 'power3.out' });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { y: 0, duration: 0.4, ease: 'power3.out' });
+        gsap.to(dot, { scale: 1, duration: 0.45, ease: 'power3.out' });
+      });
+    });
+
+    q('[data-step]').forEach((step) => {
+      step.addEventListener('mouseenter', () => gsap.to(step, { y: -6, duration: 0.4, ease: 'power3.out' }));
+      step.addEventListener('mouseleave', () => gsap.to(step, { y: 0, duration: 0.4, ease: 'power3.out' }));
+    });
+
+    const ring = document.querySelector('[data-cursor]');
+    if (ring && window.matchMedia('(hover: hover)').matches && !reduce) {
+      const rx = gsap.quickTo(ring, 'x', { duration: 0.4, ease: 'power3' });
+      const ry = gsap.quickTo(ring, 'y', { duration: 0.4, ease: 'power3' });
+      const move = (e) => {
+        rx(e.clientX - 15);
+        ry(e.clientY - 15);
+        gsap.to(ring, { opacity: 1, duration: 0.3, overwrite: 'auto' });
+      };
+      const leave = () => gsap.to(ring, { opacity: 0, duration: 0.3 });
+      window.addEventListener('mousemove', move);
+      document.addEventListener('mouseleave', leave);
+      this._cleanups.push(() => {
+        window.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseleave', leave);
+      });
+      q('a, button').forEach((el) => {
+        el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 2.2, duration: 0.35 }));
+        el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, duration: 0.35 }));
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    // The runtime passes only prevProps, so track the previous state ourselves.
+    const key = [this.state.service, this.state.people, this.state.addons.join(',')].join('|');
+    const changed = this._prevKey !== undefined && this._prevKey !== key;
+    this._prevKey = key;
+    if (!changed || !window.gsap) return;
+    const el = document.querySelector('[data-total]');
+    if (el) window.gsap.fromTo(el, { scale: 1.12, opacity: 0.5 }, { scale: 1, opacity: 1, duration: 0.45, ease: 'power3.out' });
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    clearTimeout(this._pollId);
+    (this._cleanups || []).forEach((fn) => fn());
+    if (this._ctx) this._ctx.revert();
+  }
+
+  set(key, value) {
+    this.setState({ [key]: value, message: '' });
+  }
+
+  toggleAddon(id) {
+    this.setState((s) => ({
+      addons: s.addons.includes(id) ? s.addons.filter((a) => a !== id) : s.addons.concat(id),
+      message: ''
+    }));
+  }
+
+  totals() {
+    const svc = SERVICES.find((s) => s.id === this.state.service) || SERVICES[0];
+    const people = this.state.people;
+    const picked = ADDONS.filter((a) => this.state.addons.includes(a.id));
+    const addonTotal = picked.reduce((sum, a) => sum + a.price, 0) * people;
+    const base = svc.price * people;
+    const discount = people > 1 ? Math.round((base + addonTotal) * 0.15) : 0;
+    return { svc, people, picked, base, addonTotal, discount, total: base + addonTotal - discount };
+  }
+
+  submit() {
+    const { name, phone, address, area, date, time } = this.state;
+    const missing = [];
+    if (!name.trim()) missing.push('name');
+    if (phone.replace(/\D/g, '').length < 10) missing.push('phone number');
+    if (!address.trim()) missing.push('address');
+    if (!date) missing.push('date');
+    if (!time) missing.push('time slot');
+    if (missing.length) {
+      this.setState({ message: 'Please add your ' + missing.join(', ') + '.', messageOk: false });
+      return;
+    }
+    const t = this.totals();
+    const lines = [
+      'Hi BookMyNail, I would like to book an appointment.',
+      '',
+      'Service: ' + t.svc.name + ' (' + dur(t.svc.minutes) + ')',
+      'People: ' + t.people,
+      t.picked.length ? 'Add-ons: ' + t.picked.map((a) => a.label).join(', ') : 'Add-ons: none',
+      'Date: ' + date,
+      'Time: ' + time,
+      'Estimated total: ' + inr(t.total),
+      '',
+      'Name: ' + name,
+      'Phone: ' + phone,
+      this.state.email ? 'Email: ' + this.state.email : null,
+      'Area: ' + (area || '—'),
+      'Address: ' + address,
+      this.state.notes ? 'Notes: ' + this.state.notes : null
+    ].filter(Boolean);
+    window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    this.setState({ message: 'Opening WhatsApp with your booking summary.', messageOk: true });
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.totals();
+
+    const serviceCards = SERVICES.map((s) => {
+      const on = s.id === st.service;
+      return {
+        num: s.num,
+        name: s.name,
+        blurb: s.blurb,
+        grad: s.grad,
+        duration: dur(s.minutes),
+        priceLabel: inr(s.price),
+        border: on ? s.accent : 'rgba(26,22,20,0.16)',
+        ctaLabel: on ? 'Selected ✓' : 'Choose this',
+        ctaColor: on ? s.accent : 'rgba(26,22,20,0.42)',
+        onPick: () => {
+          this.setState({ service: s.id, message: '' });
+          const el = document.getElementById('book');
+          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+        }
+      };
+    });
+
+    const addons = ADDONS.map((a) => {
+      const on = st.addons.includes(a.id);
+      return {
+        label: a.label + ' · ' + inr(a.price),
+        on,
+        bg: on ? 'var(--plum)' : 'transparent',
+        color: on ? 'var(--bone)' : 'var(--ink)',
+        border: on ? 'var(--plum)' : 'rgba(26,22,20,0.22)',
+        onToggle: () => this.toggleAddon(a.id)
+      };
+    });
+
+    const timeSlots = TIMES.map((label) => {
+      const on = st.time === label;
+      return {
+        label,
+        on,
+        bg: on ? 'var(--terracotta)' : 'transparent',
+        color: on ? 'var(--bone)' : 'var(--ink)',
+        border: on ? 'var(--terracotta)' : 'rgba(26,22,20,0.22)',
+        onPick: () => this.set('time', label)
+      };
+    });
+
+    let whenLabel = 'Pick a date and time below';
+    if (st.date && st.time) {
+      const d = new Date(st.date + 'T00:00:00');
+      whenLabel = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · ' + st.time;
+    } else if (st.date) {
+      const d = new Date(st.date + 'T00:00:00');
+      whenLabel = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · pick a time';
+    } else if (st.time) {
+      whenLabel = st.time + ' · pick a date';
+    }
+
+    const summary = {
+      serviceName: t.svc.name,
+      whenLabel,
+      baseLabel: t.svc.name + (t.people > 1 ? ' × ' + t.people : ''),
+      baseAmount: inr(t.base),
+      addonLines: t.picked.map((a) => ({
+        label: a.label + (t.people > 1 ? ' × ' + t.people : ''),
+        amount: inr(a.price * t.people)
+      })),
+      hasDiscount: t.discount > 0,
+      discountLabel: 'Group discount (15%)',
+      discountAmount: '−' + inr(t.discount),
+      total: inr(t.total),
+      people: t.people > 1
+        ? t.people + ' people · about ' + dur(t.svc.minutes * t.people) + ' total'
+        : 'One person · about ' + dur(t.svc.minutes)
+    };
+
+    return {
+      form: st,
+      serviceCards,
+      addons,
+      timeSlots,
+      summary,
+      formMessage: st.message,
+      msgColor: st.messageOk ? 'var(--blush)' : '#F0A9A0',
+      serviceOptions: SERVICES.map((s) => ({ value: s.id, label: s.name + ' · ' + inr(s.price) })),
+      onServiceChange: (e) => this.set('service', e.target.value),
+      onDate: (e) => this.set('date', e.target.value),
+      onName: (e) => this.set('name', e.target.value),
+      onPhone: (e) => this.set('phone', e.target.value),
+      onEmail: (e) => this.set('email', e.target.value),
+      onArea: (e) => this.set('area', e.target.value),
+      onAddress: (e) => this.set('address', e.target.value),
+      onNotes: (e) => this.set('notes', e.target.value),
+      incPeople: () => this.setState((s) => ({ people: Math.min(6, s.people + 1), message: '' })),
+      decPeople: () => this.setState((s) => ({ people: Math.max(1, s.people - 1), message: '' })),
+      onSubmit: () => this.submit()
+    };
+  }
+}
+</script>
+</body>
+</html>
