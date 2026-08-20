@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteNav from "@/components/site/site-nav";
 import Footer from "@/components/site/footer";
+import FloatingCTA from "@/components/site/floating-cta";
 import ServicesHero from "@/components/services/hero";
 import ServicesBody from "@/components/services/services-body";
 import { getAddons, getServices } from "@/lib/queries";
@@ -19,6 +20,7 @@ export default async function ServicesPage() {
       <SiteNav />
       <ServicesHero />
       <ServicesBody services={services} addons={addons} />
+      <FloatingCTA />
       <Footer />
     </div>
   );

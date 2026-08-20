@@ -16,3 +16,6 @@ public/uploads/
 
 # local Claude Code permissions (machine-specific)
 .claude/settings.local.json
+
+# generated env bundle for pasting into a host (contains live secrets)
+netlify-import.env

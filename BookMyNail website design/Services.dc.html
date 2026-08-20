@@ -15,7 +15,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 :root {
-  --bone: #F7F2EC;
+  --bone: #FFFFFF;
+  --shell: #F4EEE7;
+  --shell-line: rgba(26,22,20,0.14);
   --ink: #1A1614;
   --blush: #E7A79F;
   --terracotta: #BF5634;
@@ -62,10 +64,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 }
 @media (max-width: 760px) {
   [data-nav-link] { display: none !important; }
+  [data-nav-cta] { display: none !important; }
+  [data-burger] { display: flex !important; }
+  [data-nav] { padding-left: 20px !important; padding-right: 20px !important; }
   [data-cursor] { display: none !important; }
   [data-svc-card-grid] { grid-template-columns: minmax(0,1fr) !important; }
   [data-steps] { grid-template-columns: minmax(0,1fr) !important; }
   [data-field-row] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-float-label] { display: none; }
+  body[data-menu-open] [data-float-wa] { display: none !important; }
+  [data-float-wa] { padding: 0 18px !important; }
 }
 </style>
 </helmet>
@@ -74,16 +82,31 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 
 <div data-cursor style="position:fixed; top:0; left:0; width:30px; height:30px; border:1px solid var(--bone); border-radius:50%; pointer-events:none; z-index:9000; transform:translate(-100px,-100px); opacity:0; mix-blend-mode:difference;"></div>
 
-<nav style="position:absolute; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px clamp(18px,4vw,54px);">
+<nav data-nav style="position:absolute; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px clamp(18px,4vw,54px);">
   <a href="BookMyNail v3.dc.html" style="font-family:var(--display); font-weight:500; font-size:19px; letter-spacing:0.01em; color:var(--bone); text-decoration:none;">BookMyNail</a>
   <div style="display:flex; align-items:center; gap:clamp(14px,2.2vw,32px);">
-    <a href="BookMyNail v3.dc.html#about" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">About</a>
-    <a href="#menu" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">Services</a>
-    <a href="#steps" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">How to book</a>
-    <a href="Portfolio.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; color:var(--bone); opacity:0.85;">Gallery</a>
-    <a href="#book" style="font-family:var(--body); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:11px 18px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Book now</a>
+    <a href="BookMyNail v3.dc.html#about" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">About</a>
+    <a href="#menu" data-nav-link aria-current="page" style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--blush); opacity:1;">Services</a>
+    <a href="Portfolio.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Gallery</a>
+    <a href="BookMyNail v3.dc.html#reviews" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Reviews</a>
+    <a href="BookMyNail v3.dc.html#faq" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">FAQ</a>
+    <a href="#book" data-nav-cta style="font-family:var(--body); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:11px 18px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Book now</a>
+    <button type="button" data-burger aria-label="Open menu" aria-expanded="false" style="display:none; width:48px; height:48px; margin:-8px -12px -8px 0; align-items:center; justify-content:center; flex-direction:column; gap:6px; background:none; border:none; padding:0; cursor:pointer; color:var(--bone);">
+      <span data-burger-bar style="display:block; width:24px; height:2px; background:currentColor;"></span>
+      <span data-burger-bar style="display:block; width:24px; height:2px; background:currentColor;"></span>
+    </button>
   </div>
 </nav>
+
+<div data-menu style="position:fixed; inset:0; z-index:190; background:var(--ink); color:var(--bone); display:none; flex-direction:column; justify-content:center; gap:2px; padding:clamp(80px,14vh,120px) clamp(20px,6vw,40px) 32px; box-sizing:border-box; clip-path:inset(0 0 100% 0);">
+  <a data-menu-link href="BookMyNail v3.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Home</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#about" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">About</a>
+  <a data-menu-link href="#menu" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Services</a>
+  <a data-menu-link href="Portfolio.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Gallery</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#reviews" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Reviews</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#faq" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">FAQ</a>
+  <a data-menu-link href="#book" style="display:flex; align-items:center; justify-content:center; min-height:54px; margin-top:26px; font-family:var(--body); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); border-radius:100px;">Book an appointment</a>
+</div>
 
 <section data-hero style="position:relative; min-height:82vh; display:flex; align-items:stretch; overflow:hidden;">
   <div style="position:absolute; inset:0; background:linear-gradient(150deg,#43305E 0%,#7B62A8 38%,#BF5634 76%,#E7A79F 100%);"></div>
@@ -128,7 +151,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 
     <div data-svc-card-grid style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(12px,1.8vw,22px);">
       <sc-for list="{{ serviceCards }}" as="s" hint-placeholder-count="4">
-        <button type="button" data-svc-card onClick="{{ s.onPick }}" style="position:relative; overflow:hidden; text-align:left; cursor:pointer; padding:0; border:1px solid {{ s.border }}; border-radius:8px; background:var(--bone); font-family:inherit; color:inherit; display:flex; flex-direction:column; min-height:56px; transition:border-color 0.35s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);">
+        <button type="button" data-svc-card onClick="{{ s.onPick }}" style="position:relative; overflow:hidden; text-align:left; cursor:pointer; padding:0; border:1px solid {{ s.border }}; border-radius:10px; background:var(--shell); font-family:inherit; color:inherit; display:flex; flex-direction:column; min-height:56px; transition:border-color 0.35s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);">
           <span style="display:block; height:5px; background:{{ s.grad }};"></span>
           <span style="display:flex; flex-direction:column; gap:12px; padding:clamp(20px,3vh,28px);">
             <span style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
@@ -166,33 +189,33 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(247,242,236,0.55);">Before you book</span>
     </div>
     <h2 style="margin:0 0 clamp(32px,6vh,64px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em; max-width:16ch;">
-      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">How booking</span></span>
-      <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">actually works.</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Book it in four steps.</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">We handle the rest.</span></span>
     </h2>
     <div data-steps style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(14px,2.4vw,32px);">
-      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
-        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--blush);"></div>
+      <div data-step style="position:relative; padding:26px clamp(18px,2vw,24px) clamp(20px,3vh,26px); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:12px; overflow:hidden;">
+        <div data-rule style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--blush);"></div>
         <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--blush);">01</span>
         <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Choose your service</h3>
-        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Pick one of the four services above and any add-ons. The form keeps a running total as you go.</p>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Pick one of the four services above, add extras and set how many people. Your total updates as you go.</p>
       </div>
-      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
-        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--terracotta);"></div>
+      <div data-step style="position:relative; padding:26px clamp(18px,2vw,24px) clamp(20px,3vh,26px); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:12px; overflow:hidden;">
+        <div data-rule style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--terracotta);"></div>
         <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--terracotta);">02</span>
-        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Fill in your details</h3>
-        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Name, number, address and how many people are getting their nails done. Two minutes, no account needed.</p>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Pick date and time</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Choose a day and a time window. Slots run every day, 9 AM to 9 PM, and same-day is often available.</p>
       </div>
-      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
-        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--lilac);"></div>
+      <div data-step style="position:relative; padding:26px clamp(18px,2vw,24px) clamp(20px,3vh,26px); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:12px; overflow:hidden;">
+        <div data-rule style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--lilac);"></div>
         <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--lilac);">03</span>
-        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Send the request</h3>
-        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Your summary opens in WhatsApp, already written. Send it and we reply within a couple of hours.</p>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">Confirm your booking</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Add your details and confirm. You get a booking reference on screen straight away — no account needed.</p>
       </div>
-      <div data-step style="position:relative; padding-top:26px; border-top:1px solid rgba(247,242,236,0.2);">
-        <div data-rule style="position:absolute; top:-1px; left:0; right:0; height:1px; background:var(--chrome);"></div>
+      <div data-step style="position:relative; padding:26px clamp(18px,2vw,24px) clamp(20px,3vh,26px); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:12px; overflow:hidden;">
+        <div data-rule style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--chrome);"></div>
         <span style="font-family:var(--display); font-size:13px; font-style:italic; color:var(--chrome);">04</span>
-        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">We confirm and arrive</h3>
-        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Once the slot is confirmed, your artist arrives with a sealed kit and sets up wherever suits you.</p>
+        <h3 data-soft style="margin:14px 0 10px; font-family:var(--display); font-weight:400; font-size:clamp(19px,2.1vw,28px);">We arrive and set up</h3>
+        <p data-soft style="margin:0; font-size:14px; line-height:1.7; color:rgba(247,242,236,0.7);">Your assigned artist arrives with a sealed kit, sets up a clean workstation and leaves your space as it was.</p>
       </div>
     </div>
   </div>
@@ -216,7 +239,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
         <div style="display:grid; gap:16px; margin-bottom:clamp(30px,5vh,46px);">
           <label style="display:grid; gap:9px;">
             <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Service</span>
-            <select value="{{ form.service }}" onChange="{{ onServiceChange }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+            <select value="{{ form.service }}" onChange="{{ onServiceChange }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
               <sc-for list="{{ serviceOptions }}" as="o" hint-placeholder-count="4">
                 <option value="{{ o.value }}">{{ o.label }}</option>
               </sc-for>
@@ -226,7 +249,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
           <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">People</span>
-              <div style="display:flex; align-items:center; gap:12px; border:1px solid rgba(26,22,20,0.26); border-radius:6px; padding:6px 10px; min-height:52px; box-sizing:border-box;">
+              <div style="display:flex; align-items:center; gap:12px; background:var(--shell); border:1px solid var(--shell-line); border-radius:8px; padding:6px 10px; min-height:52px; box-sizing:border-box;">
                 <button type="button" onClick="{{ decPeople }}" aria-label="Fewer people" style="width:40px; height:40px; border-radius:50%; border:1px solid rgba(26,22,20,0.2); background:transparent; cursor:pointer; font-size:19px; line-height:1; color:var(--ink);">−</button>
                 <span style="flex:1; text-align:center; font-family:var(--display); font-size:22px;">{{ form.people }}</span>
                 <button type="button" onClick="{{ incPeople }}" aria-label="More people" style="width:40px; height:40px; border-radius:50%; border:1px solid rgba(26,22,20,0.2); background:transparent; cursor:pointer; font-size:19px; line-height:1; color:var(--ink);">+</button>
@@ -234,7 +257,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
             </label>
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Preferred date</span>
-              <input type="date" value="{{ form.date }}" onChange="{{ onDate }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <input type="date" value="{{ form.date }}" onChange="{{ onDate }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
             </label>
           </div>
 
@@ -262,30 +285,30 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
           <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Full name</span>
-              <input type="text" value="{{ form.name }}" onChange="{{ onName }}" placeholder="Your name" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <input type="text" value="{{ form.name }}" onChange="{{ onName }}" placeholder="Your name" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
             </label>
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Phone</span>
-              <input type="tel" value="{{ form.phone }}" onChange="{{ onPhone }}" placeholder="10-digit mobile" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <input type="tel" value="{{ form.phone }}" onChange="{{ onPhone }}" placeholder="10-digit mobile" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
             </label>
           </div>
           <div data-field-row style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;">
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Area</span>
-              <input type="text" value="{{ form.area }}" onChange="{{ onArea }}" placeholder="e.g. Satellite, Bodakdev" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <input type="text" value="{{ form.area }}" onChange="{{ onArea }}" placeholder="e.g. Satellite, Bodakdev" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
             </label>
             <label style="display:grid; gap:9px;">
               <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Email <span style="text-transform:none; letter-spacing:0; opacity:0.6;">(optional)</span></span>
-              <input type="email" value="{{ form.email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px;">
+              <input type="email" value="{{ form.email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
             </label>
           </div>
           <label style="display:grid; gap:9px;">
             <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Full address</span>
-            <textarea rows="3" value="{{ form.address }}" onChange="{{ onAddress }}" placeholder="Flat / house, building, street, landmark" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px; resize:vertical;"></textarea>
+            <textarea rows="3" value="{{ form.address }}" onChange="{{ onAddress }}" placeholder="Flat / house, building, street, landmark" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px; resize:vertical;"></textarea>
           </label>
           <label style="display:grid; gap:9px;">
             <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Anything else <span style="text-transform:none; letter-spacing:0; opacity:0.6;">(optional)</span></span>
-            <textarea rows="2" value="{{ form.notes }}" onChange="{{ onNotes }}" placeholder="Design ideas, allergies, parking notes" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.26); border-radius:6px; resize:vertical;"></textarea>
+            <textarea rows="2" value="{{ form.notes }}" onChange="{{ onNotes }}" placeholder="Design ideas, allergies, parking notes" style="width:100%; box-sizing:border-box; padding:14px 16px; font-size:15px; line-height:1.6; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px; resize:vertical;"></textarea>
           </label>
         </div>
       </div>
@@ -327,14 +350,31 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
         </div>
 
         <div style="background:var(--ink); padding:clamp(20px,3vh,26px);">
-          <button type="button" onClick="{{ onSubmit }}" style="width:100%; min-height:54px; cursor:pointer; font-family:inherit; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); background:var(--bone); border:none; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Send on WhatsApp</button>
-          <p data-form-msg style="margin:14px 0 0; font-size:11.5px; line-height:1.6; color:{{ msgColor }}; min-height:18px;">{{ formMessage }}</p>
+          <sc-if value="{{ confirmed }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid; gap:12px;">
+              <p style="margin:0; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--blush);">Booking confirmed</p>
+              <p style="margin:0; font-family:var(--display); font-size:clamp(22px,2.4vw,30px); line-height:1.1; color:var(--bone);">{{ reference }}</p>
+              <p style="margin:0; font-size:12px; line-height:1.65; color:rgba(255,255,255,0.72);">{{ confirmNote }}</p>
+              <button type="button" onClick="{{ onReset }}" style="width:100%; min-height:48px; cursor:pointer; font-family:inherit; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--bone); background:transparent; border:1px solid rgba(255,255,255,0.4); border-radius:100px;">Book another appointment</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notConfirmed }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <button type="button" onClick="{{ onSubmit }}" style="width:100%; min-height:54px; cursor:pointer; font-family:inherit; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); background:var(--bone); border:none; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Confirm booking</button>
+              <p data-form-msg style="margin:14px 0 0; font-size:11.5px; line-height:1.6; color:{{ msgColor }}; min-height:18px;">{{ formMessage }}</p>
+            </div>
+          </sc-if>
         </div>
       </aside>
 
     </div>
   </div>
 </section>
+
+<a data-float-wa href="#book" aria-label="Book an appointment" style="position:fixed; right:clamp(14px,2.4vw,28px); bottom:clamp(14px,2.4vw,28px); z-index:500; display:flex; align-items:center; gap:10px; min-height:54px; padding:0 22px; border-radius:100px; text-decoration:none; color:var(--bone); background:var(--plum); box-shadow:0 14px 34px rgba(26,22,20,0.34); font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:var(--terracotta);">
+  <span aria-hidden="true" style="width:8px; height:8px; border-radius:50%; background:var(--blush);"></span>
+  <span data-float-label>Book an appointment</span>
+</a>
 
 <footer style="background:var(--ink); color:rgba(247,242,236,0.6);">
   <div style="max-width:1440px; margin:0 auto; padding:clamp(28px,5vh,46px) clamp(18px,4vw,54px); display:flex; justify-content:space-between; align-items:end; flex-wrap:wrap; gap:20px;">
@@ -353,8 +393,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-const WHATSAPP = '919999999999';
-
 const SERVICES = [
   { id: 'gel', num: '01', name: 'Gel Manicure', price: 899, minutes: 60, grad: 'linear-gradient(135deg,#A85F63,#F7EDE4)', accent: '#A85F63',
     blurb: 'Shape, cuticle work and a long-wear colour coat that stays glossy for two to three weeks.' },
@@ -400,10 +438,23 @@ class Component extends DCLogic {
     address: '',
     notes: '',
     message: '',
-    messageOk: false
+    messageOk: false,
+    confirmed: false,
+    reference: ''
   };
 
   componentDidMount() {
+    // Carry the home-page hero's picks into this form.
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const next = {};
+      const svc = p.get('service');
+      if (svc && SERVICES.some((s) => s.id === svc)) next.service = svc;
+      if (p.get('date')) next.date = p.get('date');
+      if (p.get('area')) next.area = p.get('area');
+      if (Object.keys(next).length) this.setState(next);
+    } catch (e) { /* no-op */ }
+
     this._mounted = true;
     const start = Date.now();
     const tryInit = () => {
@@ -443,6 +494,44 @@ class Component extends DCLogic {
       step.addEventListener('mouseenter', () => gsap.to(step, { y: -6, duration: 0.4, ease: 'power3.out' }));
       step.addEventListener('mouseleave', () => gsap.to(step, { y: 0, duration: 0.4, ease: 'power3.out' }));
     });
+
+// Shared mobile menu (identical on every page).
+    const burger = document.querySelector('[data-burger]');
+    const menu = document.querySelector('[data-menu]');
+    if (burger && menu) {
+      const links = Array.from(menu.querySelectorAll('[data-menu-link]'));
+      const bars = Array.from(burger.querySelectorAll('[data-burger-bar]'));
+      let open = false;
+      const setOpen = (next) => {
+        if (next === open) return;
+        open = next;
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (open) document.body.setAttribute('data-menu-open', '');
+        else document.body.removeAttribute('data-menu-open');
+        if (open) {
+          menu.style.display = 'flex';
+          gsap.to(menu, { clipPath: 'inset(0 0 0% 0)', duration: 0.6, ease: 'expo.out' });
+          gsap.fromTo(links, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out', delay: 0.1 });
+          gsap.to(bars[0], { rotate: 45, y: 4, duration: 0.35 });
+          gsap.to(bars[1], { rotate: -45, y: -4, duration: 0.35 });
+        } else {
+          gsap.to(menu, { clipPath: 'inset(0 0 100% 0)', duration: 0.5, ease: 'expo.inOut', onComplete: () => { menu.style.display = 'none'; } });
+          gsap.to(bars, { rotate: 0, y: 0, duration: 0.35 });
+        }
+      };
+      burger.addEventListener('click', () => setOpen(!open));
+      links.forEach((l) => l.addEventListener('click', () => setOpen(false)));
+      const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+      const onRz = () => { if (window.innerWidth > 760) setOpen(false); };
+      if (window.__bmnMenuKey) window.removeEventListener('keydown', window.__bmnMenuKey);
+      if (window.__bmnMenuRz) window.removeEventListener('resize', window.__bmnMenuRz);
+      window.__bmnMenuKey = onKey;
+      window.__bmnMenuRz = onRz;
+      window.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onRz);
+    }
 
     const ring = document.querySelector('[data-cursor]');
     if (ring && window.matchMedia('(hover: hover)').matches && !reduce) {
@@ -517,26 +606,15 @@ class Component extends DCLogic {
       this.setState({ message: 'Please add your ' + missing.join(', ') + '.', messageOk: false });
       return;
     }
-    const t = this.totals();
-    const lines = [
-      'Hi BookMyNail, I would like to book an appointment.',
-      '',
-      'Service: ' + t.svc.name + ' (' + dur(t.svc.minutes) + ')',
-      'People: ' + t.people,
-      t.picked.length ? 'Add-ons: ' + t.picked.map((a) => a.label).join(', ') : 'Add-ons: none',
-      'Date: ' + date,
-      'Time: ' + time,
-      'Estimated total: ' + inr(t.total),
-      '',
-      'Name: ' + name,
-      'Phone: ' + phone,
-      this.state.email ? 'Email: ' + this.state.email : null,
-      'Area: ' + (area || '—'),
-      'Address: ' + address,
-      this.state.notes ? 'Notes: ' + this.state.notes : null
-    ].filter(Boolean);
-    window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
-    this.setState({ message: 'Opening WhatsApp with your booking summary.', messageOk: true });
+    // Booking completes on the site: a reference is issued immediately.
+    // Persisting it to a real backend is the one remaining integration.
+    this.setState({ confirmed: true, reference: 'BMN-' + String(Date.now()).slice(-6), message: '' });
+  }
+
+  reset() {
+    this.setState({ confirmed: false, reference: '', message: '', messageOk: false });
+    const el = document.getElementById('book');
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
   }
 
   renderVals() {
@@ -568,9 +646,9 @@ class Component extends DCLogic {
       return {
         label: a.label + ' · ' + inr(a.price),
         on,
-        bg: on ? 'var(--plum)' : 'transparent',
+        bg: on ? 'var(--plum)' : 'var(--shell)',
         color: on ? 'var(--bone)' : 'var(--ink)',
-        border: on ? 'var(--plum)' : 'rgba(26,22,20,0.22)',
+        border: on ? 'var(--plum)' : 'var(--shell-line)',
         onToggle: () => this.toggleAddon(a.id)
       };
     });
@@ -580,9 +658,9 @@ class Component extends DCLogic {
       return {
         label,
         on,
-        bg: on ? 'var(--terracotta)' : 'transparent',
+        bg: on ? 'var(--terracotta)' : 'var(--shell)',
         color: on ? 'var(--bone)' : 'var(--ink)',
-        border: on ? 'var(--terracotta)' : 'rgba(26,22,20,0.22)',
+        border: on ? 'var(--terracotta)' : 'var(--shell-line)',
         onPick: () => this.set('time', label)
       };
     });
@@ -623,6 +701,11 @@ class Component extends DCLogic {
       timeSlots,
       summary,
       formMessage: st.message,
+      confirmed: st.confirmed,
+      notConfirmed: !st.confirmed,
+      reference: st.reference,
+      confirmNote: t.svc.name + ' · ' + (whenLabel) + '. Your artist will call on ' + (st.phone || 'your number') + ' to confirm the exact arrival time. Total ' + inr(t.total) + ', payable after the appointment.',
+      onReset: () => this.reset(),
       msgColor: st.messageOk ? 'var(--blush)' : '#F0A9A0',
       serviceOptions: SERVICES.map((s) => ({ value: s.id, label: s.name + ' · ' + inr(s.price) })),
       onServiceChange: (e) => this.set('service', e.target.value),

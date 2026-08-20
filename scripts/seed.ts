@@ -30,9 +30,11 @@ async function main() {
   }
 
   const existingPortfolio = await db.select().from(portfolioItems);
-  if (existingPortfolio.length === 0) {
-    await db.insert(portfolioItems).values(SEED_PORTFOLIO.map((p) => ({ ...p, active: true })));
-    console.log(`✓ seeded ${SEED_PORTFOLIO.length} portfolio items`);
+  const existingIds = new Set(existingPortfolio.map((p) => p.id));
+  const newItems = SEED_PORTFOLIO.filter((p) => !existingIds.has(p.id));
+  if (newItems.length > 0) {
+    await db.insert(portfolioItems).values(newItems.map((p) => ({ ...p, active: true })));
+    console.log(`✓ seeded ${newItems.length} new portfolio items`);
   } else {
     console.log(`· portfolio already present (${existingPortfolio.length}) — skipped`);
   }

@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import { db } from "@/lib/db";
 import { addons, portfolioItems, services, settings } from "@/lib/db/schema";
 import { SEED_SETTINGS } from "@/lib/seed-data";
-import type { Addon, PortfolioItem, Service } from "@/lib/site";
+import { PORTFOLIO_ITEMS, type Addon, type PortfolioItem, type Service } from "@/lib/site";
 
 /**
  * Cached reads for the public site. Every admin mutation calls
@@ -68,12 +68,19 @@ export const getPortfolioItems = unstable_cache(
       .from(portfolioItems)
       .where(eq(portfolioItems.active, true))
       .orderBy(asc(portfolioItems.sortOrder));
-    return rows.map((r) => ({
-      id: r.id,
-      src: r.imageUrl,
-      category: r.category,
-      span: (r.span === 2 ? 2 : 1) as 1 | 2,
-    }));
+    if (rows.length === 0) {
+      return PORTFOLIO_ITEMS;
+    }
+    return rows.map((r) => {
+      const match = PORTFOLIO_ITEMS.find((p) => p.id === r.id);
+      return {
+        id: r.id,
+        src: r.imageUrl,
+        category: (r.category as any) || "Bridal",
+        title: match?.title ?? r.category,
+        alt: match?.alt ?? r.category,
+      };
+    });
   },
   ["portfolio"],
   { tags: [TAGS.portfolio] },

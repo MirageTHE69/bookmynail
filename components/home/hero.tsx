@@ -1,154 +1,180 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Rise, Soft, Wipe } from "@/components/motion/reveal";
+import { useRouter } from "next/navigation";
+import { Rise, Soft } from "@/components/motion/reveal";
 import { useParallax } from "@/components/motion/use-parallax";
-import { HERO_VIDEO, SHADES, shadeDot, shadeWash } from "@/lib/site";
-import { useWhatsappUrl } from "@/components/site/settings-provider";
+import { HERO_SERVICES, HERO_TRUST, HERO_VIDEO } from "@/lib/site";
 
 export default function Hero() {
-  const bookUrl = useWhatsappUrl();
-  const [active, setActive] = useState(0);
-  // Base layer holds the settled wash; `next` crossfades the incoming one on top.
-  const [wash, setWash] = useState(() => shadeWash(SHADES[0]));
-  const [next, setNext] = useState<{ grad: string; key: number } | null>(null);
+  const router = useRouter();
+  const [service, setService] = useState("gel");
+  const [date, setDate] = useState("");
+  const [area, setArea] = useState("");
 
-  const videoRef = useParallax<HTMLDivElement>(-5, 7);
+  const videoRef = useParallax<HTMLDivElement>(-6, 6);
 
-  const pick = (n: number) => {
-    if (n === active) return;
-    setActive(n);
-    setNext({ grad: shadeWash(SHADES[n]), key: n });
+  const handleContinue = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (service) params.set("service", service);
+    if (date) params.set("date", date);
+    if (area) params.set("area", area);
+    const qs = params.toString();
+    router.push(`/services${qs ? `?${qs}` : ""}#book`);
   };
 
   return (
     <section
+      data-hero
       data-nav-boundary
       data-track-section="hero"
-      className="relative flex min-h-screen items-stretch overflow-hidden"
+      className="relative flex min-h-screen flex-col justify-end overflow-hidden"
     >
-      <div className="absolute inset-0" style={{ background: wash }} />
-      {next && (
-        <motion.div
-          key={next.key}
-          className="absolute inset-0"
-          style={{ background: next.grad }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.75, ease: "easeInOut" }}
-          onAnimationComplete={() => {
-            setWash(next.grad);
-            setNext(null);
-          }}
+      {/* Background Video */}
+      <div ref={videoRef} className="absolute inset-x-0 -inset-y-[6%] will-change-transform">
+        <video
+          className="h-full w-full object-cover"
+          src={HERO_VIDEO}
+          muted
+          loop
+          autoPlay
+          playsInline
+          aria-label="Hero background video"
         />
-      )}
+      </div>
+
+      {/* Hero gradient washes */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(145deg, rgba(86,32,60,0.9) 0%, rgba(138,58,60,0.72) 42%, rgba(191,86,52,0.56) 74%, rgba(231,167,159,0.46) 100%)",
+        }}
+      />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 80% at 8% 92%, rgba(0,0,0,0.34), transparent 60%)",
+            "linear-gradient(to top, rgba(26,22,20,0.72) 0%, rgba(26,22,20,0.1) 46%, rgba(26,22,20,0.3) 100%)",
         }}
       />
 
-      <div className="relative mx-auto grid w-full max-w-shell grid-cols-1 items-end gap-grid px-gutter pb-hero-bottom pt-hero-top wide:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <div>
-          <Rise hero className="mb-[clamp(14px,2.4vh,22px)]">
-            <span className="text-[11px] uppercase tracking-[0.3em] text-bone/80">
+      {/* Hero content */}
+      <div className="relative mx-auto w-full max-w-shell px-gutter pb-[clamp(26px,4.5vh,44px)] pt-[clamp(104px,15vh,164px)]">
+        <div className="mb-[clamp(12px,2vh,18px)] overflow-hidden">
+          <Rise hero>
+            <span className="block text-[11px] uppercase tracking-[0.3em] text-bone/85">
               At-home nail studio · Ahmedabad
             </span>
           </Rise>
+        </div>
 
-          <h1 className="m-0 mb-[clamp(20px,3.4vh,34px)] font-display text-hero font-normal leading-[0.9] tracking-[-0.02em] text-bone">
+        <h1 className="m-0 mb-[clamp(18px,2.8vh,28px)] max-w-[14ch] font-display text-[clamp(44px,8vw,132px)] font-normal leading-[0.88] tracking-[-0.025em] text-bone">
+          <span className="block overflow-hidden">
             <Rise hero>Luxury nails,</Rise>
+          </span>
+          <span className="block overflow-hidden">
             <Rise hero innerClassName="italic">
               at your door.
             </Rise>
-          </h1>
+          </span>
+        </h1>
 
+        {/* Trust points bar */}
+        <Soft
+          hero
+          className="mb-[clamp(18px,3vh,28px)] flex flex-wrap items-center gap-[clamp(12px,2vw,26px)] text-[11.5px] uppercase tracking-[0.14em] text-bone/85"
+        >
+          {HERO_TRUST.map((item, i) => (
+            <span key={item} className="flex items-center gap-[clamp(12px,2vw,26px)]">
+              {item}
+              {i < HERO_TRUST.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="h-1 w-1 rounded-full bg-blush"
+                />
+              )}
+            </span>
+          ))}
+        </Soft>
+
+        {/* Service price chips */}
+        <Soft hero className="mb-[clamp(14px,2.2vh,20px)] flex flex-wrap gap-[9px]">
+          {HERO_SERVICES.map((s) => (
+            <a
+              key={s.id}
+              href={`/services?service=${s.id}#book`}
+              className="flex min-h-[44px] flex-none items-baseline gap-2.5 rounded-full border border-white/35 bg-[#1A1614]/[0.26] px-[18px] py-[11px] text-bone no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/[0.18]"
+            >
+              <span className="text-[12.5px] tracking-[0.01em]">{s.name}</span>
+              <span className="font-display text-[15px]">₹{s.price.toLocaleString("en-IN")}</span>
+              <span className="text-[9.5px] uppercase tracking-[0.16em] opacity-60">
+                {s.duration}
+              </span>
+            </a>
+          ))}
+        </Soft>
+
+        {/* Hero quick booking bar */}
+        <div className="grid grid-cols-1 items-end">
           <Soft
             hero
-            className="grid max-w-[600px] grid-cols-1 gap-[clamp(20px,3vh,30px)] border-t border-bone/30 pt-[clamp(18px,2.6vh,26px)]"
+            className="rounded-xl bg-[#F7F2EC]/95 p-[clamp(13px,1.8vh,17px)] shadow-[0_24px_60px_rgba(26,22,20,0.32)]"
           >
-            <p className="m-0 text-[15.5px] leading-[1.7] text-bone/90">
-              Certified nail artists arrive at your home with sanitised tools and premium gel
-              systems. No travel, no waiting room — just the salon, brought to your table.
-            </p>
-            <div className="flex flex-wrap gap-2.5">
-              <a
-                href={bookUrl}
-                data-track-id="hero-whatsapp"
-                target="_blank"
-                rel="noopener"
-                className="rounded-full bg-bone px-[26px] py-[15px] text-xs uppercase tracking-[0.14em] text-ink no-underline transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_14px_30px_rgba(26,22,20,0.24)]"
-              >
-                Book an appointment
-              </a>
-              <a
-                href="#about"
-                data-track-id="hero-how-it-works"
-                className="rounded-full border border-bone/50 px-[26px] py-[15px] text-xs uppercase tracking-[0.14em] text-bone no-underline transition-all duration-300 hover:-translate-y-[3px] hover:bg-bone/[0.14]"
-              >
-                How it works
-              </a>
-            </div>
-          </Soft>
+            <div className="grid grid-cols-1 items-end gap-[11px] wide:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,1fr)_auto]">
+              <label className="grid gap-[7px]">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-ink/50">
+                  Service
+                </span>
+                <select
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  className="min-h-[50px] w-full rounded-[7px] border border-ink/20 bg-transparent px-3.5 py-[13px] font-body text-[14.5px] text-ink"
+                >
+                  {HERO_SERVICES.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-          <Soft hero className="mt-[clamp(26px,4vh,44px)]">
-            <p className="m-0 mb-3 text-[10px] uppercase tracking-[0.24em] text-bone/70">
-              Pick a shade —{" "}
-              <motion.span
-                key={SHADES[active].name}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="inline-block"
-              >
-                {SHADES[active].name}
-              </motion.span>
-            </p>
-            <div className="no-scrollbar flex gap-2.5 overflow-x-auto pb-1 nav:overflow-visible">
-              {SHADES.map((s, i) => (
-                <motion.button
-                  key={s.name}
-                  type="button"
-                  aria-label={s.name}
-                  aria-pressed={i === active}
-                  onClick={() => pick(i)}
-                  onMouseEnter={() => pick(i)}
-                  className="h-11 w-11 flex-none cursor-pointer rounded-full border p-0"
-                  style={{ background: shadeDot(s) }}
-                  animate={{
-                    scale: i === active ? 1.22 : 1,
-                    borderColor:
-                      i === active ? "rgba(247,242,236,0.95)" : "rgba(247,242,236,0.35)",
-                  }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              <label className="grid gap-[7px]">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-ink/50">
+                  Date
+                </span>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="min-h-[50px] w-full rounded-[7px] border border-ink/20 bg-transparent px-3.5 py-[13px] font-body text-[14.5px] text-ink"
                 />
-              ))}
+              </label>
+
+              <label className="grid gap-[7px]">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-ink/50">
+                  Your area
+                </span>
+                <input
+                  type="text"
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                  placeholder="e.g. Satellite"
+                  className="min-h-[50px] w-full rounded-[7px] border border-ink/20 bg-transparent px-3.5 py-[13px] font-body text-[14.5px] text-ink placeholder:text-ink/35"
+                />
+              </label>
+
+              <button
+                type="button"
+                onClick={handleContinue}
+                className="flex min-h-[50px] cursor-pointer items-center justify-center whitespace-nowrap rounded-full border-none bg-plum px-[clamp(20px,2.4vw,30px)] text-xs uppercase tracking-[0.14em] text-bone no-underline transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(86,32,60,0.4)]"
+              >
+                Continue to booking
+              </button>
             </div>
           </Soft>
         </div>
-
-        <Wipe
-          hero
-          className="relative order-first h-[46vh] min-h-[260px] self-end overflow-hidden rounded-[180px_180px_14px_14px] wide:order-none wide:h-[min(72vh,660px)]"
-        >
-          <div ref={videoRef} className="absolute inset-x-0 -inset-y-[8%] will-change-transform">
-            <video
-              className="h-full w-full object-cover"
-              src={HERO_VIDEO}
-              muted
-              loop
-              autoPlay
-              playsInline
-              aria-label="Hero video"
-            />
-          </div>
-          <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-[22px] py-5 text-[10px] uppercase tracking-[0.22em] text-bone">
-            Gel · Builder gel · Extensions · Nail art
-          </span>
-        </Wipe>
       </div>
     </section>
   );

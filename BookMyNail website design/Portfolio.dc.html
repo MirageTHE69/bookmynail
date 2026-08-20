@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+  --bone: #FFFFFF;
+  --shell: #F4EEE7;
+  --shell-line: rgba(26,22,20,0.14);
+  --ink: #1A1614;
+  --blush: #E7A79F;
+  --terracotta: #BF5634;
+  --plum: #56203C;
+  --lilac: #B4A2D4;
+  --chrome: #9BA5AC;
+  --display: 'Bodoni Moda', Georgia, serif;
+  --body: 'Archivo', system-ui, sans-serif;
+}
+body { margin: 0; background: var(--ink); font-family: var(--body); text-wrap: pretty; }
+a { color: var(--terracotta); }
+a:hover { color: var(--plum); }
+::selection { background: var(--blush); color: var(--ink); }
+
+@keyframes rise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes soft { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(20px); } to { clip-path: inset(0 0 0% 0); transform: translateY(0); } }
+
+[data-rise] { animation: rise 1.05s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.15s; }
+header h1 > span:nth-child(2) > [data-rise] { animation-delay: 0.27s; }
+[data-soft] { animation: soft 0.9s ease-out both; animation-delay: 0.4s; }
+section [data-rise], section [data-soft] { animation-timeline: view(); animation-range: entry 0% entry 64%; animation-delay: 0s; }
+[data-card] { animation: wipe 0.9s cubic-bezier(0.16,1,0.3,1) both; animation-timeline: view(); animation-range: entry 0% entry 58%; }
+[data-card] img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+[data-card]:hover img { transform: scale(1.06); }
+[data-card]:hover [data-card-cap] { transform: translateY(0); }
+[data-card-cap] { transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rise], [data-soft], [data-card] { animation: none !important; }
+}
+
+@media (max-width: 1000px) {
+  [data-head-grid] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
+  [data-head-grid] > * { justify-self: start; }
+  [data-work-grid] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+}
+@media (max-width: 760px) {
+  [data-nav-link] { display: none !important; }
+  [data-nav-cta] { display: none !important; }
+  [data-burger] { display: flex !important; }
+  [data-nav] { padding-left: 20px !important; padding-right: 20px !important; }
+  [data-cursor] { display: none !important; }
+  [data-filters] { overflow-x: auto; scrollbar-width: none; }
+  [data-filters]::-webkit-scrollbar { display: none; }
+  [data-float-label] { display: none; }
+  body[data-menu-open] [data-float-wa] { display: none !important; }
+  [data-float-wa] { padding: 0 18px !important; }
+}
+@media (max-width: 560px) {
+  [data-work-grid] { grid-template-columns: minmax(0,1fr) !important; }
+}
+</style>
+</helmet>
+
+<div style="background:var(--bone); color:var(--ink); overflow-x:hidden; position:relative;">
+
+<div data-cursor style="position:fixed; top:0; left:0; width:30px; height:30px; border:1px solid var(--bone); border-radius:50%; pointer-events:none; z-index:9000; transform:translate(-100px,-100px); opacity:0; mix-blend-mode:difference;"></div>
+
+<nav data-nav style="position:absolute; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px clamp(18px,4vw,54px);">
+  <a href="BookMyNail v3.dc.html" style="font-family:var(--display); font-weight:500; font-size:19px; letter-spacing:0.01em; color:var(--bone); text-decoration:none;">BookMyNail</a>
+  <div style="display:flex; align-items:center; gap:clamp(14px,2.2vw,32px);">
+    <a href="BookMyNail v3.dc.html#about" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">About</a>
+    <a href="Services.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Services</a>
+    <a href="#work" data-nav-link aria-current="page" style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--blush); opacity:1;">Gallery</a>
+    <a href="BookMyNail v3.dc.html#reviews" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Reviews</a>
+    <a href="BookMyNail v3.dc.html#faq" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">FAQ</a>
+    <a href="Services.dc.html#book" data-nav-cta style="font-family:var(--body); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:11px 18px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-2px);">Book now</a>
+    <button type="button" data-burger aria-label="Open menu" aria-expanded="false" style="display:none; width:48px; height:48px; margin:-8px -12px -8px 0; align-items:center; justify-content:center; flex-direction:column; gap:6px; background:none; border:none; padding:0; cursor:pointer; color:var(--bone);">
+      <span data-burger-bar style="display:block; width:24px; height:2px; background:currentColor;"></span>
+      <span data-burger-bar style="display:block; width:24px; height:2px; background:currentColor;"></span>
+    </button>
+  </div>
+</nav>
+
+<div data-menu style="position:fixed; inset:0; z-index:190; background:var(--ink); color:var(--bone); display:none; flex-direction:column; justify-content:center; gap:2px; padding:clamp(80px,14vh,120px) clamp(20px,6vw,40px) 32px; box-sizing:border-box; clip-path:inset(0 0 100% 0);">
+  <a data-menu-link href="BookMyNail v3.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Home</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#about" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">About</a>
+  <a data-menu-link href="Services.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Services</a>
+  <a data-menu-link href="#work" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Gallery</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#reviews" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Reviews</a>
+  <a data-menu-link href="BookMyNail v3.dc.html#faq" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">FAQ</a>
+  <a data-menu-link href="Services.dc.html#book" style="display:flex; align-items:center; justify-content:center; min-height:54px; margin-top:26px; font-family:var(--body); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); border-radius:100px;">Book an appointment</a>
+</div>
+
+<header style="position:relative; overflow:hidden; color:var(--bone);">
+  <div style="position:absolute; inset:0; background:linear-gradient(150deg,#56203C 0%,#8A3A3C 46%,#BF5634 78%,#E7A79F 100%);"></div>
+  <div style="position:absolute; inset:0; background:radial-gradient(110% 80% at 4% 96%, rgba(0,0,0,0.34), transparent 62%); pointer-events:none;"></div>
+  <div style="position:relative; max-width:1440px; margin:0 auto; padding:clamp(110px,17vh,190px) clamp(18px,4vw,54px) clamp(44px,7vh,80px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(24px,4vh,36px);">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">06</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; opacity:0.72;">Full portfolio</span>
+    </div>
+    <h1 style="margin:0 0 clamp(32px,5vh,56px); font-family:var(--display); font-weight:400; font-size:clamp(40px,8vw,124px); line-height:0.9; letter-spacing:-0.025em;">
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Every set,</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">every occasion.</span></span>
+    </h1>
+    <div data-head-grid style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(24px,4vw,56px); align-items:end; border-top:1px solid rgba(255,255,255,0.32); padding-top:24px;">
+      <p data-soft style="margin:0; font-size:15.5px; line-height:1.7; opacity:0.92; max-width:52ch;">Recent work from our artists, grouped by the kind of set. Found something you like? Note it in your booking and we'll recreate it.</p>
+      <p data-soft style="margin:0; font-family:var(--display); font-size:clamp(26px,3.2vw,42px); line-height:1; letter-spacing:-0.02em; white-space:nowrap;"><span data-count data-to="14">14</span> <span style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; opacity:0.66;">sets shown</span></p>
+    </div>
+  </div>
+</header>
+
+<section id="work" style="padding:clamp(36px,6vh,64px) 0 clamp(64px,11vh,130px);">
+  <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
+    <div data-filters style="display:flex; gap:9px; flex-wrap:wrap; margin-bottom:clamp(24px,4.5vh,44px);">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.pressed }}" style="flex:none; cursor:pointer; font-family:inherit; font-size:12.5px; letter-spacing:0.01em; padding:12px 20px; min-height:44px; border-radius:100px; background:{{ f.bg }}; color:{{ f.color }}; border:1px solid {{ f.border }}; transition:background 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="transform:translateY(-2px);">{{ f.label }} <span style="opacity:0.55; font-size:11px;">{{ f.count }}</span></button>
+      </sc-for>
+    </div>
+
+    <div data-work-grid style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(12px,1.6vw,20px);">
+      <sc-for list="{{ items }}" as="item" hint-placeholder-count="14">
+        <figure data-card style="margin:0; position:relative; overflow:hidden; border-radius:{{ item.radius }}; background:var(--shell);">
+          <img src="{{ item.src }}" alt="{{ item.alt }}" loading="lazy" style="display:block; width:100%; aspect-ratio:3/4; object-fit:cover;">
+          <figcaption data-card-cap style="position:absolute; left:0; right:0; bottom:0; padding:16px 18px; background:linear-gradient(to top, rgba(26,22,20,0.9), rgba(26,22,20,0.1)); color:var(--bone); transform:translateY(101%);">
+            <span style="display:block; font-family:var(--display); font-size:17px; line-height:1.2;">{{ item.title }}</span>
+            <span style="display:block; margin-top:6px; font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--blush);">{{ item.category }}</span>
+          </figcaption>
+        </figure>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="position:relative; overflow:hidden; color:var(--bone);">
+  <div style="position:absolute; inset:0; background:linear-gradient(150deg,#43305E 0%,#7B62A8 38%,#BF5634 78%,#E7A79F 100%);"></div>
+  <div style="position:relative; max-width:1440px; margin:0 auto; padding:clamp(56px,10vh,110px) clamp(18px,4vw,54px);">
+    <h2 style="margin:0 0 clamp(26px,4.5vh,44px); font-family:var(--display); font-weight:400; font-size:clamp(32px,6.4vw,96px); line-height:0.94; letter-spacing:-0.025em;">
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Seen one you want?</span></span>
+    </h2>
+    <div data-soft style="display:flex; gap:11px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,0.4); padding-top:26px;">
+      <a href="Services.dc.html#book" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-3px);">Book an appointment</a>
+      <a href="https://instagram.com/bookmynail" target="_blank" rel="noopener" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--bone); border:1px solid rgba(255,255,255,0.55); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:rgba(255,255,255,0.16);">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<a data-float-wa href="Services.dc.html#book" aria-label="Book an appointment" style="position:fixed; right:clamp(14px,2.4vw,28px); bottom:clamp(14px,2.4vw,28px); z-index:500; display:flex; align-items:center; gap:10px; min-height:54px; padding:0 22px; border-radius:100px; text-decoration:none; color:var(--bone); background:var(--plum); box-shadow:0 14px 34px rgba(26,22,20,0.34); font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:var(--terracotta);">
+  <span aria-hidden="true" style="width:8px; height:8px; border-radius:50%; background:var(--blush);"></span>
+  <span data-float-label>Book an appointment</span>
+</a>
+
+<footer style="background:var(--ink); color:rgba(255,255,255,0.62);">
+  <div style="max-width:1440px; margin:0 auto; padding:clamp(28px,5vh,46px) clamp(18px,4vw,54px); display:flex; justify-content:space-between; align-items:end; flex-wrap:wrap; gap:20px;">
+    <div>
+      <p style="margin:0 0 8px; font-family:var(--display); font-size:24px; color:var(--bone);">BookMyNail</p>
+      <p style="margin:0; font-family:var(--display); font-style:italic; font-size:14px; color:rgba(255,255,255,0.7);">Luxury Nails. Comfort of Home.</p>
+    </div>
+    <div style="display:flex; gap:22px; flex-wrap:wrap; font-size:10px; letter-spacing:0.18em; text-transform:uppercase;">
+      <a href="BookMyNail v3.dc.html" style="color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.25s ease;" style-hover="border-color:var(--blush);">Home</a>
+      <a href="Services.dc.html" style="color:inherit; text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.25s ease;" style-hover="border-color:var(--blush);">Services</a>
+      <span>© 2026 BookMyNail · Ahmedabad</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CATEGORIES = ['All', 'Bridal', 'Elegant', 'Creative', 'Chrome'];
+
+const CATEGORY_LABELS = {
+  Bridal: 'Bridal nail art',
+  Elegant: 'Elegant / minimalist',
+  Creative: 'Creative nail art',
+  Chrome: 'Chrome / trend'
+};
+
+const ITEMS = [
+  { id: 'b1', category: 'Bridal', title: 'Red & nude bridal glam',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652717/bookmy%20nail/Bridal_Red_Nude_Glam_Nails_%EF%B8%8F___Mehendi_Ready_Manicure_vi03et.jpg' },
+  { id: 'b2', category: 'Bridal', title: 'Velvet merlot set',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652717/bookmy%20nail/Velvet_Merlot_Nails_The_Rich_Girl_Manicure_jdipqr.jpg' },
+  { id: 'b3', category: 'Bridal', title: 'Bridal detail work',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652603/bookmy%20nail/download_17_efxgjb.jpg' },
+  { id: 'b4', category: 'Bridal', title: 'Red & gold wedding set',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652598/bookmy%20nail/Luxury_Indian_Bridal_Nails_%EF%B8%8F_Red_Gold_Wedding_Nail_Art_Ideas_oeesgf.jpg' },
+  { id: 'b5', category: 'Bridal', title: 'Matched to the lehenga',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652561/bookmy%20nail/_Your_lehenga_called_it_wants_these_nails_uidgsf.jpg' },
+  { id: 'b6', category: 'Bridal', title: 'Maroon, red & gold festive',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652546/bookmy%20nail/Ultimate_Bridal_Festive_Nail_Designs___Maroon_Red_Gold_Elegance_dlvhau.jpg' },
+  { id: 'e1', category: 'Elegant', title: 'Nude almond with hearts',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652882/bookmy%20nail/Nude_Almond_Heart_Press_On_Nails_Cute_Valentine_Nail_Design_rqpxy7.jpg' },
+  { id: 'e2', category: 'Elegant', title: 'Clean minimal set',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652881/bookmy%20nail/download_18_tl7eem.jpg' },
+  { id: 'e3', category: 'Elegant', title: 'Soft everyday finish',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652879/bookmy%20nail/download_19_xxbmt0.jpg' },
+  { id: 'c1', category: 'Creative', title: 'Abstract nail art',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652969/bookmy%20nail/Abstract_Nail_Art_piaqz3.jpg' },
+  { id: 'c2', category: 'Creative', title: 'Hand-drawn detail',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652967/bookmy%20nail/download_20_ginq6v.jpg' },
+  { id: 'c3', category: 'Creative', title: 'Evil eye set',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652966/bookmy%20nail/Unhas_Decoradas_Olho_Grego_dlfnby.jpg' },
+  { id: 'h1', category: 'Chrome', title: 'Holographic chrome almond',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786653045/bookmy%20nail/Stunning_Holographic_Chrome_Almond_Nails_on_Dark_Skin_isf9rf.jpg' },
+  { id: 'h2', category: 'Chrome', title: 'Brown chrome aura, gold outline',
+    src: 'https://res.cloudinary.com/dxeb4jubk/image/upload/v1786653031/bookmy%20nail/Luxury_Brown_Chrome_Aura_Nails_with_Gold_Outline___Elegant_Almond_Nail_Design_cko9nv.jpg' }
+];
+
+// Arch tops on a repeating rhythm so the grid never reads as a plain matrix.
+const RADII = ['150px 150px 10px 10px', '10px', '10px', '150px 150px 10px 10px'];
+
+class Component extends DCLogic {
+  state = { filter: 'All' };
+
+  componentDidMount() {
+    this._mounted = true;
+    const start = Date.now();
+    const tryInit = () => {
+      if (!this._mounted) return;
+      if (window.gsap) {
+        try { this.init(); } catch (err) { console.error('portfolio motion init failed:', err); }
+      } else if (Date.now() - start < 6000) {
+        this._pollId = setTimeout(tryInit, 60);
+      }
+    };
+    tryInit();
+  }
+
+  init() {
+    const gsap = window.gsap;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._cleanups = [];
+
+// Shared mobile menu (identical on every page).
+    const burger = document.querySelector('[data-burger]');
+    const menu = document.querySelector('[data-menu]');
+    if (burger && menu) {
+      const links = Array.from(menu.querySelectorAll('[data-menu-link]'));
+      const bars = Array.from(burger.querySelectorAll('[data-burger-bar]'));
+      let open = false;
+      const setOpen = (next) => {
+        if (next === open) return;
+        open = next;
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (open) document.body.setAttribute('data-menu-open', '');
+        else document.body.removeAttribute('data-menu-open');
+        if (open) {
+          menu.style.display = 'flex';
+          gsap.to(menu, { clipPath: 'inset(0 0 0% 0)', duration: 0.6, ease: 'expo.out' });
+          gsap.fromTo(links, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out', delay: 0.1 });
+          gsap.to(bars[0], { rotate: 45, y: 4, duration: 0.35 });
+          gsap.to(bars[1], { rotate: -45, y: -4, duration: 0.35 });
+        } else {
+          gsap.to(menu, { clipPath: 'inset(0 0 100% 0)', duration: 0.5, ease: 'expo.inOut', onComplete: () => { menu.style.display = 'none'; } });
+          gsap.to(bars, { rotate: 0, y: 0, duration: 0.35 });
+        }
+      };
+      burger.addEventListener('click', () => setOpen(!open));
+      links.forEach((l) => l.addEventListener('click', () => setOpen(false)));
+      const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+      const onRz = () => { if (window.innerWidth > 760) setOpen(false); };
+      if (window.__bmnMenuKey) window.removeEventListener('keydown', window.__bmnMenuKey);
+      if (window.__bmnMenuRz) window.removeEventListener('resize', window.__bmnMenuRz);
+      window.__bmnMenuKey = onKey;
+      window.__bmnMenuRz = onRz;
+      window.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onRz);
+    }
+
+    const ring = document.querySelector('[data-cursor]');
+    if (ring && window.matchMedia('(hover: hover)').matches && !reduce) {
+      const rx = gsap.quickTo(ring, 'x', { duration: 0.4, ease: 'power3' });
+      const ry = gsap.quickTo(ring, 'y', { duration: 0.4, ease: 'power3' });
+      const move = (e) => {
+        rx(e.clientX - 15);
+        ry(e.clientY - 15);
+        gsap.to(ring, { opacity: 1, duration: 0.3, overwrite: 'auto' });
+      };
+      const leave = () => gsap.to(ring, { opacity: 0, duration: 0.3 });
+      if (window.__bmnPfMove) window.removeEventListener('mousemove', window.__bmnPfMove);
+      window.__bmnPfMove = move;
+      window.addEventListener('mousemove', move);
+      document.addEventListener('mouseleave', leave);
+    }
+
+    const counter = document.querySelector('[data-count]');
+    if (counter && !reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          const to = parseFloat(e.target.getAttribute('data-to')) || 0;
+          const obj = { v: 0 };
+          gsap.to(obj, {
+            v: to, duration: 1.4, ease: 'power2.out',
+            onUpdate: () => { e.target.textContent = Math.round(obj.v); },
+            onComplete: () => { e.target.textContent = to; }
+          });
+        });
+      }, { threshold: 0.5 });
+      if (window.__bmnPfIO) window.__bmnPfIO.disconnect();
+      window.__bmnPfIO = io;
+      io.observe(counter);
+    }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    clearTimeout(this._pollId);
+    (this._cleanups || []).forEach((fn) => fn());
+  }
+
+  renderVals() {
+    const active = this.state.filter;
+    const filters = CATEGORIES.map((cat) => {
+      const on = cat === active;
+      return {
+        label: cat === 'All' ? 'All work' : CATEGORY_LABELS[cat],
+        count: cat === 'All' ? ITEMS.length : ITEMS.filter((i) => i.category === cat).length,
+        pressed: on,
+        bg: on ? 'var(--plum)' : 'var(--shell)',
+        color: on ? 'var(--bone)' : 'var(--ink)',
+        border: on ? 'var(--plum)' : 'var(--shell-line)',
+        onClick: () => this.setState({ filter: cat })
+      };
+    });
+    const items = (active === 'All' ? ITEMS : ITEMS.filter((i) => i.category === active)).map((i, n) => ({
+      key: i.id,
+      src: i.src,
+      title: i.title,
+      alt: i.title + ' — ' + CATEGORY_LABELS[i.category],
+      category: CATEGORY_LABELS[i.category],
+      radius: RADII[n % RADII.length]
+    }));
+    return { filters, items };
+  }
+}
+</script>
+</body>
+</html>

@@ -3,199 +3,178 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
-const EDITORIAL = [0.16, 1, 0.3, 1] as const;
-
-/**
- * One nav for every route. Links are absolute so the same set works from any
- * page. Mark a page's hero with `data-nav-boundary` and the bar inverts from
- * bone-on-transparent to ink-on-bone once that hero scrolls past.
- */
 export const NAV_LINKS = [
   { label: "About", href: "/#about" },
-  { label: "Values", href: "/#values" },
   { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
+  { label: "Gallery", href: "/portfolio" },
   { label: "Reviews", href: "/#reviews" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
-/** The site's single booking entry point — the form that prices before sending. */
-export const BOOK_HREF = "/services#book";
+export const MENU_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/portfolio" },
+  { label: "Reviews", href: "/#reviews" },
+  { label: "FAQ", href: "/#faq" },
+];
 
 export default function SiteNav() {
   const pathname = usePathname();
-  const [inverted, setInverted] = useState(false);
   const [open, setOpen] = useState(false);
-  const reduce = useReducedMotion();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const boundary = document.querySelector("[data-nav-boundary]");
     const onScroll = () => {
-      const bottom = boundary ? boundary.getBoundingClientRect().bottom : 80;
-      setInverted(bottom <= 80);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [pathname]);
-
-  // Close on route change.
-  useEffect(() => setOpen(false), [pathname]);
+  }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      document.body.setAttribute("data-menu-open", "");
+    } else {
+      document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
+    }
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     const onResize = () => window.innerWidth > 760 && setOpen(false);
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
       document.body.style.overflow = "";
+      document.body.removeAttribute("data-menu-open");
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
     };
   }, [open]);
 
-  // Scroll-spy for the homepage anchors, so exactly one link reads as current.
-  const [activeHash, setActiveHash] = useState("");
-  useEffect(() => {
-    if (pathname !== "/") {
-      setActiveHash("");
-      return;
-    }
-    const sections = NAV_LINKS.filter((l) => l.href.startsWith("/#"))
-      .map((l) => document.getElementById(l.href.slice(2)))
-      .filter(Boolean) as HTMLElement[];
-    if (!sections.length) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        const hit = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (hit) setActiveHash(`/#${hit.target.id}`);
-      },
-      // Only whatever is crossing the middle band of the viewport counts.
-      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] },
-    );
-    sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
-  }, [pathname]);
-
-  // The burger sits above the open panel, so it always needs the light colour.
-  const barColor = open ? "text-bone" : inverted ? "text-ink" : "text-bone";
-  const isCurrent = (href: string) =>
-    href.includes("#") ? href === activeHash : pathname === href;
-
   return (
     <>
-      <motion.nav
-        className="fixed inset-x-0 top-0 z-[200] flex items-center justify-between gap-6 px-gutter"
-        initial={false}
-        animate={{
-          paddingTop: inverted ? 14 : 26,
-          paddingBottom: inverted ? 14 : 26,
-          backgroundColor: inverted ? "#F7F2EC" : "rgba(247,242,236,0)",
-          borderBottomColor: inverted ? "rgba(26,22,20,0.14)" : "rgba(26,22,20,0)",
-        }}
-        transition={{ duration: 0.4 }}
-        style={{ borderBottomWidth: 1, borderBottomStyle: "solid" }}
+      <nav
+        data-nav
+        className={`fixed inset-x-0 top-0 z-[200] flex items-center justify-between gap-6 px-gutter transition-all duration-400 ${
+          scrolled
+            ? "bg-ink/80 py-4 backdrop-blur-md"
+            : "bg-transparent py-[26px]"
+        }`}
       >
         <Link
           href="/"
-          className={`font-display text-[19px] font-medium tracking-[0.01em] no-underline transition-colors duration-[400ms] ${
-            inverted ? "text-ink" : "text-bone"
-          }`}
+          className="font-display text-[19px] font-medium tracking-[0.01em] text-bone no-underline"
         >
           BookMyNail
         </Link>
 
         <div className="flex items-center gap-[clamp(14px,2.2vw,32px)]">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.label}
-              href={l.href}
-              className={`hidden border-b pb-[3px] text-[11px] uppercase tracking-[0.18em] no-underline transition-colors duration-[400ms] nav:block ${
-                inverted ? "text-ink/70 hover:text-ink" : "text-bone/85 hover:text-bone"
-              } ${isCurrent(l.href) ? "border-terracotta" : "border-transparent"}`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive =
+              link.href === pathname ||
+              (link.href.startsWith("/#") && pathname === "/" && false);
 
-          {/* Stays available on mobile, but yields to the panel's own CTA when open. */}
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                data-nav-link
+                className={`hidden pb-[3px] text-[11px] uppercase tracking-[0.18em] no-underline transition-all duration-300 nav:inline-block ${
+                  isActive
+                    ? "border-b border-blush text-blush opacity-100"
+                    : "border-b border-transparent text-bone opacity-85 hover:border-blush hover:opacity-100"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+
           <Link
-            href={BOOK_HREF}
-            className={`rounded-full px-[18px] py-[11px] text-[11px] uppercase tracking-[0.16em] no-underline transition-all duration-300 hover:-translate-y-0.5 nav:inline-block ${
-              open ? "hidden" : "inline-block"
-            } ${inverted ? "bg-ink text-bone" : "bg-bone text-ink"}`}
+            href="/services#book"
+            data-nav-cta
+            className="hidden rounded-full bg-bone px-[18px] py-[11px] text-[11px] uppercase tracking-[0.16em] text-ink no-underline transition-transform duration-300 hover:-translate-y-0.5 nav:inline-block"
           >
             Book now
           </Link>
 
+          {/* Mobile hamburger */}
           <button
             type="button"
+            data-burger
+            onClick={() => setOpen(!open)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            onClick={() => setOpen((o) => !o)}
-            className={`-my-2 -mr-2 flex h-12 w-12 flex-col items-center justify-center gap-1.5 border-none bg-transparent p-0 transition-colors duration-[400ms] nav:hidden ${barColor}`}
+            className="flex h-12 w-12 cursor-pointer flex-col items-center justify-center gap-1.5 border-none bg-transparent p-0 text-bone nav:hidden"
           >
-            <motion.span
-              className="block h-0.5 w-[26px] bg-current"
-              animate={{ rotate: open ? 45 : 0, y: open ? 4 : 0 }}
-              transition={{ duration: 0.35 }}
+            <span
+              className={`block h-0.5 w-6 bg-current transition-transform duration-350 ${
+                open ? "translate-y-2 rotate-45" : ""
+              }`}
             />
-            <motion.span
-              className="block h-0.5 w-[26px] bg-current"
-              animate={{ rotate: open ? -45 : 0, y: open ? -4 : 0 }}
-              transition={{ duration: 0.35 }}
+            <span
+              className={`block h-0.5 w-6 bg-current transition-transform duration-350 ${
+                open ? "-translate-y-0 -rotate-45" : ""
+              }`}
             />
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
-      {/* Mobile panel — the only way to reach other pages below 761px. */}
-      <motion.div
-        className="fixed inset-0 z-[190] flex flex-col justify-center gap-1 bg-ink px-gutter pb-8 pt-[clamp(80px,14vh,120px)] text-bone nav:hidden"
-        initial={false}
-        animate={{ clipPath: open ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" }}
-        transition={{ duration: open ? 0.6 : 0.5, ease: EDITORIAL }}
-        style={{ pointerEvents: open ? "auto" : "none" }}
-        aria-hidden={!open}
-      >
-        {NAV_LINKS.map((l, i) => (
+      {/* Mobile full-screen menu overlay */}
+      <AnimatePresence>
+        {open && (
           <motion.div
-            key={l.label}
-            animate={open || reduce ? { y: 0, opacity: 1 } : { y: 26, opacity: 0 }}
-            transition={{ duration: 0.55, ease: "easeOut", delay: open ? 0.12 + i * 0.06 : 0 }}
+            key="mobile-menu"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[190] flex flex-col justify-center gap-0.5 bg-ink p-[clamp(80px,14vh,120px)_clamp(20px,6vw,40px)_32px] text-bone"
           >
-            <Link
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="flex min-h-[56px] items-center border-b border-bone/20 font-display text-menu-link tracking-[-0.02em] text-bone no-underline"
-            >
-              {l.label}
-            </Link>
-          </motion.div>
-        ))}
+            {MENU_LINKS.map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.08 + i * 0.04, duration: 0.4 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[58px] items-center border-b border-white/20 font-display text-[clamp(28px,8.5vw,42px)] tracking-[-0.02em] text-bone no-underline"
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
 
-        <motion.div
-          animate={open || reduce ? { y: 0, opacity: 1 } : { y: 26, opacity: 0 }}
-          transition={{
-            duration: 0.55,
-            ease: "easeOut",
-            delay: open ? 0.12 + NAV_LINKS.length * 0.06 : 0,
-          }}
-        >
-          <Link
-            href={BOOK_HREF}
-            onClick={() => setOpen(false)}
-            className="mt-7 flex min-h-[52px] items-center justify-center rounded-full bg-bone text-[13px] uppercase tracking-[0.12em] text-ink no-underline"
-          >
-            Book an appointment
-          </Link>
-        </motion.div>
-      </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="mt-[26px]"
+            >
+              <Link
+                href="/services#book"
+                onClick={() => setOpen(false)}
+                className="flex min-h-[54px] items-center justify-center rounded-full bg-bone text-center text-xs uppercase tracking-[0.14em] text-ink no-underline"
+              >
+                Book an appointment
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -107,15 +107,105 @@ export const SEED_ADDONS = [
   { id: "repair", label: "Nail repair", price: 149, sortOrder: 4 },
 ];
 
-/**
- * The export defines twelve tiles but only supplied artwork for these four.
- * New items can now be uploaded through the admin panel.
- */
 export const SEED_PORTFOLIO = [
-  { id: "p-1", imageUrl: "/images/pf-1.webp", category: "Manicure", span: 2, sortOrder: 0 },
-  { id: "p-2", imageUrl: "/images/pf-2.webp", category: "Manicure", span: 1, sortOrder: 1 },
-  { id: "p-3", imageUrl: "/images/pf-3.webp", category: "Nail Art", span: 1, sortOrder: 2 },
-  { id: "p-4", imageUrl: "/images/pf-4.webp", category: "Nail Art", span: 2, sortOrder: 3 },
+  {
+    id: "b1",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652717/bookmy%20nail/Bridal_Red_Nude_Glam_Nails_%EF%B8%8F___Mehendi_Ready_Manicure_vi03et.jpg",
+    span: 1,
+    sortOrder: 0,
+  },
+  {
+    id: "b2",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652717/bookmy%20nail/Velvet_Merlot_Nails_The_Rich_Girl_Manicure_jdipqr.jpg",
+    span: 1,
+    sortOrder: 1,
+  },
+  {
+    id: "b3",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652603/bookmy%20nail/download_17_efxgjb.jpg",
+    span: 1,
+    sortOrder: 2,
+  },
+  {
+    id: "b4",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652598/bookmy%20nail/Luxury_Indian_Bridal_Nails_%EF%B8%8F_Red_Gold_Wedding_Nail_Art_Ideas_oeesgf.jpg",
+    span: 1,
+    sortOrder: 3,
+  },
+  {
+    id: "b5",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652561/bookmy%20nail/_Your_lehenga_called_it_wants_these_nails_uidgsf.jpg",
+    span: 1,
+    sortOrder: 4,
+  },
+  {
+    id: "b6",
+    category: "Bridal",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652546/bookmy%20nail/Ultimate_Bridal_Festive_Nail_Designs___Maroon_Red_Gold_Elegance_dlvhau.jpg",
+    span: 1,
+    sortOrder: 5,
+  },
+  {
+    id: "e1",
+    category: "Elegant",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652882/bookmy%20nail/Nude_Almond_Heart_Press_On_Nails_Cute_Valentine_Nail_Design_rqpxy7.jpg",
+    span: 1,
+    sortOrder: 6,
+  },
+  {
+    id: "e2",
+    category: "Elegant",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652881/bookmy%20nail/download_18_tl7eem.jpg",
+    span: 1,
+    sortOrder: 7,
+  },
+  {
+    id: "e3",
+    category: "Elegant",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652879/bookmy%20nail/download_19_xxbmt0.jpg",
+    span: 1,
+    sortOrder: 8,
+  },
+  {
+    id: "c1",
+    category: "Creative",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652969/bookmy%20nail/Abstract_Nail_Art_piaqz3.jpg",
+    span: 1,
+    sortOrder: 9,
+  },
+  {
+    id: "c2",
+    category: "Creative",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652967/bookmy%20nail/download_20_ginq6v.jpg",
+    span: 1,
+    sortOrder: 10,
+  },
+  {
+    id: "c3",
+    category: "Creative",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786652966/bookmy%20nail/Unhas_Decoradas_Olho_Grego_dlfnby.jpg",
+    span: 1,
+    sortOrder: 11,
+  },
+  {
+    id: "h1",
+    category: "Chrome",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786653045/bookmy%20nail/Stunning_Holographic_Chrome_Almond_Nails_on_Dark_Skin_isf9rf.jpg",
+    span: 1,
+    sortOrder: 12,
+  },
+  {
+    id: "h2",
+    category: "Chrome",
+    imageUrl: "https://res.cloudinary.com/dxeb4jubk/image/upload/v1786653031/bookmy%20nail/Luxury_Brown_Chrome_Aura_Nails_with_Gold_Outline___Elegant_Almond_Nail_Design_cko9nv.jpg",
+    span: 1,
+    sortOrder: 13,
+  },
 ];
 
 export const SEED_SETTINGS: Record<string, string> = {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PortfolioPage from "@/components/portfolio/portfolio-page";
-import { getPortfolioItems, portfolioFilters } from "@/lib/queries";
+import { PORTFOLIO_ITEMS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Portfolio — BookMyNail",
@@ -8,7 +8,6 @@ export const metadata: Metadata = {
     "Recent nail sets from the BookMyNail studio, grouped by category. Send us a screenshot when you book and we'll match it.",
 };
 
-export default async function Page() {
-  const items = await getPortfolioItems();
-  return <PortfolioPage items={items} filters={portfolioFilters(items)} />;
+export default function Page() {
+  return <PortfolioPage items={PORTFOLIO_ITEMS} />;
 }

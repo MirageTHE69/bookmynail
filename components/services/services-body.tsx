@@ -311,8 +311,8 @@ export default function ServicesBody({
         <div className="relative mx-auto max-w-shell px-gutter">
           <SectionLabel num="02" label="Before you book" dark />
           <h2 className="m-0 mb-block-gap max-w-[16ch] font-display text-display3 font-normal leading-[0.95] tracking-[-0.02em]">
-            <Rise>How booking</Rise>
-            <Rise innerClassName="italic">actually works.</Rise>
+            <Rise>Book it in four steps.</Rise>
+            <Rise innerClassName="italic">We handle the rest.</Rise>
           </h2>
           <Steps steps={BOOKING_STEPS} dark />
         </div>

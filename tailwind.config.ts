@@ -20,7 +20,9 @@ const config: Config = {
     },
     extend: {
       colors: {
-        bone: "#F7F2EC",
+        bone: "#FFFFFF",
+        shell: "#F4EEE7",
+        "shell-line": "rgba(26, 22, 20, 0.14)",
         ink: "#1A1614",
         blush: "#E7A79F",
         terracotta: "#BF5634",
