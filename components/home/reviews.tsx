@@ -31,7 +31,7 @@ export default function Reviews() {
       />
 
       <div className="relative mx-auto max-w-shell px-gutter">
-        <SectionLabel num="08" label="In their words" theme="dark" />
+        <SectionLabel num="08" label="In their words" dark />
 
         <div className="grid grid-cols-1">
           <AnimatePresence mode="wait">
