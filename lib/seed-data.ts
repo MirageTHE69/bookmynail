@@ -381,6 +381,48 @@ export const SEED_PORTFOLIO = [
     span: 1,
     sortOrder: 13,
   },
+  {
+    id: "l1",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/download%20(19).jpeg",
+    span: 1,
+    sortOrder: 14,
+  },
+  {
+    id: "l2",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/bylashbabe.jpeg",
+    span: 1,
+    sortOrder: 15,
+  },
+  {
+    id: "l3",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/Fashion%20IDEA%20_208.jpeg",
+    span: 1,
+    sortOrder: 16,
+  },
+  {
+    id: "l4",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/download%20(17).jpeg",
+    span: 1,
+    sortOrder: 17,
+  },
+  {
+    id: "l5",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/download%20(18).jpeg",
+    span: 1,
+    sortOrder: 18,
+  },
+  {
+    id: "l6",
+    category: "Lashes",
+    imageUrl: "https://ik.imagekit.io/5feqwwaxb/download%20(16).jpeg",
+    span: 1,
+    sortOrder: 19,
+  },
 ];
 
 export const SEED_SETTINGS: Record<string, string> = {

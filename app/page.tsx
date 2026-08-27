@@ -17,10 +17,29 @@ import Reviews from "@/components/home/reviews";
 import FAQ from "@/components/home/faq";
 import Social from "@/components/home/social";
 import Contact from "@/components/home/contact";
-import { addonChips, getAddons, getServices, lashServices, nailServices } from "@/lib/queries";
+import {
+  addonChips,
+  galleryShape,
+  getAddons,
+  getPortfolioItems,
+  getServices,
+  interleaveByCategory,
+  lashServices,
+  nailServices,
+} from "@/lib/queries";
 
 export default async function HomePage() {
-  const [services, addons] = await Promise.all([getServices(), getAddons()]);
+  const [services, addons, portfolio] = await Promise.all([
+    getServices(),
+    getAddons(),
+    getPortfolioItems(),
+  ]);
+
+  // Round-robin the categories so the smaller lash set still lands early,
+  // then apply the design's tall/square rhythm by position.
+  const gallery = interleaveByCategory(portfolio)
+    .slice(0, 8)
+    .map((item, i) => ({ ...item, ...galleryShape(i) }));
 
   return (
     <div className="relative overflow-x-hidden bg-bone text-ink">
@@ -35,7 +54,7 @@ export default async function HomePage() {
       <Services services={nailServices(services)} addonChips={addonChips(addons)} />
       <LashesTeaser lashes={lashServices(services)} />
       <Hygiene />
-      <Gallery />
+      <Gallery items={gallery} />
       <How />
       <Reviews />
       <FAQ />

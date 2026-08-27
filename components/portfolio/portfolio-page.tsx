@@ -11,7 +11,7 @@ import Footer from "@/components/site/footer";
 import FloatingCTA from "@/components/site/floating-cta";
 import {
   CATEGORY_LABELS,
-  PORTFOLIO_CATEGORIES,
+  PORTFOLIO_FILTERS,
   PORTFOLIO_ITEMS,
   type PortfolioItem,
 } from "@/lib/site";
@@ -89,7 +89,7 @@ export default function PortfolioPage({
         <div className="mx-auto max-w-shell px-gutter">
           {/* Filters */}
           <div className="no-scrollbar mb-[clamp(24px,4.5vh,44px)] flex gap-[9px] overflow-x-auto pb-1 nav:overflow-visible">
-            {PORTFOLIO_CATEGORIES.map((cat) => {
+            {PORTFOLIO_FILTERS.map((cat) => {
               const count =
                 cat === "All" ? items.length : items.filter((i) => i.category === cat).length;
               const isSelected = filter === cat;

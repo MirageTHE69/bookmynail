@@ -3,13 +3,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Rise, Soft } from "@/components/motion/reveal";
-import { GALLERY } from "@/lib/site";
+import { CATEGORY_LABELS, type PortfolioItem } from "@/lib/site";
 import SectionLabel from "./section-label";
 
-export default function Gallery() {
+/**
+ * The homepage rail now draws from the same portfolio records as /portfolio,
+ * so anything added in the admin panel shows up in both places. The
+ * alternating tall/square rhythm from the design is positional, applied by
+ * index via `galleryShape` rather than stored per item.
+ */
+export default function Gallery({
+  items,
+}: {
+  items: (PortfolioItem & { ratio: string; radius: string; low: boolean })[];
+}) {
   return (
     <section
       id="gallery"
+      data-track-section="gallery"
       className="overflow-hidden bg-ink py-section-y text-bone"
     >
       <div className="mx-auto max-w-shell px-gutter">
@@ -28,6 +39,7 @@ export default function Gallery() {
           <Soft>
             <Link
               href="/portfolio"
+              data-track-id="gallery-full-portfolio"
               className="inline-block whitespace-nowrap rounded-full border border-white/45 px-6 py-3.5 text-[11px] uppercase tracking-[0.16em] text-bone no-underline transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
             >
               Full portfolio
@@ -39,19 +51,16 @@ export default function Gallery() {
       {/* Horizontal scroll track */}
       <div className="no-scrollbar overflow-x-auto pb-1.5 pt-2">
         <div className="flex gap-[clamp(10px,1.4vw,18px)] px-gutter">
-          {GALLERY.map((item) => (
+          {items.map((item) => (
             <figure
-              key={item.caption}
-              className={`group m-0 flex-none w-[72vw] nav:w-[clamp(210px,23vw,320px)] ${
-                item.alignSelf === "flex-end" ? "self-end" : "self-start"
+              key={item.id}
+              className={`group m-0 w-[72vw] flex-none nav:w-[clamp(210px,23vw,320px)] ${
+                item.low ? "self-end" : "self-start"
               }`}
             >
               <div
                 className="relative overflow-hidden bg-white/5"
-                style={{
-                  borderRadius: item.radius,
-                  aspectRatio: item.ratio === "3/4" ? "3/4" : "1/1",
-                }}
+                style={{ borderRadius: item.radius, aspectRatio: item.ratio }}
               >
                 <Image
                   src={item.src}
@@ -62,7 +71,7 @@ export default function Gallery() {
                 />
               </div>
               <figcaption className="mt-3 text-[10px] uppercase tracking-[0.18em] text-bone/60">
-                {item.caption}
+                {CATEGORY_LABELS[item.category] ?? item.category}
               </figcaption>
             </figure>
           ))}

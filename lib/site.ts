@@ -418,22 +418,35 @@ export const INSTAGRAM_POSTS = [
 
 /* ── Portfolio items ───────────────────────────────────────────────── */
 
+/** Lashes sits alongside the nail categories in the same gallery. */
+export const PORTFOLIO_CATEGORIES = [
+  "Bridal",
+  "Elegant",
+  "Creative",
+  "Chrome",
+  "Lashes",
+] as const;
+export type PortfolioCategory = (typeof PORTFOLIO_CATEGORIES)[number];
+
 export type PortfolioItem = {
   id: string;
-  category: "Bridal" | "Elegant" | "Creative" | "Chrome";
+  category: PortfolioCategory;
   title: string;
   src: string;
   alt: string;
   radius?: string;
 };
 
-export const PORTFOLIO_CATEGORIES = ["All", "Bridal", "Elegant", "Creative", "Chrome"] as const;
+/** Filter bar options — "All" plus every real category. */
+export const PORTFOLIO_FILTERS = ["All", ...PORTFOLIO_CATEGORIES] as const;
+export type PortfolioFilter = (typeof PORTFOLIO_FILTERS)[number];
 
 export const CATEGORY_LABELS: Record<string, string> = {
   Bridal: "Bridal nail art",
   Elegant: "Elegant / minimalist",
   Creative: "Creative nail art",
   Chrome: "Chrome / trend",
+  Lashes: "Lash extensions",
 };
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [
