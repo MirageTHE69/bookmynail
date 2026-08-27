@@ -82,7 +82,7 @@ export const SEED_SERVICES = [
     num: "04",
     name: "Custom Nail Art",
     suffix: null,
-    price: 3999,
+    price: 3299,
     minutes: 150,
     body: "The full artistry appointment, and the one brides book. Extensions, hand-drawn detail and embellishment, with a trial session before the day itself.",
     bullets: [

@@ -38,7 +38,7 @@ export const HERO_SERVICES = [
   { id: "gel", label: "Gel Manicure · ₹899", name: "Gel Manicure", price: 899, duration: "1 hr" },
   { id: "biab", label: "Builder Gel (BIAB) · ₹1,499", name: "Builder Gel", price: 1499, duration: "1 hr 30" },
   { id: "ext", label: "Gel Extensions · ₹2,499", name: "Gel Extensions", price: 2499, duration: "2 hr" },
-  { id: "art", label: "Custom Nail Art · ₹3,999", name: "Custom Nail Art", price: 3999, duration: "2 hr 30" },
+  { id: "art", label: "Custom Nail Art · ₹3,299", name: "Custom Nail Art", price: 3299, duration: "2 hr 30" },
 ];
 
 export const HERO_TRUST = [
