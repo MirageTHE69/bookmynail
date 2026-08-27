@@ -11,7 +11,7 @@ export default function Hygiene() {
       />
 
       <div className="relative mx-auto max-w-shell px-gutter py-section-y">
-        <SectionLabel num="05" label="Hygiene, on camera" dark />
+        <SectionLabel num="06" label="Hygiene, on camera" dark />
 
         <div className="grid grid-cols-1 items-center gap-[clamp(26px,5vw,72px)] wide:grid-cols-2">
           <Wipe className="aspect-[4/5] max-w-[360px] overflow-hidden rounded-[180px_180px_12px_12px] wide:max-w-none">

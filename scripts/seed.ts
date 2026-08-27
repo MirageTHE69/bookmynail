@@ -14,17 +14,21 @@ import {
  */
 async function main() {
   const existingServices = await db.select().from(services);
-  if (existingServices.length === 0) {
-    await db.insert(services).values(SEED_SERVICES.map((s) => ({ ...s, active: true })));
-    console.log(`✓ seeded ${SEED_SERVICES.length} services`);
+  const haveServices = new Set(existingServices.map((s) => s.id));
+  const newServices = SEED_SERVICES.filter((s) => !haveServices.has(s.id));
+  if (newServices.length > 0) {
+    await db.insert(services).values(newServices.map((s) => ({ ...s, active: true })));
+    console.log(`✓ seeded ${newServices.length} new services`);
   } else {
     console.log(`· services already present (${existingServices.length}) — skipped`);
   }
 
   const existingAddons = await db.select().from(addons);
-  if (existingAddons.length === 0) {
-    await db.insert(addons).values(SEED_ADDONS.map((a) => ({ ...a, active: true })));
-    console.log(`✓ seeded ${SEED_ADDONS.length} add-ons`);
+  const haveAddons = new Set(existingAddons.map((a) => a.id));
+  const newAddons = SEED_ADDONS.filter((a) => !haveAddons.has(a.id));
+  if (newAddons.length > 0) {
+    await db.insert(addons).values(newAddons.map((a) => ({ ...a, active: true })));
+    console.log(`✓ seeded ${newAddons.length} new add-ons`);
   } else {
     console.log(`· add-ons already present (${existingAddons.length}) — skipped`);
   }

@@ -9,6 +9,7 @@ import About from "@/components/home/about";
 import Values from "@/components/home/values";
 import Compare from "@/components/home/compare";
 import Services from "@/components/home/services";
+import LashesTeaser from "@/components/home/lashes-teaser";
 import Hygiene from "@/components/home/hygiene";
 import Gallery from "@/components/home/gallery";
 import How from "@/components/home/how";
@@ -16,7 +17,7 @@ import Reviews from "@/components/home/reviews";
 import FAQ from "@/components/home/faq";
 import Social from "@/components/home/social";
 import Contact from "@/components/home/contact";
-import { addonChips, getAddons, getServices } from "@/lib/queries";
+import { addonChips, getAddons, getServices, lashServices, nailServices } from "@/lib/queries";
 
 export default async function HomePage() {
   const [services, addons] = await Promise.all([getServices(), getAddons()]);
@@ -31,7 +32,8 @@ export default async function HomePage() {
       <About />
       <Values />
       <Compare />
-      <Services services={services} addonChips={addonChips(addons)} />
+      <Services services={nailServices(services)} addonChips={addonChips(addons)} />
+      <LashesTeaser lashes={lashServices(services)} />
       <Hygiene />
       <Gallery />
       <How />

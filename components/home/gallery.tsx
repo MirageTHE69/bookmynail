@@ -13,7 +13,7 @@ export default function Gallery() {
       className="overflow-hidden bg-ink py-section-y text-bone"
     >
       <div className="mx-auto max-w-shell px-gutter">
-        <SectionLabel num="06" label="Recent work" dark />
+        <SectionLabel num="07" label="Recent work" dark />
 
         <div className="mb-[clamp(28px,5vh,52px)] grid grid-cols-1 items-end gap-[clamp(20px,4vw,56px)] nav:grid-cols-[minmax(0,1fr)_auto]">
           <h2 className="m-0 font-display text-display3 font-normal leading-[0.95] tracking-[-0.02em] text-bone">

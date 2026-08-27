@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 export const NAV_LINKS = [
   { label: "About", href: "/#about" },
   { label: "Services", href: "/services" },
+  { label: "Lashes", href: "/services#lashes" },
   { label: "Gallery", href: "/portfolio" },
   { label: "Reviews", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },
@@ -17,6 +18,7 @@ export const MENU_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#about" },
   { label: "Services", href: "/services" },
+  { label: "Lashes", href: "/services#lashes" },
   { label: "Gallery", href: "/portfolio" },
   { label: "Reviews", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },

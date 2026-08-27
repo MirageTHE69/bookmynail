@@ -42,6 +42,7 @@ export const getServices = unstable_cache(
       grad: [r.gradFrom, r.gradTo],
       cardGrad: [r.cardGradFrom, r.cardGradTo],
       accent: r.accent,
+      category: r.category,
     }));
   },
   ["services"],
@@ -55,7 +56,7 @@ export const getAddons = unstable_cache(
       .from(addons)
       .where(eq(addons.active, true))
       .orderBy(asc(addons.sortOrder));
-    return rows.map((r) => ({ id: r.id, label: r.label, price: r.price }));
+    return rows.map((r) => ({ id: r.id, label: r.label, price: r.price, on: r.on }));
   },
   ["addons"],
   { tags: [TAGS.addons] },
@@ -115,4 +116,23 @@ export function addonChips(list: Addon[]): string[] {
 /** "All" plus only those categories that currently have work behind them. */
 export function portfolioFilters(items: PortfolioItem[]): string[] {
   return ["All", ...Array.from(new Set(items.map((i) => i.category)))];
+}
+
+/* ── Booking menu grouping ─────────────────────────────────────────── */
+
+/** Nail services only — the homepage accordion and the Services card grid. */
+export const nailServices = (all: Service[]) => all.filter((s) => s.category === "nails");
+
+/** The four bookable lash sets. */
+export const lashServices = (all: Service[]) => all.filter((s) => s.category === "lashes");
+
+/** Lift, tint and removal — priced separately from the mapped sets. */
+export const lashExtras = (all: Service[]) => all.filter((s) => s.category === "lash-extra");
+
+/** The booking form offers everything. */
+export const bookableServices = (all: Service[]) => all;
+
+/** Add-ons shown for a given service, based on which menu it belongs to. */
+export function addonsFor(all: Addon[], category: Service["category"]): Addon[] {
+  return all.filter((a) => a.on === (category === "nails" ? "nails" : "lashes"));
 }

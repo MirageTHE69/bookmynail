@@ -59,7 +59,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   [data-svc-head] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
   [data-svc-card-grid] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
   [data-steps] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; row-gap: 30px !important; }
+  [data-lash-head] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
+  [data-lash-grid] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-lash-foot] { grid-template-columns: minmax(0,1fr) !important; }
   [data-book-grid] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-lash-map] { max-width: 520px; }
   [data-summary] { position: static !important; }
 }
 @media (max-width: 760px) {
@@ -71,6 +75,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   [data-svc-card-grid] { grid-template-columns: minmax(0,1fr) !important; }
   [data-steps] { grid-template-columns: minmax(0,1fr) !important; }
   [data-field-row] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-lash-facts] { grid-template-columns: minmax(0,1fr) !important; }
+  [data-lash-tier] { grid-template-columns: auto minmax(0,1fr) !important; row-gap: 10px !important; }
+  [data-lash-tier] > span:last-child { grid-column: 2; text-align: left !important; }
   [data-float-label] { display: none; }
   body[data-menu-open] [data-float-wa] { display: none !important; }
   [data-float-wa] { padding: 0 18px !important; }
@@ -87,6 +94,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   <div style="display:flex; align-items:center; gap:clamp(14px,2.2vw,32px);">
     <a href="BookMyNail v3.dc.html#about" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">About</a>
     <a href="#menu" data-nav-link aria-current="page" style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--blush); opacity:1;">Services</a>
+    <a href="#lashes" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Lashes</a>
     <a href="Portfolio.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Gallery</a>
     <a href="BookMyNail v3.dc.html#reviews" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Reviews</a>
     <a href="BookMyNail v3.dc.html#faq" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">FAQ</a>
@@ -102,6 +110,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   <a data-menu-link href="BookMyNail v3.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Home</a>
   <a data-menu-link href="BookMyNail v3.dc.html#about" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">About</a>
   <a data-menu-link href="#menu" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Services</a>
+  <a data-menu-link href="#lashes" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Lashes</a>
   <a data-menu-link href="Portfolio.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Gallery</a>
   <a data-menu-link href="BookMyNail v3.dc.html#reviews" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Reviews</a>
   <a data-menu-link href="BookMyNail v3.dc.html#faq" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">FAQ</a>
@@ -118,11 +127,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
         <span data-rise style="display:block; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--bone); opacity:0.82;">Services &amp; booking · Ahmedabad</span>
       </div>
       <h1 style="margin:0 0 clamp(20px,3.4vh,34px); font-family:var(--display); font-weight:400; font-size:clamp(42px,7.6vw,124px); line-height:0.9; letter-spacing:-0.02em; color:var(--bone);">
-        <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Pick a service.</span></span>
-        <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">We'll come to you.</span></span>
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Nails and lashes.</span></span>
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">We come to you.</span></span>
       </h1>
       <div data-soft style="border-top:1px solid rgba(247,242,236,0.32); padding-top:clamp(18px,2.6vh,26px); max-width:580px;">
-        <p style="margin:0 0 22px; font-size:15.5px; line-height:1.7; color:var(--bone); opacity:0.92;">Four core services, a full add-on menu, and a booking form that tells you the total before you send it. Travel anywhere in Ahmedabad is included.</p>
+        <p style="margin:0 0 22px; font-size:15.5px; line-height:1.7; color:var(--bone); opacity:0.92;">Four nail services, fifteen lash sets, a full add-on menu, and a booking form that shows your total as you build it. Travel anywhere in Ahmedabad is included.</p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <a href="#book" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, box-shadow 0.3s ease;" style-hover="transform:translateY(-3px); box-shadow:0 14px 30px rgba(26,22,20,0.24);">Book an appointment</a>
           <a href="#menu" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--bone); border:1px solid rgba(247,242,236,0.5); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:rgba(247,242,236,0.14);">See the menu</a>
@@ -181,11 +190,152 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   </div>
 </section>
 
+<section id="lashes" style="background:var(--shell); padding:clamp(64px,11vh,130px) 0; border-top:1px solid var(--shell-line);">
+  <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px); flex-wrap:wrap;">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--lilac);">02</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Signature lash menu</span>
+      <span data-soft style="font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--bone); background:var(--plum); padding:6px 12px; border-radius:100px;">New</span>
+    </div>
+
+    <div data-lash-head style="display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:clamp(24px,5vw,72px); align-items:end; margin-bottom:clamp(30px,5vh,56px);">
+      <h2 style="margin:0; font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em;">
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Now lashes,</span></span>
+        <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic; color:var(--plum);">mapped to your eyes.</span></span>
+      </h2>
+      <p data-soft style="margin:0; font-size:14.5px; line-height:1.7; color:rgba(26,22,20,0.65); max-width:40ch;">Start with the look you want, then choose how full. Every set is mapped to your eye shape before a single extension goes on.</p>
+    </div>
+
+    <div data-lash-grid style="display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr); gap:clamp(24px,4vw,64px); align-items:start;">
+
+      <div>
+        <p data-soft style="margin:0 0 16px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Step one · the look</p>
+        <div style="display:grid; gap:10px; margin-bottom:clamp(26px,4vh,40px);">
+          <sc-for list="{{ lashLooks }}" as="l" hint-placeholder-count="4">
+            <button type="button" data-lash-look onClick="{{ l.onPick }}" aria-pressed="{{ l.on }}" style="position:relative; overflow:hidden; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:16px; align-items:center; width:100%; min-height:56px; padding:clamp(15px,2.2vh,21px) clamp(15px,2vw,22px); cursor:pointer; text-align:left; font-family:inherit; color:inherit; background:{{ l.bg }}; border:1px solid {{ l.border }}; border-radius:8px; transition:background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);">
+              <span aria-hidden="true" style="width:34px; height:34px; border-radius:50%; background:{{ l.dot }}; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);"></span>
+              <span>
+                <span style="display:block; font-family:var(--display); font-size:clamp(18px,1.9vw,24px); line-height:1.15; letter-spacing:-0.01em;">{{ l.name }}</span>
+                <span style="display:block; margin-top:5px; font-size:12.5px; line-height:1.5; color:{{ l.subColor }};">{{ l.blurb }}</span>
+              </span>
+              <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:{{ l.subColor }}; white-space:nowrap;">{{ l.tierCount }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div data-soft data-lash-map style="background:var(--bone); border:1px solid var(--shell-line); border-radius:8px; padding:clamp(18px,3vh,26px) clamp(16px,2.2vw,24px);">
+          <p style="margin:0 0 4px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">The map</p>
+          <p data-map-where style="margin:0 0 clamp(16px,2.6vh,22px); font-family:var(--display); font-size:clamp(16px,1.7vw,21px); line-height:1.25; letter-spacing:-0.01em; color:{{ lashMap.accent }};">{{ lashMap.where }}</p>
+
+          <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:clamp(3px,0.7vw,7px); height:clamp(84px,11vh,116px); padding-bottom:9px; border-bottom:2px solid {{ lashMap.accent }};">
+            <sc-for list="{{ lashMap.bars }}" as="b" hint-placeholder-count="9">
+              <span data-map-bar style="display:block; flex:1; height:{{ b.h }}; border-radius:3px 3px 0 0; background:{{ b.fill }}; transition:height 0.55s cubic-bezier(0.16,1,0.3,1), background 0.4s ease;"></span>
+            </sc-for>
+          </div>
+          <div style="display:flex; justify-content:space-between; gap:10px; margin-top:10px; font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(26,22,20,0.42);">
+            <span>Inner</span><span>Centre</span><span>Outer</span>
+          </div>
+
+          <p style="margin:clamp(16px,2.6vh,22px) 0 0; font-size:12.5px; line-height:1.65; color:rgba(26,22,20,0.62);">Each bar is a lash length along your lash line. Your artist re-measures this on your own eye shape before the first extension goes on.</p>
+        </div>
+      </div>
+
+      <div>
+        <p data-soft style="margin:0 0 16px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Step two · how full</p>
+        <div data-lash-ladder style="display:grid; gap:0; margin-bottom:clamp(24px,4vh,36px);">
+          <sc-for list="{{ lashTiers }}" as="t" hint-placeholder-count="4">
+            <div data-lash-tier style="position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:clamp(14px,2.4vw,30px); align-items:center; padding:clamp(18px,2.8vh,26px) clamp(14px,2vw,22px); background:{{ t.bg }}; border:1px solid {{ t.border }}; border-radius:8px; margin-bottom:8px; transition:background 0.4s ease, border-color 0.4s ease;">
+              <span aria-hidden="true" style="display:flex; align-items:flex-end; gap:3px; height:{{ t.barHeight }};">
+                <sc-for list="{{ t.bars }}" as="b" hint-placeholder-count="3">
+                  <span style="display:block; width:3px; height:{{ b.h }}; border-radius:2px; background:{{ b.color }};"></span>
+                </sc-for>
+              </span>
+              <span>
+                <span style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+                  <span style="font-family:var(--display); font-size:clamp(19px,2.1vw,27px); line-height:1.1; letter-spacing:-0.01em; color:{{ t.nameColor }};">{{ t.styleName }}</span>
+                  <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:{{ t.metaColor }};">{{ t.tierName }}</span>
+                </span>
+                <span style="display:block; margin-top:6px; font-size:12.5px; line-height:1.55; color:{{ t.metaColor }};">{{ t.detail }}</span>
+              </span>
+              <span style="text-align:right; white-space:nowrap;">
+                <span style="display:block; font-family:var(--display); font-size:clamp(19px,2.1vw,27px); line-height:1; color:{{ t.nameColor }};">{{ t.price }}</span>
+                <span style="display:block; margin-top:5px; font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:{{ t.metaColor }};">{{ t.duration }}</span>
+              </span>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ lashSignature.show }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-bottom:clamp(24px,4vh,36px);">
+            <p style="margin:0 0 12px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Signature textures · no mapping needed</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ lashSignature.items }}" as="s" hint-placeholder-count="3">
+                <span style="display:flex; align-items:baseline; gap:10px; padding:11px 17px; border-radius:100px; background:var(--bone); border:1px solid var(--shell-line);">
+                  <span style="font-size:12.5px;">{{ s.name }}</span>
+                  <span style="font-family:var(--display); font-size:15px;">{{ s.price }}</span>
+                </span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <div data-lash-facts style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; background:var(--shell-line); border:1px solid var(--shell-line); border-radius:8px; overflow:hidden;">
+          <div style="background:var(--bone); padding:clamp(16px,2.4vh,22px) clamp(14px,1.8vw,20px);">
+            <p style="margin:0; font-family:var(--display); font-size:clamp(20px,2.3vw,30px); line-height:1; letter-spacing:-0.02em; color:var(--plum);">2–3 wks</p>
+            <p style="margin:7px 0 0; font-size:11.5px; line-height:1.5; color:rgba(26,22,20,0.62);">Between infills</p>
+          </div>
+          <div style="background:var(--bone); padding:clamp(16px,2.4vh,22px) clamp(14px,1.8vw,20px);">
+            <p style="margin:0; font-family:var(--display); font-size:clamp(20px,2.3vw,30px); line-height:1; letter-spacing:-0.02em; color:var(--plum);">6–8 wks</p>
+            <p style="margin:7px 0 0; font-size:11.5px; line-height:1.5; color:rgba(26,22,20,0.62);">A full set, with infills</p>
+          </div>
+          <div style="background:var(--bone); padding:clamp(16px,2.4vh,22px) clamp(14px,1.8vw,20px);">
+            <p style="margin:0; font-family:var(--display); font-size:clamp(20px,2.3vw,30px); line-height:1; letter-spacing:-0.02em; color:var(--plum);">24 hrs</p>
+            <p style="margin:7px 0 0; font-size:11.5px; line-height:1.5; color:rgba(26,22,20,0.62);">Keep dry after fitting</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-lash-foot style="margin-top:clamp(34px,5.5vh,60px); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(20px,4vw,56px); border-top:1px solid var(--shell-line); padding-top:clamp(24px,4vh,38px);">
+      <div data-soft>
+        <p style="margin:0 0 14px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Lash lift &amp; tint · separate services</p>
+        <div style="display:grid; gap:0;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--shell-line);">
+            <span style="font-size:14px;">Lash lift <span style="font-size:11px; color:rgba(26,22,20,0.5);">· 45 min</span></span>
+            <span style="font-family:var(--display); font-size:18px;">₹1,799</span>
+          </div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--shell-line);">
+            <span style="font-size:14px;">Lash lift + tint <span style="font-size:11px; color:rgba(26,22,20,0.5);">· 60 min</span></span>
+            <span style="font-family:var(--display); font-size:18px;">₹2,199</span>
+          </div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--shell-line);">
+            <span style="font-size:14px;">Lash tint only <span style="font-size:11px; color:rgba(26,22,20,0.5);">· 30 min</span></span>
+            <span style="font-family:var(--display); font-size:18px;">₹899</span>
+          </div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:13px 0;">
+            <span style="font-size:14px;">Extension removal <span style="font-size:11px; color:rgba(26,22,20,0.5);">· 30 min</span></span>
+            <span style="font-family:var(--display); font-size:18px;">₹499</span>
+          </div>
+        </div>
+      </div>
+      <div data-soft>
+        <p style="margin:0 0 14px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,22,20,0.45);">Aftercare, in short</p>
+        <ul style="margin:0; padding:0; list-style:none; display:grid; gap:11px;">
+          <li style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; font-size:13.5px; line-height:1.65;"><span style="width:12px; height:1px; background:var(--lilac); margin-top:10px;"></span><span>No water, steam or sweat for the first 24 hours</span></li>
+          <li style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; font-size:13.5px; line-height:1.65;"><span style="width:12px; height:1px; background:var(--lilac); margin-top:10px;"></span><span>Skip oil-based cleansers, removers and creams near the eye</span></li>
+          <li style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; font-size:13.5px; line-height:1.65;"><span style="width:12px; height:1px; background:var(--lilac); margin-top:10px;"></span><span>Brush through with the spoolie we leave you, once a day</span></li>
+          <li style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; font-size:13.5px; line-height:1.65;"><span style="width:12px; height:1px; background:var(--lilac); margin-top:10px;"></span><span>Sleep on your back where you can; no lash curlers or mascara</span></li>
+          <li style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; font-size:13.5px; line-height:1.65;"><span style="width:12px; height:1px; background:var(--lilac); margin-top:10px;"></span><span>Book your infill at 2–3 weeks to keep the set full</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="steps" style="background:var(--ink); color:var(--bone); padding:clamp(64px,11vh,130px) 0; position:relative; overflow:hidden;">
   <div style="position:absolute; inset:0; opacity:0.2; background:linear-gradient(145deg,#56203C,#BF5634);"></div>
   <div style="position:relative; max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">02</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">03</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(247,242,236,0.55);">Before you book</span>
     </div>
     <h2 style="margin:0 0 clamp(32px,6vh,64px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em; max-width:16ch;">
@@ -224,7 +374,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 <section id="book" style="padding:clamp(64px,11vh,130px) 0;">
   <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">03</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">04</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Book your appointment</span>
     </div>
     <h2 style="margin:0 0 clamp(32px,5vh,56px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,96px); line-height:0.95; letter-spacing:-0.02em; max-width:15ch;">
@@ -240,8 +390,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
           <label style="display:grid; gap:9px;">
             <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(26,22,20,0.6);">Service</span>
             <select value="{{ form.service }}" onChange="{{ onServiceChange }}" style="width:100%; min-height:52px; box-sizing:border-box; padding:14px 16px; font-size:15px; color:var(--ink); background:var(--shell); border:1px solid var(--shell-line); border-radius:8px;">
-              <sc-for list="{{ serviceOptions }}" as="o" hint-placeholder-count="4">
-                <option value="{{ o.value }}">{{ o.label }}</option>
+              <sc-for list="{{ serviceGroups }}" as="g" hint-placeholder-count="3">
+                <optgroup label="{{ g.label }}">
+                  <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+                    <option value="{{ o.value }}">{{ o.label }}</option>
+                  </sc-for>
+                </optgroup>
               </sc-for>
             </select>
           </label>
@@ -404,6 +558,24 @@ const SERVICES = [
     blurb: 'The full artistry appointment. Extensions, hand-drawn detail and embellishment, bridal trial included.' }
 ];
 
+// The four densities only — priced from the entry set in each tier.
+// Lift, tint and removal live in LASH_EXTRAS at their own fixed prices.
+const LASH_BOOKABLE = [
+  { id: 'lash-classic', name: 'Classic Lashes', price: 2499, minutes: 90 },
+  { id: 'lash-hybrid',  name: 'Hybrid Lashes',  price: 3299, minutes: 120 },
+  { id: 'lash-volume',  name: 'Volume Lashes',  price: 3999, minutes: 150 },
+  { id: 'lash-russian', name: 'Russian & Mega Volume', price: 4499, minutes: 180 }
+];
+
+const LASH_EXTRAS = [
+  { id: 'lash-lift', name: 'Lash lift', price: 1799, minutes: 45 },
+  { id: 'lash-lift-tint', name: 'Lash lift + tint', price: 2199, minutes: 60 },
+  { id: 'lash-tint', name: 'Lash tint only', price: 899, minutes: 30 },
+  { id: 'lash-removal', name: 'Extension removal', price: 499, minutes: 30 }
+];
+
+const ALL_BOOKABLE = SERVICES.concat(LASH_BOOKABLE, LASH_EXTRAS);
+
 // Minutes → a readable label: 60 → "1 hr", 150 → "2 hr 30 min".
 const dur = (mins) => {
   const h = Math.floor(mins / 60);
@@ -412,20 +584,83 @@ const dur = (mins) => {
   return h + ' hr' + (m ? ' ' + m + ' min' : '');
 };
 
+// Add-ons belong to a vertical: a lash booking must never be able to add
+// a gel pedicure, and vice versa.
 const ADDONS = [
-  { id: 'removal', label: 'Gel removal', price: 299 },
-  { id: 'chrome', label: 'Chrome finish', price: 399 },
-  { id: 'art', label: 'Per-nail art', price: 99 },
-  { id: 'pedi', label: 'Gel pedicure', price: 1099 },
-  { id: 'repair', label: 'Nail repair', price: 149 }
+  { id: 'removal', label: 'Gel removal', price: 299, on: 'nails' },
+  { id: 'chrome', label: 'Chrome finish', price: 399, on: 'nails' },
+  { id: 'art', label: 'Per-nail art', price: 99, on: 'nails' },
+  { id: 'pedi', label: 'Gel pedicure', price: 1099, on: 'nails' },
+  { id: 'repair', label: 'Nail repair', price: 149, on: 'nails' },
+  { id: 'lash-off', label: 'Extension removal', price: 499, on: 'lashes' },
+  { id: 'lash-tint-add', label: 'Lash tint', price: 899, on: 'lashes' },
+  { id: 'lash-infill', label: 'Infill within 3 weeks', price: 1299, on: 'lashes' }
 ];
 
+// Every lash service id is prefixed lash-; everything else is nails.
+const verticalOf = (serviceId) => (String(serviceId).indexOf('lash-') === 0 ? 'lashes' : 'nails');
+const addonsFor = (serviceId) => ADDONS.filter((a) => a.on === verticalOf(serviceId));
+
 const TIMES = ['9–11 AM', '11 AM–1 PM', '1–4 PM', '4–7 PM', '7–9 PM'];
+
+// Lash menu, indexed by the LOOK (eye mapping) so one choice shows every
+// density that offers it. Tiers carry their own duration and bar weight.
+const LASH_TIERS = {
+  classic:  { name: 'Classic',        minutes: 90,  bars: [7, 11, 8],          weight: 1 },
+  hybrid:   { name: 'Hybrid',         minutes: 120, bars: [8, 13, 10, 7],      weight: 2 },
+  volume:   { name: 'Volume',         minutes: 150, bars: [9, 15, 12, 9, 7],   weight: 3 },
+  russian:  { name: 'Russian & Mega', minutes: 180, bars: [10, 18, 15, 12, 9, 7], weight: 4 }
+};
+
+// map[] = relative lash length at 9 points across the eye, inner → outer.
+// This is the actual mapping an artist works to, so it doubles as the visual.
+const LASH_LOOKS = [
+  { id: 'natural', name: 'Natural', blurb: 'Clean, everyday mascara effect', dot: 'linear-gradient(140deg,#A85F63,#F7EDE4)',
+    accent: '#A85F63', where: 'Even through the lash line',
+    map: [0.42, 0.54, 0.66, 0.76, 0.82, 0.84, 0.8, 0.7, 0.56],
+    sets: [
+      { tier: 'classic', style: 'Classic Natural', detail: 'One extension per natural lash', price: 2499 },
+      { tier: 'hybrid',  style: 'Hybrid Natural',  detail: 'Classic base with volume texture through it', price: 3299 }
+    ] },
+  { id: 'cat', name: 'Cat Eye', blurb: 'Elongated, lifted outer corners', dot: 'linear-gradient(140deg,#56203C,#BF5634)',
+    accent: '#BF5634', where: 'Length built to the outer corner',
+    map: [0.3, 0.38, 0.46, 0.56, 0.68, 0.79, 0.9, 0.97, 1],
+    sets: [
+      { tier: 'classic', style: 'Classic Cat Eye', detail: 'Length built toward the outer corner', price: 2799 },
+      { tier: 'hybrid',  style: 'Hybrid Cat Eye',  detail: 'Wispy, lifted and elongated', price: 3499 },
+      { tier: 'volume',  style: 'Volume Cat Eye',  detail: 'Fuller and more elongated', price: 3999 },
+      { tier: 'russian', style: 'Russian Cat Eye', detail: 'Russian density on cat-eye mapping', price: 4799 },
+      { tier: 'russian', style: 'Mega Russian Cat Eye', detail: 'Ultra-glam, editorial finish', price: 5999 }
+    ] },
+  { id: 'doll', name: 'Doll Eye', blurb: 'Open, rounded, brighter eyes', dot: 'linear-gradient(140deg,#43305E,#E3D8F0)',
+    accent: '#43305E', where: 'Longest through the centre',
+    map: [0.36, 0.5, 0.68, 0.86, 1, 0.94, 0.78, 0.6, 0.44],
+    sets: [
+      { tier: 'classic', style: 'Classic Doll Eye', detail: 'Length through the centre to open the eye', price: 2799 },
+      { tier: 'hybrid',  style: 'Hybrid Doll Eye',  detail: 'Fuller centre, open-eye effect', price: 3499 },
+      { tier: 'volume',  style: 'Volume Doll Eye',  detail: 'Dramatic but still eye-opening', price: 3999 }
+    ] },
+  { id: 'wispy', name: 'Wispy', blurb: 'Soft, feathery and feminine', dot: 'linear-gradient(140deg,#8E3A1F,#F0C3A6)',
+    accent: '#8E3A1F', where: 'Alternating spikes for a feathered edge',
+    map: [0.4, 0.72, 0.46, 0.86, 0.54, 0.96, 0.6, 0.88, 0.5],
+    sets: [
+      { tier: 'classic', style: 'Wispy Classic', detail: 'Alternating lengths for a feathered edge', price: 2999 },
+      { tier: 'volume',  style: 'Wispy Volume',  detail: 'Fluffy, soft and camera-friendly', price: 4299 }
+    ] }
+];
+
+// Textures defined by finish rather than eye mapping.
+const LASH_SIGNATURE = [
+  { name: 'Wet Look / Kim K', price: 3699, looks: ['natural', 'cat', 'doll', 'wispy'] },
+  { name: 'Russian Volume', price: 4499, looks: ['natural', 'doll', 'wispy'] },
+  { name: 'Mega Volume', price: 5499, looks: ['natural', 'cat', 'doll', 'wispy'] }
+];
 
 const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
 
 class Component extends DCLogic {
   state = {
+    lashLook: 'cat',
     service: 'gel',
     addons: [],
     people: 1,
@@ -449,7 +684,8 @@ class Component extends DCLogic {
       const p = new URLSearchParams(window.location.search);
       const next = {};
       const svc = p.get('service');
-      if (svc && SERVICES.some((s) => s.id === svc)) next.service = svc;
+      // must accept lash + lift ids too, not just nails
+      if (svc && ALL_BOOKABLE.some((s) => s.id === svc)) next.service = svc;
       if (p.get('date')) next.date = p.get('date');
       if (p.get('area')) next.area = p.get('area');
       if (Object.keys(next).length) this.setState(next);
@@ -574,6 +810,16 @@ class Component extends DCLogic {
   }
 
   set(key, value) {
+    if (key === 'service') {
+      // Switching vertical invalidates any add-on from the other menu.
+      const allowed = addonsFor(value).map((a) => a.id);
+      this.setState((s) => ({
+        service: value,
+        addons: s.addons.filter((id) => allowed.indexOf(id) !== -1),
+        message: ''
+      }));
+      return;
+    }
     this.setState({ [key]: value, message: '' });
   }
 
@@ -585,9 +831,9 @@ class Component extends DCLogic {
   }
 
   totals() {
-    const svc = SERVICES.find((s) => s.id === this.state.service) || SERVICES[0];
+    const svc = ALL_BOOKABLE.find((s) => s.id === this.state.service) || ALL_BOOKABLE[0];
     const people = this.state.people;
-    const picked = ADDONS.filter((a) => this.state.addons.includes(a.id));
+    const picked = addonsFor(this.state.service).filter((a) => this.state.addons.includes(a.id));
     const addonTotal = picked.reduce((sum, a) => sum + a.price, 0) * people;
     const base = svc.price * people;
     const discount = people > 1 ? Math.round((base + addonTotal) * 0.15) : 0;
@@ -641,7 +887,7 @@ class Component extends DCLogic {
       };
     });
 
-    const addons = ADDONS.map((a) => {
+    const addons = addonsFor(st.service).map((a) => {
       const on = st.addons.includes(a.id);
       return {
         label: a.label + ' · ' + inr(a.price),
@@ -694,8 +940,63 @@ class Component extends DCLogic {
         : 'One person · about ' + dur(t.svc.minutes)
     };
 
+    const activeLook = LASH_LOOKS.find((l) => l.id === st.lashLook) || LASH_LOOKS[0];
+
+    const lashLooks = LASH_LOOKS.map((l) => {
+      const on = l.id === st.lashLook;
+      return {
+        name: l.name,
+        blurb: l.blurb,
+        dot: l.dot,
+        on,
+        tierCount: l.sets.length + (l.sets.length === 1 ? ' set' : ' sets'),
+        bg: on ? 'var(--plum)' : 'var(--bone)',
+        border: on ? 'var(--plum)' : 'var(--shell-line)',
+        subColor: on ? 'rgba(255,255,255,0.72)' : 'rgba(26,22,20,0.55)',
+        onPick: () => this.setState({ lashLook: l.id })
+      };
+    }).map((l, i) => Object.assign(l, { key: LASH_LOOKS[i].id }));
+
+    const lashTiers = activeLook.sets.map((set) => {
+      const tier = LASH_TIERS[set.tier];
+      const on = tier.weight >= 3;
+      return {
+        key: set.style,
+        styleName: set.style,
+        tierName: tier.name,
+        detail: set.detail,
+        price: inr(set.price),
+        duration: dur(tier.minutes),
+        bg: on ? 'color-mix(in srgb, var(--plum) 7%, var(--bone))' : 'var(--bone)',
+        border: on ? 'color-mix(in srgb, var(--plum) 26%, transparent)' : 'var(--shell-line)',
+        nameColor: 'var(--ink)',
+        metaColor: 'rgba(26,22,20,0.55)',
+        barHeight: '18px',
+        bars: tier.bars.map((h, i) => ({
+          key: set.style + '-' + i,
+          h: h + 'px',
+          color: on ? 'var(--plum)' : 'var(--terracotta)'
+        }))
+      };
+    });
+
+    const sigItems = LASH_SIGNATURE.filter((s) => s.looks.includes(activeLook.id))
+      .map((s) => ({ key: s.name, name: s.name, price: inr(s.price) }));
+
     return {
       form: st,
+      lashLooks,
+      lashMap: {
+        accent: activeLook.accent,
+        where: activeLook.where,
+        bars: (activeLook.map || []).map((v, i) => ({
+          key: activeLook.id + '-' + i,
+          h: Math.round(v * 100) + '%',
+          fill: 'color-mix(in srgb, ' + activeLook.accent + ' ' + Math.round(38 + v * 62) + '%, #F4EEE7)'
+        }))
+      },
+      lashTiers,
+      lashSignature: { show: sigItems.length > 0, items: sigItems },
       serviceCards,
       addons,
       timeSlots,
@@ -707,7 +1008,11 @@ class Component extends DCLogic {
       confirmNote: t.svc.name + ' · ' + (whenLabel) + '. Your artist will call on ' + (st.phone || 'your number') + ' to confirm the exact arrival time. Total ' + inr(t.total) + ', payable after the appointment.',
       onReset: () => this.reset(),
       msgColor: st.messageOk ? 'var(--blush)' : '#F0A9A0',
-      serviceOptions: SERVICES.map((s) => ({ value: s.id, label: s.name + ' · ' + inr(s.price) })),
+      serviceGroups: [
+        { label: 'Nails', options: SERVICES.map((s) => ({ value: s.id, label: s.name + ' · ' + inr(s.price) })) },
+        { label: 'Lashes', options: LASH_BOOKABLE.map((s) => ({ value: s.id, label: s.name + ' · from ' + inr(s.price) })) },
+        { label: 'Lash lift & tint', options: LASH_EXTRAS.map((s) => ({ value: s.id, label: s.name + ' · ' + inr(s.price) })) }
+      ],
       onServiceChange: (e) => this.set('service', e.target.value),
       onDate: (e) => this.set('date', e.target.value),
       onName: (e) => this.set('name', e.target.value),

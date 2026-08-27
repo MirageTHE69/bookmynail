@@ -7,6 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const Lead = z.object({
+  reference: z.string().max(32).optional().nullable(),
   name: z.string().min(1).max(120),
   phone: z.string().min(6).max(30),
   email: z.string().max(160).optional().nullable(),

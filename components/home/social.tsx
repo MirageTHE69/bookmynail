@@ -7,7 +7,7 @@ export default function Social() {
   return (
     <section id="social" data-section-light className="bg-bone pb-section-y">
       <div className="mx-auto max-w-shell px-gutter">
-        <SectionLabel num="10" label="Follow along" />
+        <SectionLabel num="11" label="Follow along" />
 
         <div className="mb-[clamp(24px,4vh,40px)] grid grid-cols-1 items-end gap-[clamp(20px,4vw,56px)] nav:grid-cols-[minmax(0,1fr)_auto]">
           <h2 className="m-0 max-w-[22ch] font-display text-[clamp(28px,4.6vw,72px)] font-normal leading-[0.98] tracking-[-0.02em] text-ink">

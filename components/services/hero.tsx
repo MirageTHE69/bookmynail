@@ -32,9 +32,9 @@ export default function ServicesHero() {
           </Rise>
 
           <h1 className="m-0 mb-[clamp(20px,3.4vh,34px)] font-display text-hero-svc font-normal leading-[0.9] tracking-[-0.02em] text-bone">
-            <Rise hero>Pick a service.</Rise>
+            <Rise hero>Nails and lashes.</Rise>
             <Rise hero innerClassName="italic">
-              We&apos;ll come to you.
+              We come to you.
             </Rise>
           </h1>
 
@@ -43,8 +43,8 @@ export default function ServicesHero() {
             className="max-w-[580px] border-t border-bone/30 pt-[clamp(18px,2.6vh,26px)]"
           >
             <p className="m-0 mb-[22px] text-[15.5px] leading-[1.7] text-bone/90">
-              Four core services, a full add-on menu, and a booking form that tells you the total
-              before you send it. Travel anywhere in Ahmedabad is included.
+              Four nail services, fifteen lash sets, a full add-on menu, and a booking form that
+              shows your total as you build it. Travel anywhere in Ahmedabad is included.
             </p>
             <div className="flex flex-wrap gap-2.5">
               <a

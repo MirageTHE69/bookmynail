@@ -162,11 +162,16 @@ export type Service = {
   grad: [string, string];
   cardGrad: [string, string];
   accent: string;
+  /** Groups the booking menu and the admin content page. */
+  category: ServiceCategory;
 };
+
+export type ServiceCategory = "nails" | "lashes" | "lash-extra";
+export type AddonScope = "nails" | "lashes";
 
 export const fullName = (s: Service) => (s.suffix ? `${s.name} ${s.suffix}` : s.name);
 
-export type Addon = { id: string; label: string; price: number };
+export type Addon = { id: string; label: string; price: number; on: AddonScope };
 
 export const TIMES = ["9–11 AM", "11 AM–1 PM", "1–4 PM", "4–7 PM", "7–9 PM"];
 
@@ -315,19 +320,19 @@ export type Review = { quote: string; name: string; tint: [string, string] };
 export const REVIEWS: Review[] = [
   {
     quote:
-      "“She set up at my dining table and I didn't move for two hours. Best manicure I've had, and I never left the house.”",
+      "\"She set up at my dining table and I didn't move for two hours. Best manicure I've had, and I never left the house.\"",
     name: "Riya M. · Bodakdev",
     tint: ["#43305E", "#B4A2D4"],
   },
   {
     quote:
-      "“Booked the bridal art with a trial first. On the day my nails were the one thing I didn't have to worry about.”",
+      "\"Booked the bridal art with a trial first. On the day my nails were the one thing I didn't have to worry about.\"",
     name: "Anjali P. · Satellite",
     tint: ["#56203C", "#BF5634"],
   },
   {
     quote:
-      "“The kit was opened in front of me and everything was sealed. As a new mum, having them come to me changed everything.”",
+      "\"The kit was opened in front of me and everything was sealed. As a new mum, having them come to me changed everything.\"",
     name: "Shreya D. · Prahlad Nagar",
     tint: ["#3F4A52", "#9BA5AC"],
   },

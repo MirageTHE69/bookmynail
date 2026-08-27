@@ -5,6 +5,12 @@ import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core
  * so the public site renders identically after the move.
  */
 
+export const SERVICE_CATEGORIES = ["nails", "lashes", "lash-extra"] as const;
+export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
+
+export const ADDON_SCOPES = ["nails", "lashes"] as const;
+export type AddonScope = (typeof ADDON_SCOPES)[number];
+
 export const services = sqliteTable("services", {
   id: text("id").primaryKey(),
   num: text("num").notNull(),
@@ -24,6 +30,8 @@ export const services = sqliteTable("services", {
   cardGradFrom: text("card_grad_from").notNull(),
   cardGradTo: text("card_grad_to").notNull(),
   accent: text("accent").notNull(),
+  /** Groups the booking menu and the admin content page. */
+  category: text("category").$type<ServiceCategory>().notNull().default("nails"),
   sortOrder: integer("sort_order").notNull().default(0),
   /** Soft delete: historical leads must keep resolving their service. */
   active: integer("active", { mode: "boolean" }).notNull().default(true),
@@ -33,6 +41,8 @@ export const addons = sqliteTable("addons", {
   id: text("id").primaryKey(),
   label: text("label").notNull(),
   price: integer("price").notNull(),
+  /** Which menu the add-on belongs to; the booking form filters on it. */
+  on: text("on").$type<AddonScope>().notNull().default("nails"),
   sortOrder: integer("sort_order").notNull().default(0),
   active: integer("active", { mode: "boolean" }).notNull().default(true),
 });
@@ -68,6 +78,8 @@ export const leads = sqliteTable(
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
     createdAt: integer("created_at").notNull(),
+    /** Shown to the customer on confirmation, e.g. BMN-481920. */
+    reference: text("reference"),
     name: text("name").notNull(),
     phone: text("phone").notNull(),
     email: text("email"),

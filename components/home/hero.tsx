@@ -72,7 +72,7 @@ export default function Hero() {
 
         <h1 className="m-0 mb-[clamp(18px,2.8vh,28px)] max-w-[14ch] font-display text-[clamp(44px,8vw,132px)] font-normal leading-[0.88] tracking-[-0.025em] text-bone">
           <span className="block overflow-hidden">
-            <Rise hero>Luxury nails,</Rise>
+            <Rise hero>Nails and lashes,</Rise>
           </span>
           <span className="block overflow-hidden">
             <Rise hero innerClassName="italic">

@@ -4,12 +4,13 @@ import Footer from "@/components/site/footer";
 import FloatingCTA from "@/components/site/floating-cta";
 import ServicesHero from "@/components/services/hero";
 import ServicesBody from "@/components/services/services-body";
-import { getAddons, getServices } from "@/lib/queries";
+import LashMenu from "@/components/services/lash-menu";
+import { getAddons, getServices, lashExtras } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Services & booking — BookMyNail",
   description:
-    "Gel manicure, builder gel, gel extensions and custom nail art at your door in Ahmedabad. See prices and book in one message.",
+    "Nails and lashes at your door in Ahmedabad — gel, builder gel, extensions, custom nail art, and a full lash menu mapped to your eyes. See prices and book in one message.",
 };
 
 export default async function ServicesPage() {
@@ -19,7 +20,11 @@ export default async function ServicesPage() {
     <div className="relative overflow-x-hidden bg-bone text-ink">
       <SiteNav />
       <ServicesHero />
-      <ServicesBody services={services} addons={addons} />
+      <ServicesBody
+        services={services}
+        addons={addons}
+        lashMenu={<LashMenu extras={lashExtras(services)} />}
+      />
       <FloatingCTA />
       <Footer />
     </div>

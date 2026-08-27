@@ -29,9 +29,12 @@ const LABEL = "text-[11px] uppercase tracking-[0.14em] text-ink/60";
 export default function ServicesBody({
   services: SERVICES,
   addons: ADDONS,
+  lashMenu,
 }: {
   services: Service[];
   addons: Addon[];
+  /** The lash section renders between the menu (01) and the steps (03). */
+  lashMenu?: React.ReactNode;
 }) {
   const { whatsapp } = useSettings();
   const [service, setService] = useState(SERVICES[0].id);
@@ -47,6 +50,9 @@ export default function ServicesBody({
   const [notes, setNotes] = useState("");
   const [message, setMessage] = useState("");
   const [messageOk, setMessageOk] = useState(false);
+  // The design confirms on-site and issues a reference rather than handing off.
+  const [confirmed, setConfirmed] = useState(false);
+  const [reference, setReference] = useState("");
 
   const clearMessage = () => setMessage("");
 
@@ -58,6 +64,20 @@ export default function ServicesBody({
     const discount = people > 1 ? Math.round((base + addonTotal) * GROUP_DISCOUNT) : 0;
     return { svc, picked, base, addonTotal, discount, total: base + addonTotal - discount };
   }, [service, addons, people]);
+
+  /** The card grid and the chip strips are nails-only; lashes have their own section. */
+  const nailServices = useMemo(() => SERVICES.filter((s) => s.category === "nails"), [SERVICES]);
+  const lashBookable = useMemo(() => SERVICES.filter((s) => s.category === "lashes"), [SERVICES]);
+  const lashExtraList = useMemo(
+    () => SERVICES.filter((s) => s.category === "lash-extra"),
+    [SERVICES],
+  );
+
+  /** Add-ons follow whichever menu the chosen service belongs to. */
+  const visibleAddons = useMemo(() => {
+    const scope = totals.svc.category === "nails" ? "nails" : "lashes";
+    return ADDONS.filter((a) => a.on === scope);
+  }, [ADDONS, totals.svc.category]);
 
   // The export pulses the total whenever the priced inputs change.
   const totalControls = useAnimationControls();
@@ -73,6 +93,12 @@ export default function ServicesBody({
     }
     prevKey.current = key;
   }, [service, people, addons, totalControls]);
+
+  // Dropping a nail add-on when switching to lashes keeps the total honest.
+  useEffect(() => {
+    const allowed = new Set(visibleAddons.map((a) => a.id));
+    setAddons((prev) => (prev.every((id) => allowed.has(id)) ? prev : prev.filter((id) => allowed.has(id))));
+  }, [visibleAddons]);
 
   const toggleAddon = (id: string) => {
     setAddons((a) => (a.includes(id) ? a.filter((x) => x !== id) : a.concat(id)));
@@ -98,6 +124,23 @@ export default function ServicesBody({
     }
   };
 
+  const resetBooking = () => {
+    setConfirmed(false);
+    setReference("");
+    setMessage("");
+    setAddons([]);
+    setPeople(1);
+    setTime("");
+    setDate("");
+    setName("");
+    setPhone("");
+    setEmail("");
+    setArea("");
+    setAddress("");
+    setNotes("");
+    document.getElementById("book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const submit = async () => {
     const missing: string[] = [];
     if (!name.trim()) missing.push("name");
@@ -112,14 +155,18 @@ export default function ServicesBody({
     }
 
     const { svc, picked, total, discount } = totals;
+    // One reference, used for both the stored lead and the on-screen
+    // confirmation, so the customer can quote it and it resolves in admin.
+    const ref = `BMN-${String(Date.now()).slice(-6)}`;
 
-    // Persist first, but never let a failure block WhatsApp — the message is
-    // the actual conversion, the stored lead is a convenience for the studio.
+    // Persist first, but never let a failure block the confirmation — the
+    // customer has completed their side either way.
     try {
       await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          reference: ref,
           name,
           phone,
           email: email || null,
@@ -139,7 +186,7 @@ export default function ServicesBody({
         }),
       });
     } catch {
-      /* offline or blocked — continue to WhatsApp regardless */
+      /* offline or blocked — still confirm; the lead can be re-keyed */
     }
 
     track({
@@ -150,30 +197,9 @@ export default function ServicesBody({
       meta: { people, addons: picked.length },
     });
 
-    const lines = [
-      "Hi BookMyNail, I would like to book an appointment.",
-      "",
-      `Service: ${fullName(svc)} (${duration(svc.minutes)})`,
-      `People: ${people}`,
-      picked.length ? `Add-ons: ${picked.map((a) => a.label).join(", ")}` : "Add-ons: none",
-      `Date: ${date}`,
-      `Time: ${time}`,
-      `Estimated total: ${inr(total)}`,
-      "",
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      email ? `Email: ${email}` : null,
-      `Area: ${area || "—"}`,
-      `Address: ${address}`,
-      notes ? `Notes: ${notes}` : null,
-    ].filter(Boolean) as string[];
-
-    window.open(
-      `https://wa.me/${whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`,
-      "_blank",
-      "noopener",
-    );
-    setMessage("Opening WhatsApp with your booking summary.");
+    setReference(ref);
+    setConfirmed(true);
+    setMessage("");
     setMessageOk(true);
   };
 
@@ -214,7 +240,7 @@ export default function ServicesBody({
           </div>
 
           <div className="grid grid-cols-1 gap-[clamp(12px,1.8vw,22px)] pf:grid-cols-2 wide:grid-cols-4">
-            {SERVICES.map((s) => {
+            {nailServices.map((s) => {
               const on = s.id === service;
               return (
                 <motion.button
@@ -279,7 +305,7 @@ export default function ServicesBody({
               Add on
             </Soft>
             <Soft className="flex flex-wrap gap-[9px]">
-              {ADDONS.map((a) => {
+              {ADDONS.filter((a) => a.on === "nails").map((a) => {
                 const on = addons.includes(a.id);
                 return (
                   <button
@@ -302,6 +328,8 @@ export default function ServicesBody({
         </div>
       </section>
 
+      {lashMenu}
+
       {/* ── Before you book ──────────────────────────────────────── */}
       <section id="steps" data-track-section="steps" className="relative overflow-hidden bg-ink py-section-y text-bone">
         <div
@@ -309,7 +337,7 @@ export default function ServicesBody({
           style={{ background: "linear-gradient(145deg,#56203C,#BF5634)" }}
         />
         <div className="relative mx-auto max-w-shell px-gutter">
-          <SectionLabel num="02" label="Before you book" dark />
+          <SectionLabel num="03" label="Before you book" dark />
           <h2 className="m-0 mb-block-gap max-w-[16ch] font-display text-display3 font-normal leading-[0.95] tracking-[-0.02em]">
             <Rise>Book it in four steps.</Rise>
             <Rise innerClassName="italic">We handle the rest.</Rise>
@@ -321,7 +349,7 @@ export default function ServicesBody({
       {/* ── Booking form ─────────────────────────────────────────── */}
       <section id="book" data-track-section="book" className="py-section-y">
         <div className="mx-auto max-w-shell px-gutter">
-          <SectionLabel num="03" label="Book your appointment" />
+          <SectionLabel num="04" label="Book your appointment" />
 
           <h2 className="m-0 mb-[clamp(32px,5vh,56px)] max-w-[15ch] font-display text-display3 font-normal leading-[0.95] tracking-[-0.02em]">
             <Rise>Tell us where</Rise>
@@ -345,11 +373,27 @@ export default function ServicesBody({
                     }}
                     className={FIELD}
                   >
-                    {SERVICES.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {`${fullName(s)} · ${inr(s.price)}`}
-                      </option>
-                    ))}
+                    <optgroup label="Nails">
+                      {nailServices.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {`${fullName(s)} · ${inr(s.price)}`}
+                        </option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Lashes">
+                      {lashBookable.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {`${fullName(s)} · from ${inr(s.price)}`}
+                        </option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Lash lift & tint">
+                      {lashExtraList.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {`${fullName(s)} · ${inr(s.price)}`}
+                        </option>
+                      ))}
+                    </optgroup>
                   </select>
                 </label>
 
@@ -427,7 +471,7 @@ export default function ServicesBody({
                 <div className="grid gap-[9px]">
                   <span className={LABEL}>Add-ons</span>
                   <div className="flex flex-wrap gap-[9px]">
-                    {ADDONS.map((a) => {
+                    {visibleAddons.map((a) => {
                       const on = addons.includes(a.id);
                       return (
                         <button
@@ -621,20 +665,48 @@ export default function ServicesBody({
               </div>
 
               <div className="bg-ink p-[clamp(20px,3vh,26px)]">
-                <button
-                  type="button"
-                  onClick={() => void submit()}
-                  className="min-h-[54px] w-full cursor-pointer rounded-full border-none bg-bone font-body text-xs uppercase tracking-[0.14em] text-ink transition-transform duration-300 hover:-translate-y-0.5"
-                >
-                  Send on WhatsApp
-                </button>
-                <p
-                  role="status"
-                  className="m-0 mt-3.5 min-h-[18px] text-[11.5px] leading-[1.6]"
-                  style={{ color: messageOk ? "#E7A79F" : "#F0A9A0" }}
-                >
-                  {message}
-                </p>
+                {confirmed ? (
+                  <div role="status">
+                    <p className="m-0 text-[10px] uppercase tracking-[0.2em] text-blush">
+                      Booking confirmed
+                    </p>
+                    <p className="m-0 mt-2 font-display text-[clamp(24px,2.6vw,34px)] leading-none text-bone">
+                      {reference}
+                    </p>
+                    <p className="m-0 mt-3.5 text-[12px] leading-[1.65] text-bone/70">
+                      {`${fullName(totals.svc)} · ${whenLabel}. Your artist will call on ${
+                        phone || "your number"
+                      } to confirm the exact arrival time. Total ${inr(
+                        totals.total,
+                      )}, payable after the appointment.`}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={resetBooking}
+                      className="mt-[18px] min-h-[48px] w-full cursor-pointer rounded-full border border-bone/40 bg-transparent font-body text-xs uppercase tracking-[0.14em] text-bone transition-colors duration-300 hover:bg-bone/10"
+                    >
+                      Book another appointment
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => void submit()}
+                      data-track-id="booking-confirm"
+                      className="min-h-[54px] w-full cursor-pointer rounded-full border-none bg-bone font-body text-xs uppercase tracking-[0.14em] text-ink transition-transform duration-300 hover:-translate-y-0.5"
+                    >
+                      Confirm booking
+                    </button>
+                    <p
+                      role="status"
+                      className="m-0 mt-3.5 min-h-[18px] text-[11.5px] leading-[1.6]"
+                      style={{ color: messageOk ? "#E7A79F" : "#F0A9A0" }}
+                    >
+                      {message}
+                    </p>
+                  </>
+                )}
               </div>
             </aside>
           </div>

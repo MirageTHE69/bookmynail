@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Rise, Soft } from "@/components/motion/reveal";
 import { fullName, inr, type Service } from "@/lib/site";
 import SectionLabel from "./section-label";
@@ -106,17 +106,17 @@ export default function Services({
                   </span>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="panel"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="grid grid-cols-1 gap-[clamp(12px,2.6vw,36px)] pb-[clamp(24px,3.6vh,38px)] pl-[clamp(18px,2.4vw,28px)] pr-[clamp(18px,2.4vw,28px)] pt-0 nav:ml-[calc(13px+clamp(12px,2.6vw,36px))] nav:grid-cols-[56px_minmax(0,1fr)_minmax(0,1fr)]">
+                {/* Panel stays in the markup so the service copy and bullets
+                    are present for crawlers even while collapsed. */}
+                <motion.div
+                  id={`svc-panel-${i}`}
+                  role="region"
+                  initial={false}
+                  animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 gap-[clamp(12px,2.6vw,36px)] pb-[clamp(24px,3.6vh,38px)] pl-[clamp(18px,2.4vw,28px)] pr-[clamp(18px,2.4vw,28px)] pt-0 nav:ml-[calc(13px+clamp(12px,2.6vw,36px))] nav:grid-cols-[56px_minmax(0,1fr)_minmax(0,1fr)]">
                         <span className="hidden nav:block" />
                         <p className="m-0 max-w-[42ch] text-[14.5px] leading-[1.75] text-ink/75">
                           {s.body}
@@ -136,9 +136,7 @@ export default function Services({
                           ))}
                         </ul>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </motion.div>
               </div>
             );
           })}

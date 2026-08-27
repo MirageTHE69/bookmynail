@@ -76,6 +76,7 @@ a:hover { color: var(--plum); }
   [data-svc-inner] { grid-template-columns: minmax(0,1fr) !important; gap: 16px !important; margin-left: 0 !important; }
   [data-svc-inner] > span:first-child { display: none; }
   [data-steps] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; row-gap: 30px !important; }
+  [data-lash-teaser-grid] { grid-template-columns: minmax(0,1fr) !important; }
   [data-gal-head] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
   [data-hyg-grid] { grid-template-columns: minmax(0,1fr) !important; }
   [data-values-head], [data-diff-head], [data-how-head] { grid-template-columns: minmax(0,1fr) !important; align-items: start !important; }
@@ -140,6 +141,7 @@ a:hover { color: var(--plum); }
   <div style="display:flex; align-items:center; gap:clamp(14px,2.2vw,32px);">
     <a href="#about" data-nav-link aria-current="page" style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--blush); opacity:1;">About</a>
     <a href="Services.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Services</a>
+    <a href="Services.dc.html#lashes" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Lashes</a>
     <a href="Portfolio.dc.html" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Gallery</a>
     <a href="#reviews" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">Reviews</a>
     <a href="#faq" data-nav-link style="font-family:var(--body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent; transition:color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease; color:var(--bone); opacity:0.85;" style-hover="border-color:var(--blush);">FAQ</a>
@@ -155,6 +157,7 @@ a:hover { color: var(--plum); }
   <a data-menu-link href="BookMyNail v3.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Home</a>
   <a data-menu-link href="#about" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">About</a>
   <a data-menu-link href="Services.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Services</a>
+  <a data-menu-link href="Services.dc.html#lashes" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Lashes</a>
   <a data-menu-link href="Portfolio.dc.html" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Gallery</a>
   <a data-menu-link href="#reviews" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">Reviews</a>
   <a data-menu-link href="#faq" style="display:flex; align-items:center; min-height:58px; font-family:var(--display); font-size:clamp(28px,8.5vw,42px); letter-spacing:-0.02em; text-decoration:none; color:var(--bone); border-bottom:1px solid rgba(255,255,255,0.18);">FAQ</a>
@@ -175,12 +178,12 @@ a:hover { color: var(--plum); }
       <span data-rise style="display:block; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--bone); opacity:0.84;">At-home nail studio · Ahmedabad</span>
     </div>
     <h1 data-hero-headline style="margin:0 0 clamp(18px,2.8vh,28px); font-family:var(--display); font-weight:400; font-size:clamp(44px,8vw,132px); line-height:0.88; letter-spacing:-0.025em; color:var(--bone); max-width:14ch;">
-      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Luxury nails,</span></span>
+      <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Nails and lashes,</span></span>
       <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">at your door.</span></span>
     </h1>
 
     <div data-hero-trust data-soft style="display:flex; align-items:center; gap:clamp(12px,2vw,26px); flex-wrap:wrap; margin-bottom:clamp(18px,3vh,28px); font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--bone); opacity:0.86;">
-      <span>Certified artists</span>
+      <span>Nails &amp; lashes</span>
       <span aria-hidden="true" style="width:4px; height:4px; border-radius:50%; background:var(--blush);"></span>
       <span>Sanitised tools, opened in front of you</span>
       <span aria-hidden="true" style="width:4px; height:4px; border-radius:50%; background:var(--blush);"></span>
@@ -188,25 +191,49 @@ a:hover { color: var(--plum); }
     </div>
 
     <div data-soft data-hero-chips style="display:flex; gap:9px; flex-wrap:wrap; margin-bottom:clamp(14px,2.2vh,20px);">
-      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.34); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.7); transform:translateY(-2px);">
+      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
         <span style="font-size:12.5px; letter-spacing:0.01em;">Gel Manicure</span>
         <span style="font-family:var(--display); font-size:15px;">₹899</span>
         <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">1 hr</span>
       </a>
-      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.34); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.7); transform:translateY(-2px);">
+      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
         <span style="font-size:12.5px; letter-spacing:0.01em;">Builder Gel</span>
         <span style="font-family:var(--display); font-size:15px;">₹1,499</span>
         <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">1 hr 30</span>
       </a>
-      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.34); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.7); transform:translateY(-2px);">
+      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
         <span style="font-size:12.5px; letter-spacing:0.01em;">Gel Extensions</span>
         <span style="font-family:var(--display); font-size:15px;">₹2,499</span>
         <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">2 hr</span>
       </a>
-      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.34); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.7); transform:translateY(-2px);">
+      <a href="Services.dc.html#book" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
         <span style="font-size:12.5px; letter-spacing:0.01em;">Custom Nail Art</span>
         <span style="font-family:var(--display); font-size:15px;">₹3,999</span>
         <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">2 hr 30</span>
+      </a>
+      <a href="Services.dc.html#lashes" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
+        <span style="font-size:12.5px; letter-spacing:0.01em;">Classic Lashes</span>
+        <span style="font-size:8.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); background:var(--blush); padding:3px 7px; border-radius:100px;">New</span>
+        <span style="font-family:var(--display); font-size:15px;">₹2,499</span>
+        <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">1 hr 30</span>
+      </a>
+      <a href="Services.dc.html#lashes" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
+        <span style="font-size:12.5px; letter-spacing:0.01em;">Hybrid Lashes</span>
+        <span style="font-size:8.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); background:var(--blush); padding:3px 7px; border-radius:100px;">New</span>
+        <span style="font-family:var(--display); font-size:15px;">₹3,299</span>
+        <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">2 hr</span>
+      </a>
+      <a href="Services.dc.html#lashes" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
+        <span style="font-size:12.5px; letter-spacing:0.01em;">Volume Lashes</span>
+        <span style="font-size:8.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); background:var(--blush); padding:3px 7px; border-radius:100px;">New</span>
+        <span style="font-family:var(--display); font-size:15px;">₹3,999</span>
+        <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">2 hr 30</span>
+      </a>
+      <a href="Services.dc.html#lashes" data-hero-chip style="flex:none; display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--bone); background:rgba(26,22,20,0.26); border:1px solid rgba(255,255,255,0.28); border-radius:100px; padding:11px 18px; min-height:44px; box-sizing:border-box; transition:background 0.3s ease, border-color 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);" style-hover="background:rgba(26,22,20,0.42); border-color:rgba(255,255,255,0.5); transform:translateY(-2px);">
+        <span style="font-size:12.5px; letter-spacing:0.01em;">Russian & Mega</span>
+        <span style="font-size:8.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); background:var(--blush); padding:3px 7px; border-radius:100px;">New</span>
+        <span style="font-family:var(--display); font-size:15px;">₹4,499</span>
+        <span style="font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.62;">3 hr</span>
       </a>
     </div>
 
@@ -216,8 +243,12 @@ a:hover { color: var(--plum); }
           <label style="display:grid; gap:7px;">
             <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Service</span>
             <select value="{{ book.service }}" onChange="{{ onService }}" style="width:100%; min-height:50px; box-sizing:border-box; padding:13px 14px; font-family:var(--body); font-size:14.5px; color:var(--ink); background:transparent; border:1px solid rgba(26,22,20,0.22); border-radius:7px;">
-              <sc-for list="{{ serviceOptions }}" as="o" hint-placeholder-count="4">
-                <option value="{{ o.value }}">{{ o.label }}</option>
+              <sc-for list="{{ serviceGroups }}" as="g" hint-placeholder-count="3">
+                <optgroup label="{{ g.label }}">
+                  <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+                    <option value="{{ o.value }}">{{ o.label }}</option>
+                  </sc-for>
+                </optgroup>
               </sc-for>
             </select>
           </label>
@@ -239,10 +270,10 @@ a:hover { color: var(--plum); }
 
 <div style="background:var(--ink); color:var(--bone); overflow:hidden; padding:15px 0; display:flex;">
   <div data-marquee style="display:flex; gap:40px; white-space:nowrap; padding-right:40px; flex:none; align-items:center; font-family:var(--display); font-size:19px; font-style:italic;">
-    <span>Luxury Nails. Comfort of Home.</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SERVING AHMEDABAD</span><span>Certified artists</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SANITISED TOOLS</span><span>Premium products</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">DOORSTEP SERVICE</span>
+    <span>Luxury Nails. Comfort of Home.</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SERVING AHMEDABAD</span><span>Nails &amp; lashes</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SANITISED TOOLS</span><span>Premium products</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">DOORSTEP SERVICE</span>
   </div>
   <div data-marquee style="display:flex; gap:40px; white-space:nowrap; padding-right:40px; flex:none; align-items:center; font-family:var(--display); font-size:19px; font-style:italic;">
-    <span>Luxury Nails. Comfort of Home.</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SERVING AHMEDABAD</span><span>Certified artists</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SANITISED TOOLS</span><span>Premium products</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">DOORSTEP SERVICE</span>
+    <span>Luxury Nails. Comfort of Home.</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SERVING AHMEDABAD</span><span>Nails &amp; lashes</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">SANITISED TOOLS</span><span>Premium products</span><span style="font-family:var(--body); font-size:11px; letter-spacing:0.3em; opacity:0.6;">DOORSTEP SERVICE</span>
   </div>
 </div>
 
@@ -522,11 +553,82 @@ a:hover { color: var(--plum); }
   </div>
 </section>
 
+
+<section id="lashes-teaser" style="position:relative; overflow:hidden; background:var(--ink); color:var(--bone);">
+  <div style="position:absolute; inset:0; opacity:0.3; background:linear-gradient(145deg,#43305E,#B4A2D4);"></div>
+  <div style="position:relative; max-width:1440px; margin:0 auto; padding:clamp(64px,11vh,130px) clamp(18px,4vw,54px);">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px); flex-wrap:wrap;">
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--lilac);">05</span>
+      <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Signature lash menu</span>
+      <span data-soft style="font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); background:var(--blush); padding:6px 12px; border-radius:100px;">New</span>
+    </div>
+
+    <div data-lash-teaser-grid style="display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr); gap:clamp(26px,5vw,80px); align-items:start;">
+      <div>
+        <h2 style="margin:0 0 clamp(20px,3vh,30px); font-family:var(--display); font-weight:400; font-size:clamp(32px,5.8vw,92px); line-height:0.94; letter-spacing:-0.025em;">
+          <span style="display:block; overflow:hidden;"><span data-rise style="display:block;">Lashes too,</span></span>
+          <span style="display:block; overflow:hidden;"><span data-rise style="display:block; font-style:italic;">mapped to your eyes.</span></span>
+        </h2>
+        <p data-soft style="margin:0 0 clamp(24px,4vh,34px); font-size:15.5px; line-height:1.7; color:rgba(255,255,255,0.82); max-width:46ch;">Fifteen sets across four densities, from a clean classic to editorial mega volume. Choose the look you want and we map it to your own eye shape at your table.</p>
+        <div data-soft style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.16); border-radius:8px; overflow:hidden; margin-bottom:clamp(24px,4vh,34px);">
+          <div style="background:rgba(26,22,20,0.34); padding:clamp(16px,2.4vh,22px) clamp(14px,1.8vw,20px);">
+            <p style="margin:0; font-family:var(--display); font-size:clamp(20px,2.3vw,30px); line-height:1; letter-spacing:-0.02em; color:var(--blush);">6–8 wks</p>
+            <p style="margin:7px 0 0; font-size:11.5px; line-height:1.5; color:rgba(255,255,255,0.62);">A full set, with infills</p>
+          </div>
+          <div style="background:rgba(26,22,20,0.34); padding:clamp(16px,2.4vh,22px) clamp(14px,1.8vw,20px);">
+            <p style="margin:0; font-family:var(--display); font-size:clamp(20px,2.3vw,30px); line-height:1; letter-spacing:-0.02em; color:var(--blush);">4 looks</p>
+            <p style="margin:7px 0 0; font-size:11.5px; line-height:1.5; color:rgba(255,255,255,0.62);">Natural, cat, doll, wispy</p>
+          </div>
+        </div>
+        <div data-soft style="display:flex; gap:11px; flex-wrap:wrap;">
+          <a href="Services.dc.html#lashes" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--ink); background:var(--bone); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease;" style-hover="transform:translateY(-3px);">See the lash menu</a>
+          <a href="Services.dc.html#book" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; color:var(--bone); border:1px solid rgba(255,255,255,0.5); padding:15px 26px; border-radius:100px; transition:transform 0.3s ease, background 0.3s ease;" style-hover="transform:translateY(-3px); background:rgba(255,255,255,0.14);">Book lashes</a>
+        </div>
+      </div>
+
+      <div data-soft>
+        <p style="margin:0 0 14px; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.5);">Four densities</p>
+        <div style="border-top:1px solid rgba(255,255,255,0.16);">
+        <a href="Services.dc.html#lashes" data-lash-row style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; text-decoration:none; color:inherit; padding:clamp(15px,2.4vh,21px) clamp(14px,1.8vw,20px); border-bottom:1px solid rgba(255,255,255,0.16); transition:background 0.35s ease, padding-left 0.35s ease;">
+          <span>
+            <span style="display:block; font-family:var(--display); font-size:clamp(18px,2vw,26px); line-height:1.15; letter-spacing:-0.01em;">Classic Lashes</span>
+            <span style="display:block; margin-top:5px; font-size:12px; line-height:1.5; color:rgba(255,255,255,0.6);">One extension per lash · clean and natural</span>
+          </span>
+          <span style="font-family:var(--display); font-size:clamp(17px,1.9vw,23px); white-space:nowrap;">from ₹2,499</span>
+        </a>
+        <a href="Services.dc.html#lashes" data-lash-row style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; text-decoration:none; color:inherit; padding:clamp(15px,2.4vh,21px) clamp(14px,1.8vw,20px); border-bottom:1px solid rgba(255,255,255,0.16); transition:background 0.35s ease, padding-left 0.35s ease;">
+          <span>
+            <span style="display:block; font-family:var(--display); font-size:clamp(18px,2vw,26px); line-height:1.15; letter-spacing:-0.01em;">Hybrid Lashes</span>
+            <span style="display:block; margin-top:5px; font-size:12px; line-height:1.5; color:rgba(255,255,255,0.6);">Classic and volume mixed · textured glam</span>
+          </span>
+          <span style="font-family:var(--display); font-size:clamp(17px,1.9vw,23px); white-space:nowrap;">from ₹3,299</span>
+        </a>
+        <a href="Services.dc.html#lashes" data-lash-row style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; text-decoration:none; color:inherit; padding:clamp(15px,2.4vh,21px) clamp(14px,1.8vw,20px); border-bottom:1px solid rgba(255,255,255,0.16); transition:background 0.35s ease, padding-left 0.35s ease;">
+          <span>
+            <span style="display:block; font-family:var(--display); font-size:clamp(18px,2vw,26px); line-height:1.15; letter-spacing:-0.01em;">Volume Lashes</span>
+            <span style="display:block; margin-top:5px; font-size:12px; line-height:1.5; color:rgba(255,255,255,0.6);">Fine fans per lash · fuller and fluffier</span>
+          </span>
+          <span style="font-family:var(--display); font-size:clamp(17px,1.9vw,23px); white-space:nowrap;">from ₹3,999</span>
+        </a>
+        <a href="Services.dc.html#lashes" data-lash-row style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; text-decoration:none; color:inherit; padding:clamp(15px,2.4vh,21px) clamp(14px,1.8vw,20px); border-bottom:1px solid rgba(255,255,255,0.16); transition:background 0.35s ease, padding-left 0.35s ease;">
+          <span>
+            <span style="display:block; font-family:var(--display); font-size:clamp(18px,2vw,26px); line-height:1.15; letter-spacing:-0.01em;">Russian &amp; Mega</span>
+            <span style="display:block; margin-top:5px; font-size:12px; line-height:1.5; color:rgba(255,255,255,0.6);">Maximum density · editorial finish</span>
+          </span>
+          <span style="font-family:var(--display); font-size:clamp(17px,1.9vw,23px); white-space:nowrap;">from ₹4,499</span>
+        </a>
+        </div>
+        <p style="margin:18px 0 0; font-size:12.5px; line-height:1.6; color:rgba(255,255,255,0.55);">Lash lift, tint and removal are booked separately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="hygiene" style="position:relative; overflow:hidden; background:var(--ink); color:var(--bone);">
   <div style="position:absolute; inset:0; opacity:0.24; background:linear-gradient(145deg,#3F4A52,#9BA5AC);"></div>
   <div style="position:relative; max-width:1440px; margin:0 auto; padding:clamp(64px,11vh,130px) clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">05</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">06</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Hygiene, on camera</span>
     </div>
     <div data-hyg-grid style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(26px,5vw,72px); align-items:center;">
@@ -561,7 +663,7 @@ a:hover { color: var(--plum); }
 <section id="gallery" style="background:var(--ink); color:var(--bone); padding:clamp(64px,11vh,130px) 0; overflow:hidden;">
   <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">06</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">07</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(247,242,236,0.55);">Recent work</span>
     </div>
     <div data-gal-head style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(20px,4vw,56px); align-items:end; margin-bottom:clamp(28px,5vh,52px);">
@@ -618,7 +720,7 @@ a:hover { color: var(--plum); }
 <section id="how" data-section-light style="padding:clamp(64px,11vh,130px) 0;">
   <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">07</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">08</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">How booking works</span>
     </div>
     <div data-how-head style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.75fr); gap:clamp(24px,5vw,72px); align-items:end; margin-bottom:clamp(32px,6vh,64px);">
@@ -661,7 +763,7 @@ a:hover { color: var(--plum); }
   <div data-rev-wash style="position:absolute; inset:0; opacity:0.2; background:linear-gradient(145deg,#43305E,#B4A2D4); transition:background 0.8s ease;"></div>
   <div style="position:relative; max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">08</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--blush);">09</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(247,242,236,0.55);">In their words</span>
     </div>
     <div data-rev-stage style="display:grid; grid-template-columns:minmax(0,1fr);">
@@ -689,7 +791,7 @@ a:hover { color: var(--plum); }
 <section id="faq" data-section-light style="padding:clamp(64px,11vh,130px) 0;">
   <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(28px,5vh,48px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">09</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">10</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Before you ask</span>
     </div>
     <div data-faq-head style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.8fr); gap:clamp(24px,5vw,72px); align-items:end; margin-bottom:clamp(28px,5vh,48px);">
@@ -785,7 +887,7 @@ a:hover { color: var(--plum); }
 <section id="social" data-section-light style="padding:0 0 clamp(64px,11vh,130px);">
   <div style="max-width:1440px; margin:0 auto; padding:0 clamp(18px,4vw,54px);">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(24px,4vh,40px);">
-      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">10</span>
+      <span data-soft style="font-family:var(--display); font-size:14px; font-style:italic; color:var(--terracotta);">11</span>
       <span data-soft style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(26,22,20,0.5);">Follow along</span>
     </div>
     <div data-insta-head style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(20px,4vw,56px); align-items:end; margin-bottom:clamp(24px,4vh,40px);">
@@ -868,6 +970,28 @@ a:hover { color: var(--plum); }
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// Mirrors the Services page menu so the hero can book anything we offer.
+const HERO_GROUPS = [
+  { label: 'Nails', options: [
+    { id: 'gel', label: 'Gel Manicure · ₹899' },
+    { id: 'biab', label: 'Builder Gel (BIAB) · ₹1,499' },
+    { id: 'ext', label: 'Gel Extensions · ₹2,499' },
+    { id: 'art', label: 'Custom Nail Art · ₹3,999' }
+  ] },
+  { label: 'Lashes', options: [
+    { id: 'lash-classic', label: 'Classic Lashes · from ₹2,499' },
+    { id: 'lash-hybrid', label: 'Hybrid Lashes · from ₹3,299' },
+    { id: 'lash-volume', label: 'Volume Lashes · from ₹3,999' },
+    { id: 'lash-russian', label: 'Russian & Mega · from ₹4,499' }
+  ] },
+  { label: 'Lash lift & tint', options: [
+    { id: 'lash-lift', label: 'Lash lift · ₹1,799' },
+    { id: 'lash-lift-tint', label: 'Lash lift + tint · ₹2,199' },
+    { id: 'lash-tint', label: 'Lash tint only · ₹899' },
+    { id: 'lash-removal', label: 'Extension removal · ₹499' }
+  ] }
+];
+
 const HERO_SERVICES = [
   { id: 'gel', label: 'Gel Manicure · ₹899' },
   { id: 'biab', label: 'Builder Gel (BIAB) · ₹1,499' },
@@ -1009,6 +1133,17 @@ class Component extends DCLogic {
       window.__bmnCountIO = io;
       counters.forEach((el) => io.observe(el));
     }
+
+    q('[data-lash-row]').forEach((row) => {
+      row.addEventListener('mouseenter', () => {
+        row.style.background = 'rgba(255,255,255,0.09)';
+        row.style.paddingLeft = 'clamp(20px,2.4vw,28px)';
+      });
+      row.addEventListener('mouseleave', () => {
+        row.style.background = '';
+        row.style.paddingLeft = '';
+      });
+    });
 
 // Shared mobile menu (identical on every page).
     const burger = document.querySelector('[data-burger]');
@@ -1308,7 +1443,10 @@ class Component extends DCLogic {
     if (b.area) params.push('area=' + encodeURIComponent(b.area));
     return {
       book: b,
-      serviceOptions: HERO_SERVICES.map((s) => ({ value: s.id, label: s.label })),
+      serviceGroups: HERO_GROUPS.map((g) => ({
+        label: g.label,
+        options: g.options.map((s) => ({ value: s.id, label: s.label }))
+      })),
       bookHref: 'Services.dc.html' + (params.length ? '?' + params.join('&') : '') + '#book',
       onService: (e) => this.setBook('service', e.target.value),
       onDate: (e) => this.setBook('date', e.target.value),

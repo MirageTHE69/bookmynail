@@ -6,7 +6,7 @@ export default function How() {
   return (
     <section id="how" data-section-light className="bg-bone py-section-y">
       <div className="mx-auto max-w-shell px-gutter">
-        <SectionLabel num="07" label="How booking works" />
+        <SectionLabel num="08" label="How booking works" />
 
         <div className="mb-[clamp(32px,6vh,64px)] grid grid-cols-1 items-end gap-[clamp(24px,5vw,72px)] wide:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)]">
           <h2 className="m-0 font-display text-display3 font-normal leading-[0.95] tracking-[-0.02em] text-ink">
