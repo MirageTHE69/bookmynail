@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 
 export const INPUT =
-  "min-h-[42px] w-full rounded-md border border-ink/20 bg-white px-3 text-sm text-ink";
+  "min-h-[40px] w-full rounded-lg border border-ink/15 bg-white px-3 text-[13.5px] text-ink transition-colors placeholder:text-ink/30 hover:border-ink/25 focus:border-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta/15";
 
 export function Field({
   label,
@@ -18,7 +18,7 @@ export function Field({
 }) {
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1 block text-[10px] uppercase tracking-[0.14em] text-ink/45">
+      <span className="mb-1.5 block text-[10px] font-medium uppercase tracking-[0.14em] text-ink/45">
         {label}
       </span>
       {children}
@@ -47,7 +47,7 @@ export function ColorField({
             const text = e.currentTarget.parentElement?.querySelector("input[type=text]");
             if (text instanceof HTMLInputElement) text.value = e.currentTarget.value;
           }}
-          className="h-[42px] w-12 cursor-pointer rounded-md border border-ink/20 bg-white p-1"
+          className="h-[40px] w-11 shrink-0 cursor-pointer rounded-lg border border-ink/15 bg-white p-1"
           aria-label={`${label} picker`}
         />
         <input type="text" name={name} defaultValue={defaultValue} className={INPUT} />
@@ -56,14 +56,26 @@ export function ColorField({
   );
 }
 
+/** Groups related fields inside a long form so it reads in blocks. */
+export function FieldGroup({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <fieldset className="m-0 border-none p-0">
+      <legend className="mb-2.5 p-0 text-[10px] font-medium uppercase tracking-[0.16em] text-ink/35">
+        {label}
+      </legend>
+      {children}
+    </fieldset>
+  );
+}
+
 export function SubmitRow({ children }: { children?: ReactNode }) {
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-ink/10 pt-4">
+    <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-ink/[0.08] pt-4">
       <button
         type="submit"
-        className="cursor-pointer rounded-full border-none bg-ink px-5 py-2.5 text-[11px] uppercase tracking-[0.14em] text-bone"
+        className="inline-flex min-h-[38px] cursor-pointer items-center rounded-lg border-none bg-ink px-5 text-[12px] font-medium text-white transition-colors hover:bg-ink/85"
       >
-        Save
+        Save changes
       </button>
       {children}
     </div>

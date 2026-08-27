@@ -15,14 +15,6 @@ export const RANGES = {
 } as const;
 export type RangeKey = keyof typeof RANGES;
 
-/** Preview sizes for the heatmap, matching the tracker's device buckets. */
-export const DEVICE_SIZES = {
-  mobile: { w: 390, h: 780 },
-  tablet: { w: 820, h: 1000 },
-  desktop: { w: 1440, h: 900 },
-} as const;
-export type DeviceKey = keyof typeof DEVICE_SIZES;
-
 export function since(range: RangeKey) {
   return Math.floor(Date.now() / 1000) - RANGES[range] * 86400;
 }
@@ -96,76 +88,6 @@ export async function getOverview(range: RangeKey) {
   };
 }
 
-/* ── Heatmap ───────────────────────────────────────────────────────── */
-
-export async function getClickPoints(path: string, device: DeviceKey, range: RangeKey) {
-  const r = await rows(sql`
-    SELECT x_ratio AS x, y_px AS y, doc_h AS h, target_label AS label
-    FROM events
-    WHERE type='click' AND path=${path} AND device=${device} AND ts >= ${since(range)}
-      AND x_ratio IS NOT NULL AND y_px IS NOT NULL
-    LIMIT 20000
-  `);
-  return r.map((p) => ({
-    x: Number(p.x),
-    y: n(p.y),
-    h: n(p.h),
-    label: p.label ? String(p.label) : "",
-  }));
-}
-
-/** Per-section engagement — the core CRO table. */
-export async function getSectionStats(path: string, range: RangeKey) {
-  const from = since(range);
-
-  const [tot] = await rows(sql`
-    SELECT COUNT(DISTINCT session_id) AS s FROM events WHERE path=${path} AND ts >= ${from}
-  `);
-  const totalSessions = n(tot?.s) || 1;
-
-  const r = await rows(sql`
-    SELECT section,
-      SUM(CASE WHEN type='click' THEN 1 ELSE 0 END)  AS clicks,
-      SUM(CASE WHEN type='hover' THEN 1 ELSE 0 END)  AS hovers,
-      AVG(CASE WHEN type='section_dwell' THEN value END) AS dwell,
-      COUNT(DISTINCT CASE WHEN type='section_dwell' THEN session_id END) AS reached
-    FROM events
-    WHERE path=${path} AND ts >= ${from} AND section IS NOT NULL
-    GROUP BY section
-  `);
-
-  return r
-    .map((s) => ({
-      section: String(s.section),
-      clicks: n(s.clicks),
-      hovers: n(s.hovers),
-      dwellMs: Math.round(n(s.dwell)),
-      reach: Math.min(100, Math.round((n(s.reached) / totalSessions) * 100)),
-    }))
-    .sort((a, b) => b.clicks - a.clicks);
-}
-
-/** How far down the page people actually get. */
-export async function getScrollFunnel(path: string, range: RangeKey) {
-  const from = since(range);
-  const [tot] = await rows(sql`
-    SELECT COUNT(DISTINCT session_id) AS s
-    FROM events WHERE path=${path} AND type='scroll' AND ts >= ${from}
-  `);
-  const total = n(tot?.s) || 1;
-
-  const steps = [25, 50, 75, 100];
-  const out: { depth: number; sessions: number; pct: number }[] = [];
-  for (const d of steps) {
-    const [row] = await rows(sql`
-      SELECT COUNT(DISTINCT session_id) AS s
-      FROM events WHERE path=${path} AND type='scroll' AND value >= ${d} AND ts >= ${from}
-    `);
-    out.push({ depth: d, sessions: n(row?.s), pct: Math.round((n(row?.s) / total) * 100) });
-  }
-  return out;
-}
-
 /** Which services get opened, and which of those turn into leads. */
 export async function getServiceStats(range: RangeKey) {
   const from = since(range);
@@ -178,35 +100,43 @@ export async function getServiceStats(range: RangeKey) {
     SELECT service_id AS id, COUNT(*) AS n, COALESCE(SUM(estimated_total),0) AS value
     FROM leads WHERE created_at >= ${from} GROUP BY service_id
   `);
-  const map = new Map<string, { id: string; interactions: number; leads: number; value: number }>();
-  for (const i of interactions)
-    map.set(String(i.id), { id: String(i.id), interactions: n(i.n), leads: 0, value: 0 });
+  // Resolve display names, otherwise the dashboard shows raw ids like "biab".
+  const named = await rows(sql`SELECT id, name, category FROM services`);
+  const nameOf = new Map(named.map((r) => [String(r.id), String(r.name)]));
+  const catOf = new Map(named.map((r) => [String(r.id), String(r.category)]));
+
+  type Row = {
+    id: string;
+    name: string;
+    category: string;
+    interactions: number;
+    leads: number;
+    value: number;
+  };
+  const blank = (id: string): Row => ({
+    id,
+    name: nameOf.get(id) ?? id,
+    category: catOf.get(id) ?? "nails",
+    interactions: 0,
+    leads: 0,
+    value: 0,
+  });
+
+  const map = new Map<string, Row>();
+  for (const i of interactions) {
+    const key = String(i.id);
+    map.set(key, { ...blank(key), interactions: n(i.n) });
+  }
   for (const l of leadsBy) {
     const key = String(l.id);
-    const cur = map.get(key) ?? { id: key, interactions: 0, leads: 0, value: 0 };
+    const cur = map.get(key) ?? blank(key);
     cur.leads = n(l.n);
     cur.value = n(l.value);
     map.set(key, cur);
   }
-  return Array.from(map.values()).sort((a, b) => b.interactions - a.interactions);
-}
-
-export async function getTopElements(path: string, range: RangeKey) {
-  const r = await rows(sql`
-    SELECT COALESCE(target_id, target_label) AS label,
-           target_id AS id,
-           section,
-           COUNT(*) AS n
-    FROM events
-    WHERE type='click' AND path=${path} AND ts >= ${since(range)}
-    GROUP BY label ORDER BY n DESC LIMIT 15
-  `);
-  return r.map((e) => ({
-    label: String(e.label ?? "—"),
-    id: e.id ? String(e.id) : null,
-    section: e.section ? String(e.section) : "—",
-    clicks: n(e.n),
-  }));
+  return Array.from(map.values()).sort(
+    (a, b) => b.leads - a.leads || b.interactions - a.interactions,
+  );
 }
 
 export async function getTrackedPaths() {

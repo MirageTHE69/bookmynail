@@ -1,5 +1,5 @@
 import { getSettings } from "@/lib/queries";
-import { Panel } from "@/components/admin/ui";
+import { Panel, PageHeader } from "@/components/admin/ui";
 import { Field, INPUT, SubmitRow } from "@/components/admin/form-bits";
 import { saveSettings } from "../actions";
 
@@ -10,12 +10,10 @@ export default async function SettingsAdmin() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="m-0 font-display text-3xl text-ink">Settings</h1>
-        <p className="m-0 mt-1 text-sm text-ink/50">
-          Contact details and copy used across every page.
-        </p>
-      </header>
+      <PageHeader
+        title="Settings"
+        hint="Contact details and copy used across every page."
+      />
 
       <Panel title="Contact">
         <form action={saveSettings} className="space-y-3">
@@ -47,7 +45,7 @@ export default async function SettingsAdmin() {
 
           <Field
             label="Analytics retention (days)"
-            hint="How long heatmap events are kept before pruning."
+            hint="How long analytics events are kept before pruning."
           >
             <input
               type="number"

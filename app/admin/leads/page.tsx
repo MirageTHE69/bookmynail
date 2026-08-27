@@ -1,7 +1,7 @@
 import { desc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { LEAD_STATUSES, leads as leadsTable } from "@/lib/db/schema";
-import { Empty, Panel, Stat } from "@/components/admin/ui";
+import { Empty, Panel, Stat, PageHeader } from "@/components/admin/ui";
 import Picker from "@/components/admin/range-picker";
 import LeadsTable, { type LeadRow } from "@/components/admin/leads-table";
 import { inr } from "@/lib/site";
@@ -28,20 +28,16 @@ export default async function LeadsPage({
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="m-0 font-display text-3xl text-ink">Leads</h1>
-          <p className="m-0 mt-1 text-sm text-ink/50">
-            Every booking request sent through the site.
-          </p>
-        </div>
-        <a
+      <PageHeader
+        title="Leads"
+        hint="Every booking request sent through the site."
+        actions={<a
           href="/api/admin/leads"
           className="rounded-full border border-ink/20 px-5 py-2.5 text-[11px] uppercase tracking-[0.14em] text-ink no-underline"
         >
           Export CSV
-        </a>
-      </header>
+        </a>}
+      />
 
       <div className="grid grid-cols-2 gap-3 wide:grid-cols-4">
         <Stat label="Total" value={String(all.length)} />

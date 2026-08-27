@@ -42,6 +42,10 @@ export async function saveService(fd: FormData) {
     cardGradFrom: str(fd, "cardGradFrom") || str(fd, "gradFrom") || "#56203C",
     cardGradTo: str(fd, "cardGradTo") || str(fd, "gradTo") || "#BF5634",
     accent: str(fd, "accent") || "#56203C",
+    // Without this an edit would silently reset a lash service to "nails".
+    category: (["nails", "lashes", "lash-extra"].includes(str(fd, "category"))
+      ? str(fd, "category")
+      : "nails") as "nails" | "lashes" | "lash-extra",
     sortOrder: num(fd, "sortOrder"),
     active: bool(fd, "active"),
   };
@@ -73,6 +77,7 @@ export async function saveAddon(fd: FormData) {
     id,
     label: str(fd, "label"),
     price: num(fd, "price"),
+    on: (str(fd, "on") === "lashes" ? "lashes" : "nails") as "nails" | "lashes",
     sortOrder: num(fd, "sortOrder"),
     active: bool(fd, "active"),
   };

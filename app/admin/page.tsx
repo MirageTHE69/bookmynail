@@ -3,7 +3,16 @@ import { desc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { getOverview, getServiceStats, type RangeKey } from "@/lib/analytics";
-import { Bar, Empty, Panel, Stat, TD, TH } from "@/components/admin/ui";
+import {
+  Badge,
+  Bar,
+  Empty,
+  PageHeader,
+  Panel,
+  Stat,
+  TD,
+  TH,
+} from "@/components/admin/ui";
 import Picker from "@/components/admin/range-picker";
 import { inr } from "@/lib/site";
 
@@ -35,22 +44,18 @@ export default async function AdminOverview({
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="m-0 font-display text-3xl text-ink">Overview</h1>
-          <p className="m-0 mt-1 text-sm text-ink/50">
-            Traffic, engagement and booking requests.
-          </p>
-        </div>
-        <Picker param="range" options={RANGE_OPTIONS} current={range} label="Range" />
-      </header>
+      <PageHeader
+        title="Overview"
+        hint="Traffic, engagement and booking requests."
+        actions={<Picker param="range" options={RANGE_OPTIONS} current={range} label="Range" />}
+      />
 
       <div className="grid grid-cols-2 gap-3 pf:grid-cols-3 wide:grid-cols-6">
         <Stat label="Sessions" value={stats.sessions.toLocaleString("en-IN")} />
         <Stat label="Visitors" value={stats.visitors.toLocaleString("en-IN")} />
         <Stat label="Page views" value={stats.pageviews.toLocaleString("en-IN")} />
         <Stat label="Clicks" value={stats.clicks.toLocaleString("en-IN")} />
-        <Stat label="Leads" value={stats.leads.toLocaleString("en-IN")} tone="terracotta" />
+        <Stat label="Leads" value={String(stats.leads)} tone="terracotta" />
         <Stat
           label="Conversion"
           value={`${stats.conversion.toFixed(1)}%`}
@@ -64,17 +69,12 @@ export default async function AdminOverview({
           {stats.pages.length === 0 ? (
             <Empty>No traffic recorded yet — browse the site and it will appear here.</Empty>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {stats.pages.map((p) => (
                 <div key={p.path}>
-                  <div className="mb-1 flex items-baseline justify-between gap-3">
-                    <Link
-                      href={`/admin/heatmap?path=${encodeURIComponent(p.path)}&range=${range}`}
-                      className="font-display text-sm text-ink no-underline hover:text-terracotta"
-                    >
-                      {p.path}
-                    </Link>
-                    <span className="text-xs text-ink/45">
+                  <div className="mb-1.5 flex items-baseline justify-between gap-3">
+                    <span className="truncate text-[13.5px] font-medium text-ink">{p.path}</span>
+                    <span className="shrink-0 text-[11.5px] text-ink/45">
                       {p.sessions} sessions · {p.clicks} clicks
                     </span>
                   </div>
@@ -85,16 +85,19 @@ export default async function AdminOverview({
           )}
         </Panel>
 
-        <Panel title="Services" hint="Opens vs booking requests">
+        <Panel title="Services" hint="Interest vs booking requests">
           {services.length === 0 ? (
             <Empty>No service interactions yet.</Empty>
           ) : (
-            <div className="space-y-3">
-              {services.map((s) => (
+            <div className="space-y-4">
+              {services.slice(0, 6).map((s) => (
                 <div key={s.id}>
-                  <div className="mb-1 flex items-baseline justify-between gap-3">
-                    <span className="font-display text-sm text-ink">{s.id}</span>
-                    <span className="text-xs text-ink/45">
+                  <div className="mb-1.5 flex items-baseline justify-between gap-3">
+                    <span className="flex items-center gap-2 truncate">
+                      <span className="text-[13.5px] font-medium text-ink">{s.name}</span>
+                      <Badge tone={s.category}>{s.category.replace("-", " ")}</Badge>
+                    </span>
+                    <span className="shrink-0 text-[11.5px] text-ink/45">
                       {s.leads} lead{s.leads === 1 ? "" : "s"}
                       {s.value ? ` · ${inr(s.value)}` : ""}
                     </span>
@@ -109,33 +112,36 @@ export default async function AdminOverview({
 
       <Panel
         title="Latest requests"
+        padded={false}
         actions={
           <Link
             href="/admin/leads"
-            className="text-[11px] uppercase tracking-[0.14em] text-terracotta no-underline"
+            className="text-[12px] font-medium text-terracotta no-underline hover:underline"
           >
             All leads →
           </Link>
         }
       >
         {recent.length === 0 ? (
-          <Empty>No booking requests yet.</Empty>
+          <div className="p-5">
+            <Empty>No booking requests yet.</Empty>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse">
-              <thead>
+              <thead className="bg-ink/[0.015]">
                 <tr>
                   <th className={TH}>When</th>
                   <th className={TH}>Name</th>
                   <th className={TH}>Service</th>
-                  <th className={TH}>Total</th>
+                  <th className={`${TH} text-right`}>Total</th>
                   <th className={TH}>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {recent.map((l) => (
-                  <tr key={l.id}>
-                    <td className={TD}>
+                  <tr key={l.id} className="transition-colors hover:bg-ink/[0.015]">
+                    <td className={`${TD} whitespace-nowrap text-ink/55`}>
                       {new Date(l.createdAt * 1000).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
@@ -144,17 +150,15 @@ export default async function AdminOverview({
                     <td className={TD}>
                       <Link
                         href={`/admin/leads?id=${l.id}`}
-                        className="text-ink no-underline hover:text-terracotta"
+                        className="font-medium text-ink no-underline hover:text-terracotta"
                       >
                         {l.name}
                       </Link>
                     </td>
                     <td className={TD}>{l.serviceName}</td>
-                    <td className={TD}>{inr(l.estimatedTotal)}</td>
+                    <td className={`${TD} text-right tabular-nums`}>{inr(l.estimatedTotal)}</td>
                     <td className={TD}>
-                      <span className="rounded-full bg-ink/[0.06] px-2 py-0.5 text-[11px] uppercase tracking-wide">
-                        {l.status}
-                      </span>
+                      <Badge tone={l.status}>{l.status}</Badge>
                     </td>
                   </tr>
                 ))}

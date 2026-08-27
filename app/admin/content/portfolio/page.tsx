@@ -2,7 +2,7 @@ import Image from "next/image";
 import { asc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { portfolioItems } from "@/lib/db/schema";
-import { Empty, Panel } from "@/components/admin/ui";
+import { Empty, Panel, PageHeader } from "@/components/admin/ui";
 import { Field, INPUT, SubmitRow } from "@/components/admin/form-bits";
 import { createPortfolioItem, deletePortfolioItem, updatePortfolioItem } from "../actions";
 
@@ -15,13 +15,10 @@ export default async function PortfolioAdmin() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="m-0 font-display text-3xl text-ink">Portfolio</h1>
-        <p className="m-0 mt-1 text-sm text-ink/50">
-          The /portfolio grid. Category tabs and the “sets shown” count both follow this list —
-          add an Extensions or Bridal set and those tabs reappear on their own.
-        </p>
-      </header>
+      <PageHeader
+        title="Portfolio"
+        hint="The /portfolio grid. Category tabs and the “sets shown” count both follow this list — add an Extensions or Bridal set and those tabs reappear on their own."
+      />
 
       <Panel title="Upload a set">
         <form action={createPortfolioItem} className="space-y-3">

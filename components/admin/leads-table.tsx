@@ -27,11 +27,11 @@ export type LeadRow = {
 };
 
 const STATUS_TONE: Record<LeadStatus, string> = {
-  new: "bg-terracotta text-bone",
-  contacted: "bg-lilac text-ink",
-  confirmed: "bg-plum text-bone",
-  completed: "bg-ink/70 text-bone",
-  cancelled: "bg-ink/10 text-ink/60",
+  new: "bg-terracotta/10 text-terracotta ring-terracotta/25",
+  contacted: "bg-plum/10 text-plum ring-plum/25",
+  confirmed: "bg-emerald-600/10 text-emerald-700 ring-emerald-600/25",
+  completed: "bg-ink/[0.06] text-ink/60 ring-ink/15",
+  cancelled: "bg-ink/[0.04] text-ink/35 ring-ink/10",
 };
 
 export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
@@ -87,14 +87,14 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                     month: "short",
                   })}
                 </td>
-                <td className={`${TD} font-display`}>
+                <td className={`${TD} whitespace-nowrap text-ink/55`}>
                   <button
                     type="button"
                     onClick={() => {
                       setOpen(l.id);
                       setNotes(l.adminNotes ?? "");
                     }}
-                    className="cursor-pointer border-none bg-transparent p-0 font-display text-sm text-ink hover:text-terracotta"
+                    className="cursor-pointer border-none bg-transparent p-0 text-left text-[13.5px] font-medium text-ink hover:text-terracotta"
                   >
                     {l.name}
                   </button>
@@ -118,7 +118,7 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                     value={l.status}
                     disabled={busy}
                     onChange={(e) => patch(l.id, { status: e.target.value })}
-                    className={`cursor-pointer rounded-full border-none px-2.5 py-1 text-[11px] uppercase tracking-wide ${STATUS_TONE[l.status]}`}
+                    className={`cursor-pointer appearance-none rounded-full border-none bg-none px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.1em] ring-1 ring-inset transition-colors ${STATUS_TONE[l.status]}`}
                   >
                     {LEAD_STATUSES.map((s) => (
                       <option key={s} value={s} className="bg-white text-ink">
@@ -132,9 +132,9 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                     href={`https://wa.me/${l.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(?!91)/, "91")}`}
                     target="_blank"
                     rel="noopener"
-                    className="text-[11px] uppercase tracking-[0.14em] text-terracotta no-underline"
+                    className="inline-flex items-center gap-1 text-[12.5px] font-medium text-terracotta no-underline hover:underline"
                   >
-                    WhatsApp
+                    WhatsApp ↗
                   </a>
                 </td>
               </tr>
@@ -215,7 +215,7 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                 type="button"
                 disabled={busy}
                 onClick={() => patch(current.id, { adminNotes: notes })}
-                className="cursor-pointer rounded-full border-none bg-ink px-5 py-2.5 text-[11px] uppercase tracking-[0.14em] text-bone disabled:opacity-50"
+                className="inline-flex min-h-[38px] cursor-pointer items-center rounded-lg border-none bg-ink px-5 text-[12px] font-medium text-white transition-colors hover:bg-ink/85 disabled:opacity-50"
               >
                 Save notes
               </button>
@@ -223,7 +223,7 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                 href={`https://wa.me/${current.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(?!91)/, "91")}`}
                 target="_blank"
                 rel="noopener"
-                className="rounded-full border border-ink/20 px-5 py-2.5 text-[11px] uppercase tracking-[0.14em] text-ink no-underline"
+                className="inline-flex min-h-[38px] items-center rounded-lg border border-ink/15 bg-white px-5 text-[12px] font-medium text-ink/75 no-underline transition-colors hover:border-ink/30 hover:text-ink"
               >
                 WhatsApp
               </a>
@@ -231,7 +231,7 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                 type="button"
                 disabled={busy}
                 onClick={() => remove(current.id)}
-                className="ml-auto cursor-pointer rounded-full border border-terracotta bg-transparent px-5 py-2.5 text-[11px] uppercase tracking-[0.14em] text-terracotta disabled:opacity-50"
+                className="ml-auto inline-flex min-h-[38px] cursor-pointer items-center rounded-lg border border-red-200 bg-white px-5 text-[12px] font-medium text-red-600 transition-colors hover:border-red-400 hover:bg-red-50 disabled:opacity-50"
               >
                 Delete
               </button>

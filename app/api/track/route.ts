@@ -18,10 +18,17 @@ const Event = z.object({
   meta: z.record(z.string(), z.unknown()).optional(),
 });
 
+/**
+ * Only this site's own routes are accepted. The endpoint is public, and
+ * anything else posting to it (another app sharing localhost:3000, a bot)
+ * would otherwise show up as phantom pages in the dashboard.
+ */
+const KNOWN_PATHS = /^\/(services|portfolio)?$/;
+
 const Batch = z.object({
   visitorId: z.string().min(8).max(64),
   sessionId: z.string().min(8).max(64),
-  path: z.string().max(200),
+  path: z.string().max(200).refine((p) => KNOWN_PATHS.test(p), "unknown path"),
   vw: z.number().int().positive().max(20000),
   vh: z.number().int().positive().max(20000),
   device: z.enum(DEVICES),
