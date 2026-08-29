@@ -45,7 +45,8 @@ export async function saveImage(file: File, folder: UploadFolder = "portfolio"):
   const form = new FormData();
   form.append("file", file);
   form.append("fileName", name);
-  form.append("folder", `/bookmynail/${folder}`);
+  // ImageKit rejects a leading slash on `folder`.
+  form.append("folder", `bookmynail/${folder}`);
   // ImageKit would otherwise rename on collision; our names are already unique.
   form.append("useUniqueFileName", "false");
 
