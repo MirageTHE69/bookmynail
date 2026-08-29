@@ -24,6 +24,7 @@ const Lead = z.object({
   preferredTime: z.string().max(40).optional().nullable(),
   estimatedTotal: z.number().int().min(0),
   discount: z.number().int().min(0).default(0),
+  depositAmount: z.number().int().min(0).optional(),
   sessionId: z.string().max(64).optional().nullable(),
 });
 
@@ -38,7 +39,9 @@ export async function POST(req: Request) {
     .values({
       ...parsed.data,
       createdAt: Math.floor(Date.now() / 1000),
-      status: "new",
+      // A deposit was asked for, so the booking is not "new" — it is waiting
+      // on money. Without a UPI id configured there is nothing to pay yet.
+      status: parsed.data.depositAmount ? "awaiting_payment" : "new",
     })
     .returning({ id: leads.id });
 

@@ -11,6 +11,8 @@ const Patch = z.object({
   id: z.number().int().positive(),
   status: z.enum(LEAD_STATUSES).optional(),
   adminNotes: z.string().max(2000).optional(),
+  /** Owner confirming the deposit landed in her GPay. */
+  markPaid: z.boolean().optional(),
 });
 
 export async function PATCH(req: Request) {
@@ -18,11 +20,21 @@ export async function PATCH(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ ok: false, error: "invalid" }, { status: 400 });
   }
-  const { id, ...fields } = parsed.data;
-  if (Object.keys(fields).length === 0) {
+  const { id, markPaid, ...fields } = parsed.data;
+
+  // Confirming a deposit is the one manual check in the flow: the customer's
+  // screenshot proves nothing, so only this authenticated route may set it.
+  // paidAt is stamped here rather than trusted from the client.
+  const updates: Record<string, unknown> = { ...fields };
+  if (markPaid) {
+    updates.status = "confirmed";
+    updates.paidAt = Math.floor(Date.now() / 1000);
+  }
+
+  if (Object.keys(updates).length === 0) {
     return NextResponse.json({ ok: false, error: "nothing to update" }, { status: 400 });
   }
-  await db.update(leads).set(fields).where(eq(leads.id, id));
+  await db.update(leads).set(updates).where(eq(leads.id, id));
   return NextResponse.json({ ok: true });
 }
 

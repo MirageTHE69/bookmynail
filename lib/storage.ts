@@ -1,21 +1,28 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { randomBytes } from "node:crypto";
 
 /**
- * Image storage adapter.
+ * Image storage — ImageKit.
  *
- * Local/VPS deployments write straight into `public/uploads`. Serverless hosts
- * (Vercel, Netlify) have a read-only filesystem — swap the body of `saveImage`
- * for Vercel Blob, S3 or Cloudinary there. Everything else in the app only
- * knows about the returned URL, so this file is the single place to change.
+ * Uploads used to be written into `public/uploads`, which works locally but
+ * not on Netlify: serverless filesystems are read-only and wiped between
+ * requests. Everything else in the app only ever sees the returned URL, so
+ * this file stays the single place storage is decided.
  */
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 const ALLOWED = new Set(["image/webp", "image/jpeg", "image/png", "image/avif"]);
 const MAX_BYTES = 8 * 1024 * 1024;
+const ENDPOINT = "https://upload.imagekit.io/api/v1/files/upload";
 
-export async function saveImage(file: File): Promise<string> {
+const EXT: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/avif": "avif",
+  "image/webp": "webp",
+};
+
+export type UploadFolder = "portfolio" | "payments";
+
+export async function saveImage(file: File, folder: UploadFolder = "portfolio"): Promise<string> {
   if (!ALLOWED.has(file.type)) {
     throw new Error(`Unsupported image type: ${file.type || "unknown"}`);
   }
@@ -23,18 +30,40 @@ export async function saveImage(file: File): Promise<string> {
     throw new Error("Image is larger than 8MB.");
   }
 
-  const ext =
-    file.type === "image/jpeg"
-      ? "jpg"
-      : file.type === "image/png"
-        ? "png"
-        : file.type === "image/avif"
-          ? "avif"
-          : "webp";
-  const name = `${Date.now().toString(36)}-${randomBytes(4).toString("hex")}.${ext}`;
+  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+  if (!privateKey) {
+    throw new Error(
+      "IMAGEKIT_PRIVATE_KEY is not set — uploads cannot be stored. " +
+        "Add it from the ImageKit dashboard (Developer → API keys).",
+    );
+  }
 
-  await mkdir(UPLOAD_DIR, { recursive: true });
-  await writeFile(path.join(UPLOAD_DIR, name), Buffer.from(await file.arrayBuffer()));
+  const name = `${Date.now().toString(36)}-${randomBytes(4).toString("hex")}.${
+    EXT[file.type] ?? "webp"
+  }`;
 
-  return `/uploads/${name}`;
+  const form = new FormData();
+  form.append("file", file);
+  form.append("fileName", name);
+  form.append("folder", `/bookmynail/${folder}`);
+  // ImageKit would otherwise rename on collision; our names are already unique.
+  form.append("useUniqueFileName", "false");
+
+  const res = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: {
+      // ImageKit uses the private key as the Basic username, empty password.
+      Authorization: `Basic ${Buffer.from(`${privateKey}:`).toString("base64")}`,
+    },
+    body: form,
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`ImageKit upload failed (${res.status}). ${detail.slice(0, 200)}`);
+  }
+
+  const json = (await res.json()) as { url?: string };
+  if (!json.url) throw new Error("ImageKit upload returned no URL.");
+  return json.url;
 }

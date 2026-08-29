@@ -31,6 +31,10 @@ export function useSettings(): SiteSettings {
     serviceArea: "Ahmedabad and nearby areas\nTravel included in every price",
     hours: "Every day, 9:00 AM – 9:00 PM\nSame-day slots when available",
     eventRetentionDays: "180",
+    upiId: "",
+    upiName: "BookMyNail",
+    depositType: "fixed",
+    depositValue: "500",
   };
 }
 

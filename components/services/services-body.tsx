@@ -16,6 +16,8 @@ import {
   type Service,
 } from "@/lib/site";
 import { useSettings } from "@/components/site/settings-provider";
+import PaymentStep from "./payment-step";
+import { depositFor } from "@/lib/payment";
 import { track } from "@/components/analytics/tracker";
 
 const EDITORIAL = [0.16, 1, 0.3, 1] as const;
@@ -36,7 +38,8 @@ export default function ServicesBody({
   /** The lash section renders between the menu (01) and the steps (03). */
   lashMenu?: React.ReactNode;
 }) {
-  const { whatsapp } = useSettings();
+  const settings = useSettings();
+  const { whatsapp } = settings;
   const [service, setService] = useState(SERVICES[0].id);
   const [addons, setAddons] = useState<string[]>([]);
   const [people, setPeople] = useState(1);
@@ -53,6 +56,7 @@ export default function ServicesBody({
   // The design confirms on-site and issues a reference rather than handing off.
   const [confirmed, setConfirmed] = useState(false);
   const [reference, setReference] = useState("");
+  const [leadId, setLeadId] = useState<number | null>(null);
 
   const clearMessage = () => setMessage("");
 
@@ -78,6 +82,12 @@ export default function ServicesBody({
     const scope = totals.svc.category === "nails" ? "nails" : "lashes";
     return ADDONS.filter((a) => a.on === scope);
   }, [ADDONS, totals.svc.category]);
+
+  /** What we ask for up front; 0 disables the payment step entirely. */
+  const deposit = useMemo(
+    () => depositFor(totals.total, settings),
+    [totals.total, settings],
+  );
 
   // The export pulses the total whenever the priced inputs change.
   const totalControls = useAnimationControls();
@@ -127,6 +137,7 @@ export default function ServicesBody({
   const resetBooking = () => {
     setConfirmed(false);
     setReference("");
+    setLeadId(null);
     setMessage("");
     setAddons([]);
     setPeople(1);
@@ -162,7 +173,7 @@ export default function ServicesBody({
     // Persist first, but never let a failure block the confirmation — the
     // customer has completed their side either way.
     try {
-      await fetch("/api/leads", {
+      const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -181,10 +192,13 @@ export default function ServicesBody({
           preferredTime: time,
           estimatedTotal: total,
           discount,
+          depositAmount: deposit,
           sessionId:
             typeof window !== "undefined" ? sessionStorage.getItem("bmn_sid") : null,
         }),
       });
+      const json = (await res.json().catch(() => null)) as { id?: number } | null;
+      if (json?.id) setLeadId(json.id);
     } catch {
       /* offline or blocked — still confirm; the lead can be re-keyed */
     }
@@ -666,28 +680,16 @@ export default function ServicesBody({
 
               <div className="bg-ink p-[clamp(20px,3vh,26px)]">
                 {confirmed ? (
-                  <div role="status">
-                    <p className="m-0 text-[10px] uppercase tracking-[0.2em] text-blush">
-                      Booking confirmed
-                    </p>
-                    <p className="m-0 mt-2 font-display text-[clamp(24px,2.6vw,34px)] leading-none text-bone">
-                      {reference}
-                    </p>
-                    <p className="m-0 mt-3.5 text-[12px] leading-[1.65] text-bone/70">
-                      {`${fullName(totals.svc)} · ${whenLabel}. Your artist will call on ${
-                        phone || "your number"
-                      } to confirm the exact arrival time. Total ${inr(
-                        totals.total,
-                      )}, payable after the appointment.`}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={resetBooking}
-                      className="mt-[18px] min-h-[48px] w-full cursor-pointer rounded-full border border-bone/40 bg-transparent font-body text-xs uppercase tracking-[0.14em] text-bone transition-colors duration-300 hover:bg-bone/10"
-                    >
-                      Book another appointment
-                    </button>
-                  </div>
+                  <PaymentStep
+                    leadId={leadId}
+                    reference={reference}
+                    deposit={deposit}
+                    total={totals.total}
+                    summary={`${fullName(totals.svc)} · ${whenLabel}. Your artist will call on ${
+                      phone || "your number"
+                    } to confirm the exact arrival time. Total ${inr(totals.total)}.`}
+                    onReset={resetBooking}
+                  />
                 ) : (
                   <>
                     <button

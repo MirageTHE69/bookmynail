@@ -137,7 +137,17 @@ export async function deletePortfolioItem(id: string) {
 /* ── Settings ──────────────────────────────────────────────────────── */
 
 export async function saveSettings(fd: FormData) {
-  const keys = ["whatsapp", "instagram", "serviceArea", "hours", "eventRetentionDays"];
+  const keys = [
+    "whatsapp",
+    "instagram",
+    "serviceArea",
+    "hours",
+    "eventRetentionDays",
+    "upiId",
+    "upiName",
+    "depositType",
+    "depositValue",
+  ];
   for (const key of keys) {
     const value = str(fd, key);
     if (!fd.has(key)) continue;

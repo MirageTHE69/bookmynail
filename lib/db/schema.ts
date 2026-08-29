@@ -66,6 +66,8 @@ export const settings = sqliteTable("settings", {
 
 export const LEAD_STATUSES = [
   "new",
+  "awaiting_payment",
+  "payment_submitted",
   "contacted",
   "confirmed",
   "completed",
@@ -97,6 +99,16 @@ export const leads = sqliteTable(
     preferredTime: text("preferred_time"),
     estimatedTotal: integer("estimated_total").notNull(),
     discount: integer("discount").notNull().default(0),
+    /* ── Deposit payment ──────────────────────────────────────────
+       There is no gateway: the customer pays a deposit by UPI and
+       uploads a screenshot, and the owner confirms against her GPay
+       app. `paidAt` is only ever set from the admin panel. */
+    depositAmount: integer("deposit_amount"),
+    screenshotUrl: text("screenshot_url"),
+    /** UPI transaction id, when the customer types it in. */
+    paymentRef: text("payment_ref"),
+    paidAt: integer("paid_at"),
+
     status: text("status").$type<LeadStatus>().notNull().default("new"),
     adminNotes: text("admin_notes"),
     source: text("source").notNull().default("services-form"),

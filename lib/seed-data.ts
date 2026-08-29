@@ -432,4 +432,14 @@ export const SEED_SETTINGS: Record<string, string> = {
   hours: "Every day, 9:00 AM – 9:00 PM\nSame-day slots when available",
   /** Days of analytics history to retain; older events are pruned. */
   eventRetentionDays: "180",
+
+  /* ── Deposit payment ────────────────────────────────────────────────
+     upiId ships empty on purpose: until the owner fills it in at
+     /admin/content/settings the booking confirmation falls back to the
+     WhatsApp path rather than showing a payment button that cannot work. */
+  upiId: "",
+  upiName: "BookMyNail",
+  /** "fixed" (rupees) or "percent" of the booking total. */
+  depositType: "fixed",
+  depositValue: "500",
 };

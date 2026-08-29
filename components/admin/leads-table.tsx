@@ -24,10 +24,16 @@ export type LeadRow = {
   discount: number;
   status: LeadStatus;
   adminNotes: string | null;
+  depositAmount: number | null;
+  screenshotUrl: string | null;
+  paymentRef: string | null;
+  paidAt: number | null;
 };
 
 const STATUS_TONE: Record<LeadStatus, string> = {
   new: "bg-terracotta/10 text-terracotta ring-terracotta/25",
+  awaiting_payment: "bg-amber-500/10 text-amber-700 ring-amber-500/25",
+  payment_submitted: "bg-blue-600/10 text-blue-700 ring-blue-600/25",
   contacted: "bg-plum/10 text-plum ring-plum/25",
   confirmed: "bg-emerald-600/10 text-emerald-700 ring-emerald-600/25",
   completed: "bg-ink/[0.06] text-ink/60 ring-ink/15",
@@ -73,7 +79,8 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
               <th className={TH}>Phone</th>
               <th className={TH}>Service</th>
               <th className={TH}>Slot</th>
-              <th className={TH}>Total</th>
+              <th className={`${TH} text-right`}>Total</th>
+              <th className={TH}>Deposit</th>
               <th className={TH}>Status</th>
               <th className={TH} />
             </tr>
@@ -112,7 +119,29 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
                   {l.preferredDate ?? "—"}
                   {l.preferredTime ? ` · ${l.preferredTime}` : ""}
                 </td>
-                <td className={TD}>{inr(l.estimatedTotal)}</td>
+                <td className={`${TD} text-right tabular-nums`}>{inr(l.estimatedTotal)}</td>
+                <td className={TD}>
+                  {l.depositAmount ? (
+                    <span className="flex items-center gap-2">
+                      {l.screenshotUrl ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={l.screenshotUrl}
+                          alt="Payment screenshot"
+                          className="h-8 w-8 shrink-0 rounded object-cover ring-1 ring-ink/10"
+                        />
+                      ) : (
+                        <span className="h-8 w-8 shrink-0 rounded bg-ink/[0.05] ring-1 ring-ink/10" />
+                      )}
+                      <span className="whitespace-nowrap text-[12.5px] tabular-nums text-ink/70">
+                        {inr(l.depositAmount)}
+                        {l.paidAt && <span className="text-emerald-700"> ✓</span>}
+                      </span>
+                    </span>
+                  ) : (
+                    <span className="text-ink/30">—</span>
+                  )}
+                </td>
                 <td className={TD}>
                   <select
                     value={l.status}
@@ -210,7 +239,75 @@ export default function LeadsTable({ leads }: { leads: LeadRow[] }) {
               />
             </label>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            {current.depositAmount ? (
+                <div className="mb-5 rounded-lg border border-ink/[0.09] bg-ink/[0.015] p-4">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="m-0 text-[10px] font-medium uppercase tracking-[0.16em] text-ink/45">
+                      Deposit
+                    </p>
+                    <p className="m-0 text-[15px] font-medium tabular-nums text-ink">
+                      {inr(current.depositAmount)}
+                      <span className="text-ink/45"> of {inr(current.estimatedTotal)}</span>
+                    </p>
+                  </div>
+
+                  {current.paymentRef && (
+                    <p className="m-0 mt-1.5 text-[12px] text-ink/55">
+                      UPI ref: <span className="tabular-nums">{current.paymentRef}</span>
+                    </p>
+                  )}
+
+                  {current.screenshotUrl ? (
+                    <a
+                      href={current.screenshotUrl}
+                      target="_blank"
+                      rel="noopener"
+                      className="mt-3 block"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={current.screenshotUrl}
+                        alt="Customer payment screenshot"
+                        className="max-h-64 w-auto rounded-lg ring-1 ring-ink/10"
+                      />
+                      <span className="mt-1 block text-[11.5px] text-ink/45">
+                        Open full size ↗
+                      </span>
+                    </a>
+                  ) : (
+                    <p className="m-0 mt-2 text-[12px] text-ink/45">
+                      No screenshot uploaded yet.
+                    </p>
+                  )}
+
+                  {current.paidAt ? (
+                    <p className="m-0 mt-3 text-[12.5px] font-medium text-emerald-700">
+                      Payment confirmed{" "}
+                      {new Date(current.paidAt * 1000).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </p>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        disabled={busy}
+                        onClick={() => patch(current.id, { markPaid: true })}
+                        className="mt-3 inline-flex min-h-[38px] cursor-pointer items-center rounded-lg border-none bg-emerald-700 px-5 text-[12px] font-medium text-white transition-colors hover:bg-emerald-800 disabled:opacity-50"
+                      >
+                        Payment received
+                      </button>
+                      <p className="m-0 mt-2 text-[11.5px] leading-[1.5] text-ink/45">
+                        Check the amount landed in GPay before confirming — a screenshot on its
+                        own is not proof.
+                      </p>
+                    </>
+                  )}
+                </div>
+              ) : null}
+
+              <div className="mt-4 flex flex-wrap gap-2">
               <button
                 type="button"
                 disabled={busy}

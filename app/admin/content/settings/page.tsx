@@ -62,6 +62,56 @@ export default async function SettingsAdmin() {
           </SubmitRow>
         </form>
       </Panel>
+
+      <Panel
+        title="Deposit payment"
+        hint="Customers pay a deposit by UPI, then upload a screenshot you confirm on the Leads page."
+      >
+        <form action={saveSettings} className="space-y-3">
+          <div className="grid gap-3 wide:grid-cols-2">
+            <Field
+              label="UPI ID"
+              hint="e.g. bookmynail@okhdfcbank. Leave blank to turn payments off — bookings then fall back to WhatsApp."
+            >
+              <input
+                name="upiId"
+                defaultValue={s.upiId}
+                placeholder="name@bank"
+                className={INPUT}
+              />
+            </Field>
+            <Field label="Name shown in the payment app">
+              <input name="upiName" defaultValue={s.upiName} className={INPUT} />
+            </Field>
+          </div>
+
+          <div className="grid gap-3 wide:grid-cols-2">
+            <Field label="Deposit type">
+              <select name="depositType" defaultValue={s.depositType} className={INPUT}>
+                <option value="fixed">Fixed amount (₹)</option>
+                <option value="percent">Percentage of total</option>
+              </select>
+            </Field>
+            <Field
+              label="Deposit value"
+              hint="₹500, or 20 for 20%. Never charged above the booking total."
+            >
+              <input
+                type="number"
+                name="depositValue"
+                defaultValue={s.depositValue}
+                className={INPUT}
+              />
+            </Field>
+          </div>
+
+          <SubmitRow>
+            <span className="text-xs text-ink/45">
+              A screenshot is not proof of payment — always check GPay before confirming.
+            </span>
+          </SubmitRow>
+        </form>
+      </Panel>
     </div>
   );
 }

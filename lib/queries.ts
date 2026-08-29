@@ -106,6 +106,11 @@ export const getPortfolioItems = unstable_cache(
 export type SiteSettings = {
   whatsapp: string;
   instagram: string;
+  /** UPI id money is collected into. Empty until the owner sets it. */
+  upiId: string;
+  upiName: string;
+  depositType: "fixed" | "percent";
+  depositValue: string;
   serviceArea: string;
   hours: string;
   eventRetentionDays: string;
