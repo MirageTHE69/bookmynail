@@ -32,7 +32,7 @@ export function duration(mins: number): string {
 /* ── Hero Video & Services ─────────────────────────────────────────── */
 
 export const HERO_VIDEO =
-  "https://res.cloudinary.com/ts350ak2/video/upload/v1785935706/5871931-uhd_4096_2160_25fps_kxbhrk.mp4";
+  "https://ik.imagekit.io/omgojp17s/5871936-uhd_4096_2160_25fps.mp4";
 
 export const HERO_SERVICES = [
   { id: "gel", label: "Gel Manicure · ₹899", name: "Gel Manicure", price: 899, duration: "1 hr" },
