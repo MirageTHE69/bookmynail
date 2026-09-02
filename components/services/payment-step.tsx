@@ -99,16 +99,25 @@ export default function PaymentStep({
               data-track-id="pay-upi"
               className="mt-3.5 flex min-h-[50px] items-center justify-center rounded-full bg-bone text-[12px] font-medium uppercase tracking-[0.14em] text-ink no-underline transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Pay {inr(deposit)} with GPay
+              Pay {inr(deposit)} now
             </a>
-            <p className="m-0 mt-2 text-center text-[11px] text-bone/45">
-              Opens GPay, PhonePe or Paytm with the amount and {reference} filled in.
+            <p className="m-0 mt-2 text-center text-[11px] leading-[1.5] text-bone/45">
+              Opens GPay, PhonePe, Paytm or any UPI app, with the amount and {reference} already
+              filled in.
             </p>
 
+            {/* Desktop only: `upi://` does nothing on a computer, so the QR is
+                the only way to pay there. On a phone the button above is the
+                right path — you cannot scan a QR with the screen showing it. */}
             {qr && (
-              <div className="mt-4 border-t border-bone/15 pt-4 text-center">
-                <p className="m-0 mb-2.5 text-[10px] uppercase tracking-[0.18em] text-bone/45">
-                  Or scan from another phone
+              <div className="mt-4 hidden border-t border-bone/15 pt-4 text-center nav:block">
+                <p className="m-0 mb-1 text-[10px] uppercase tracking-[0.18em] text-bone/45">
+                  Paying from your phone?
+                </p>
+                <p className="m-0 mb-2.5 text-[11px] leading-[1.5] text-bone/45">
+                  Open GPay, PhonePe or Paytm, tap <strong className="font-medium">Scan QR</strong>{" "}
+                  and scan this. Scanning with the camera may open whichever app your phone
+                  defaults to.
                 </p>
                 {/* Plain img: a data: URL needs no optimisation pipeline. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
